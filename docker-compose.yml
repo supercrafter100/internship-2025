@@ -26,81 +26,81 @@ services:
       - traefik.http.routers.backend.tls.certresolver=letsencrypt
       - traefik.http.services.backend.loadbalancer.server.port=3001
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.1.2
-    command: start
-    environment:
-      KC_DB: postgres
-      KC_DB_URL_HOST: postgres
-      KC_DB_URL_DATABASE: kc
-      KC_DB_USERNAME: kc
-      KC_DB_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
-      KC_DB_SCHEMA: public
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HEALTH_ENABLED: 'true'
-      KC_HOSTNAME: keycloak.iot-ap.be
-      KC_HTTP_ENABLED: 'true'
-      KC_PROXY_HEADERS: 'xforwarded'
-      PROXY_ADDRESS_FORWARDING: 'true'
-    networks:
-      - keycloak-network
-      - traefik-network
-    healthcheck:
-      test:
-      - "CMD-SHELL"
-      - |
-        exec 3<>/dev/tcp/localhost/9000 &&
-        echo -e 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 &&
-        cat <&3 | tee /tmp/healthcheck.log | grep -q '200 OK'
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 90s
-    labels:
-      # Enable Traefik for this container
-      - "traefik.enable=true"
-      # Match incoming requests on a specific hostname
-      - "traefik.http.routers.keycloak.rule=Host(`keycloak.iot-ap.be`)"
-      # Assign the router to a named Traefik service
-      - "traefik.http.routers.keycloak.service=keycloak"
-      # Use the 'websecure' (HTTPS) entry point
-      - "traefik.http.routers.keycloak.entrypoints=websecure"
-      # Define the internal container port for routing
-      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-      # Enable TLS on this router
-      - "traefik.http.routers.keycloak.tls=true"
-      # Use Let's Encrypt for certificate management
-      - "traefik.http.routers.keycloak.tls.certresolver=letsencrypt"
-      # Pass the original Host header to the container
-      - "traefik.http.services.keycloak.loadbalancer.passhostheader=true"
-      # Apply a compression middleware
-      - "traefik.http.routers.keycloak.middlewares=compresstraefik"
-      # Define settings for the compression middleware
-      - "traefik.http.middlewares.compresstraefik.compress=true"
-      # Specify which Docker network Traefik should use for routing
-      - "traefik.docker.network=traefik-network"
-    restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
-  postgres:
-    image: postgres:16
-    volumes:
-      - keycloak-postgres:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: kc
-      POSTGRES_USER: kc
-      POSTGRES_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
-    networks:
-      - keycloak-network
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "kc", "-U", "kc" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 60s
-    restart: unless-stopped
+  # keycloak:
+  #   image: quay.io/keycloak/keycloak:26.1.2
+  #   command: start
+  #   environment:
+  #     KC_DB: postgres
+  #     KC_DB_URL_HOST: postgres
+  #     KC_DB_URL_DATABASE: kc
+  #     KC_DB_USERNAME: kc
+  #     KC_DB_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
+  #     KC_DB_SCHEMA: public
+  #     KEYCLOAK_ADMIN: admin
+  #     KEYCLOAK_ADMIN_PASSWORD: admin
+  #     KC_HEALTH_ENABLED: "true"
+  #     KC_HOSTNAME: keycloak.iot-ap.be
+  #     KC_HTTP_ENABLED: "true"
+  #     KC_PROXY_HEADERS: "xforwarded"
+  #     PROXY_ADDRESS_FORWARDING: "true"
+  #   networks:
+  #     - keycloak-network
+  #     - proxy
+  #   healthcheck:
+  #     test:
+  #       - "CMD-SHELL"
+  #       - |
+  #         exec 3<>/dev/tcp/localhost/9000 &&
+  #         echo -e 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 &&
+  #         cat <&3 | tee /tmp/healthcheck.log | grep -q '200 OK'
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 3
+  #     start_period: 90s
+  #   labels:
+  #     # Enable Traefik for this container
+  #     - "traefik.enable=true"
+  #     # Match incoming requests on a specific hostname
+  #     - "traefik.http.routers.keycloak.rule=Host(`keycloak.iot-ap.be`)"
+  #     # Assign the router to a named Traefik service
+  #     - "traefik.http.routers.keycloak.service=keycloak"
+  #     # Use the 'websecure' (HTTPS) entry point
+  #     - "traefik.http.routers.keycloak.entrypoints=websecure"
+  #     # Define the internal container port for routing
+  #     - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+  #     # Enable TLS on this router
+  #     - "traefik.http.routers.keycloak.tls=true"
+  #     # Use Let's Encrypt for certificate management
+  #     - "traefik.http.routers.keycloak.tls.certresolver=letsencrypt"
+  #     # Pass the original Host header to the container
+  #     - "traefik.http.services.keycloak.loadbalancer.passhostheader=true"
+  #     # Apply a compression middleware
+  #     - "traefik.http.routers.keycloak.middlewares=compresstraefik"
+  #     # Define settings for the compression middleware
+  #     - "traefik.http.middlewares.compresstraefik.compress=true"
+  #     # Specify which Docker network Traefik should use for routing
+  #     - "traefik.docker.network=traefik-network"
+  #   restart: unless-stopped
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  # postgres:
+  #   image: postgres:16
+  #   volumes:
+  #     - keycloak-postgres:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_DB: kc
+  #     POSTGRES_USER: kc
+  #     POSTGRES_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
+  #   networks:
+  #     - keycloak-network
+  #   healthcheck:
+  #     test: ["CMD", "pg_isready", "-q", "-d", "kc", "-U", "kc"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 3
+  #     start_period: 60s
+  #   restart: unless-stopped
 
 volumes:
   keycloak-postgres:
