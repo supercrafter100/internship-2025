@@ -9,4 +9,4 @@ RUN npm run build
 
 FROM nginx:1.27.0-alpine
 
-COPY --from=builder /build/dist/frontend/. /usr/share/nginx/html/
+COPY --from=builder /build/dist/frontend/browser/. /usr/share/nginx/html/
