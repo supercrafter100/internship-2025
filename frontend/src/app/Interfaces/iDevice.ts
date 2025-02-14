@@ -1,8 +1,13 @@
-import { DeviceService } from '../services/device.service';
 export enum Transfer_protocol {
   Wifi,
   LoraWan,
   LTE,
+}
+
+export enum Device_Type {
+  WIM,
+  ROB,
+  GATE,
 }
 
 export interface Device {
@@ -13,6 +18,7 @@ export interface Device {
   latitude: string;
   longitude: string;
   transfer_protocol: Transfer_protocol;
+  device_type: Device_Type;
 }
 
 export interface WimReading {
