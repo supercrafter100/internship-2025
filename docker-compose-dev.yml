@@ -1,0 +1,32 @@
+services:
+  frontend:
+    container_name: b-saffer-frontend-staging
+    restart: unless-stopped
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    networks:
+      - proxy
+    labels:
+      - traefik.http.routers.frontend-staging.rule=Host(`${SERVER_DOMAIN}`)
+      - traefik.http.routers.frontend-staging.tls=true
+      - traefik.http.routers.frontend-staging.tls.certresolver=letsencrypt
+
+  backend:
+    container_name: b-saffer-backend-staging
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      - traefik.http.routers.backend-staging.rule=Host(`${SERVER_DOMAIN}`) && PathPrefix(`/api`)
+      - traefik.http.routers.backend-staging.tls=true
+      - traefik.http.routers.backend-staging.tls.certresolver=letsencrypt
+      - traefik.http.services.backend-staging.loadbalancer.server.port=3001
+
+networks:
+  proxy:
+    external: true
+    name: traefik
