@@ -16,7 +16,7 @@ services:
     container_name: b-saffer-backend
     build:
       context: .
-      dockerfile: ./apps/frontend/Dockerfile
+      dockerfile: ./apps/backend/Dockerfile
     restart: unless-stopped
     networks:
       - proxy

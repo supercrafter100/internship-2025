@@ -25,4 +25,8 @@ RUN npx turbo run build
 FROM node:21-alpine
 WORKDIR /app
 COPY --from=installer /app/apps/backend/. .
+
+# For some reason this isn't getting installed??
+RUN npm install tslib
+
 CMD ["npm", "run", "start:prod"]
