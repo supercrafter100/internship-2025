@@ -7,6 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Dashboard {
+  id        Int           @id @default(autoincrement())
+  projectId Int           @unique
+  project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  preset    Json
+  type      DashboardType
+}
+
+enum DashboardType {
+  STANDARD
+  CUSTOM
+}
+
 model Project {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -20,6 +33,10 @@ model Project {
 
   projectUsers ProjectUser[]
   devices      Device[]
+
+  public Boolean
+
+  Dashboard Dashboard[]
 }
 
 model ProjectUser {
@@ -40,7 +57,8 @@ enum Role {
 }
 
 model Launchpad {
-  id Int @id @default(autoincrement())
+  id     Int  @id @default(autoincrement())
+  preset Json
 
   projectId Int     @unique
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
