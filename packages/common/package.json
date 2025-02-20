@@ -1,0 +1,49 @@
+{
+  "name": "@bsaffer/common",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/**"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/*"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "require": "./dist/*.js"
+    }
+  },
+  "dependencies": {
+    "@nestjs/mapped-types": "*"
+  },
+  "devDependencies": {
+    "@bsaffer/eslint-config": "*",
+    "@bsaffer/typescript-config": "*",
+    "@types/node": "^20.3.1",
+    "ts-loader": "^9.4.3",
+    "ts-node": "^10.9.2",
+    "typescript": "5.5.4"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc -b -v",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
+  },
+  "author": "",
+  "license": "ISC"
+}
