@@ -11,7 +11,7 @@ model Dashboard {
   id        Int           @id @default(autoincrement())
   projectId Int           @unique
   project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  preset    Json
+  preset    Json?
   type      DashboardType
 }
 
@@ -78,7 +78,7 @@ model Tile {
 model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
-  name         String?
+  name         String
   projects     Project[]
   projectUsers ProjectUser[]
 }
@@ -89,13 +89,14 @@ model Device {
   project   Project @relation(fields: [projectId], references: [id])
   projectId Int
 
-  name        String     @db.VarChar(255)
-  geoLocation String?
-  image       String?
-  createdAt   DateTime   @default(now())
-  type        DeviceType
-  protocol    Protocol
-  videos      Video[]
+  name      String     @db.VarChar(255)
+  latitude  String
+  longitude String
+  image     String
+  createdAt DateTime   @default(now())
+  type      DeviceType
+  protocol  Protocol
+  videos    Video[]
 }
 
 enum DeviceType {
