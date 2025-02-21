@@ -25,7 +25,26 @@ services:
       - traefik.http.routers.backend.tls=true
       - traefik.http.routers.backend.tls.certresolver=letsencrypt
       - traefik.http.services.backend.loadbalancer.server.port=3000
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
 
+  # postgres:
+  #   image: postgres:16
+  #   volumes:
+  #     - keycloak-postgres:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_DB: kc
+  #     POSTGRES_USER: kc
+  #     POSTGRES_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
+  #   networks:
+  #     - keycloak-network
+  #   healthcheck:
+  #     test: ["CMD", "pg_isready", "-q", "-d", "kc", "-U", "kc"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 3
+  #     start_period: 60s
+  #   restart: unless-stopped
   # keycloak:
   #   image: quay.io/keycloak/keycloak:26.1.2
   #   command: start
@@ -84,23 +103,6 @@ services:
   #   depends_on:
   #     postgres:
   #       condition: service_healthy
-  # postgres:
-  #   image: postgres:16
-  #   volumes:
-  #     - keycloak-postgres:/var/lib/postgresql/data
-  #   environment:
-  #     POSTGRES_DB: kc
-  #     POSTGRES_USER: kc
-  #     POSTGRES_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
-  #   networks:
-  #     - keycloak-network
-  #   healthcheck:
-  #     test: ["CMD", "pg_isready", "-q", "-d", "kc", "-U", "kc"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 3
-  #     start_period: 60s
-  #   restart: unless-stopped
 
 volumes:
   keycloak-postgres:

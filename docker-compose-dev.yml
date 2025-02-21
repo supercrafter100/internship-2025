@@ -14,18 +14,21 @@ services:
 
   backend:
     container_name: b-saffer-backend-staging
-    command: tail -f /dev/null
     build:
       context: .
       dockerfile: ./apps/backend/Dockerfile
     restart: unless-stopped
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
     networks:
       - proxy
     labels:
       - traefik.http.routers.backend-staging.rule=Host(`${SERVER_DOMAIN}`) && PathPrefix(`/api`)
       - traefik.http.routers.backend-staging.tls=true
       - traefik.http.routers.backend-staging.tls.certresolver=letsencrypt
+      - traefik.http.routers.backend.middlewares=backend-stripprefix
       - traefik.http.services.backend-staging.loadbalancer.server.port=3000
+      - traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api
   # keycloak:
   #   image: quay.io/keycloak/keycloak:26.1.2
   #   command: start
