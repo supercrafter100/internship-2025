@@ -23,7 +23,6 @@ RUN npm install tslib
 COPY --from=builder /app/out/full/ .
 RUN npx turbo run build
 RUN npx turbo run db:generate
-RUN npx turbo run db:seed
 
 # For some reason this isn't getting installed??
 
@@ -32,4 +31,4 @@ WORKDIR /app
 COPY --from=installer /app .
 
 
-CMD node apps/backend/dist/src/main.js
+CMD cd apps/backend/ && npm run db:seed && node dist/src/main.js
