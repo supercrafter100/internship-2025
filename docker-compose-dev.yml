@@ -15,8 +15,8 @@ services:
   backend:
     container_name: b-saffer-backend-staging
     depends_on:
-    postgres:
-      condition: service_healthy
+      postgres:
+        condition: service_healthy
     build:
       context: .
       dockerfile: ./apps/backend/Dockerfile
