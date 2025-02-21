@@ -11,7 +11,7 @@ export class DeviceService {
 
   public getReading<T>(id: string, start: Date, end: Date) {
     return fetch(
-      this.apiUrl + '/' + id + '/' + start.getTime() + end.getTime()
-    ).then((res) => res.json());
+      this.apiUrl + '/' + id + '/' + start.getTime() + end.getTime(),
+    ).then((res) => res.json() as Promise<T>);
   }
 }
