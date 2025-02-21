@@ -22,7 +22,8 @@ RUN npm install tslib
 
 COPY --from=builder /app/out/full/ .
 RUN npx turbo run build
-RUN npx turbo db:seed
+RUN npx turbo run db:generate
+RUN npx turbo run db:seed
 
 # For some reason this isn't getting installed??
 
