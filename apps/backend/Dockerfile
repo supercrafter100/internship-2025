@@ -21,7 +21,8 @@ RUN npm install --frozen-lockfile
 RUN npm install tslib
 
 COPY --from=builder /app/out/full/ .
-RUN turbo db:seed
+RUN npx turbo run build
+RUN npx turbo db:seed
 
 # For some reason this isn't getting installed??
 
