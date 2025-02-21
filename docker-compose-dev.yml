@@ -14,6 +14,7 @@ services:
 
   backend:
     container_name: b-saffer-backend-staging
+    command: tail -f /dev/null
     build:
       context: .
       dockerfile: ./apps/backend/Dockerfile
