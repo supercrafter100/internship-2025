@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "94.130.168.9",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "Uganda",
+            "database": "ap_environment",
+            "username": "ellerman"
+        }
+    ]
+}
