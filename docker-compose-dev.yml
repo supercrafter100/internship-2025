@@ -14,12 +14,15 @@ services:
 
   backend:
     container_name: b-saffer-backend-staging
+    depends_on:
+    postgres:
+      condition: service_healthy
     build:
       context: .
       dockerfile: ./apps/backend/Dockerfile
     restart: unless-stopped
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgres://bsaffer:EqhvLbsPhrkkZjcaGWcV7qT@postgres:5432/bsaffer
     networks:
       - proxy
     labels:
@@ -29,6 +32,23 @@ services:
       - traefik.http.routers.backend.middlewares=backend-stripprefix
       - traefik.http.services.backend-staging.loadbalancer.server.port=3000
       - traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: bsaffer
+      POSTGRES_USER: bsaffer
+      POSTGRES_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
+    networks:
+      - keycloak-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "kc", "-U", "kc"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
   # keycloak:
   #   image: quay.io/keycloak/keycloak:26.1.2
   #   command: start

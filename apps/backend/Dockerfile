@@ -19,10 +19,9 @@ RUN npm install --global turbo@^2.4.2
 COPY --from=builder /app/out/json .
 RUN npm install --frozen-lockfile
 RUN npm install tslib
-RUN npx prisma generate
 
 COPY --from=builder /app/out/full/ .
-RUN npx turbo run build
+RUN turbo db:seed
 
 # For some reason this isn't getting installed??
 
