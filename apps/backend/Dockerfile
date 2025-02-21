@@ -21,12 +21,12 @@ RUN npm install --frozen-lockfile
 
 COPY --from=builder /app/out/full/ .
 RUN npx turbo run build
+RUN npm install tslib
 
 FROM node:21-alpine
 WORKDIR /app
 COPY --from=installer /app/apps/backend/. .
 
 # For some reason this isn't getting installed??
-RUN npm install tslib
 
 CMD ["npm", "run", "start:prod"]
