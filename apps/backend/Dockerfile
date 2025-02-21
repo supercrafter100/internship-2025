@@ -31,4 +31,4 @@ WORKDIR /app
 COPY --from=installer /app .
 
 
-CMD cd apps/backend/ && npm run db:deploy && npm run db:seed && node dist/src/main.js
+CMD cd apps/backend/ && node dist/src/main.js
