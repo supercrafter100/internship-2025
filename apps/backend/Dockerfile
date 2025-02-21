@@ -27,7 +27,7 @@ RUN npx turbo run build
 
 FROM node:21-alpine
 WORKDIR /app
-COPY --from=installer /app/apps/backend/. .
+COPY --from=installer /app .
 
 
-CMD ["npm", "run", "start:prod"]
+CMD node apps/backend/dist/src/main.js
