@@ -30,7 +30,7 @@ services:
       - traefik.http.routers.backend-staging.rule=Host(`${SERVER_DOMAIN}`) && PathPrefix(`/api`)
       - traefik.http.routers.backend-staging.tls=true
       - traefik.http.routers.backend-staging.tls.certresolver=letsencrypt
-      - traefik.http.routers.backend.middlewares=backend-stripprefix
+      - traefik.http.routers.backend-staging.middlewares=backend-stripprefix
       - traefik.http.services.backend-staging.loadbalancer.server.port=3000
       - traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api
 
