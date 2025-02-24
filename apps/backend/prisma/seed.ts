@@ -19,6 +19,7 @@ async function main() {
       title: 'B-SaFFeR',
       userId: user.id,
       public: true,
+      imgKey: 'https://placehold.co/600x400',
     },
   });
 
@@ -44,7 +45,7 @@ async function main() {
     data: {
       title: 'Eerste tegel',
       description: 'Beschrijving van de eerste tegel',
-      img: 'https://placehold.co/600x400',
+      imgKey: 'https://placehold.co/600x400',
       launchpadId: launchpad.id,
     },
   });
@@ -64,7 +65,7 @@ async function main() {
       name: 'Sensor 001',
       latitude: '51.2194',
       longitude: '4.4025',
-      image: 'https://placehold.co/600x400',
+      imgKey: 'https://placehold.co/600x400',
       projectId: project.id,
       type: 'WIMV1',
       protocol: 'WIFI',
