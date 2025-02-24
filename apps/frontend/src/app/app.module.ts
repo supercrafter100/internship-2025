@@ -5,24 +5,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [
+    provideKeycloak({
+      config: {
+        url: 'keycloak.iot-ap.be',
+        realm: 'apterra',
+        clientId: 'frontend',
+      },
+      initOptions: {
+        onLoad: 'login-required',
+        silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
+      },
+    }),
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [provideKeycloak({
-    config: {
-      url: 'keycloak.iot-ap.be',
-      realm: 'test',
-      clientId: 'frontend'
-    },
-    initOptions: {
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
-    }
-  })],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
