@@ -19,6 +19,7 @@ async function main() {
       title: 'B-SaFFeR',
       userId: user.id,
       public: true,
+      imgKey: 'https://placehold.co/600x400',
     },
   });
 
