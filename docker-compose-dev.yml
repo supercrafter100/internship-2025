@@ -27,6 +27,7 @@ services:
       - proxy
       - backend
     labels:
+      - traefik.docker.network=traefik
       - traefik.http.routers.backend-staging.rule=Host(`${SERVER_DOMAIN}`) && PathPrefix(`/api`)
       - traefik.http.routers.backend-staging.tls=true
       - traefik.http.routers.backend-staging.tls.certresolver=letsencrypt
