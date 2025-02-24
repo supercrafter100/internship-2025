@@ -1,15 +1,38 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideKeycloak } from 'keycloak-angular';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { AppComponent } from './app.component';
-import { ProjectComponent } from './components/project/project.component';
-import { HomeComponent } from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { environment } from '../environments/environment';
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: {
+        realm: environment.keycloakRealm,
+        url: environment.keycloakUrl,
+        clientId: environment.keycloakClientId,
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html',
+      },
+    });
+}
 
 @NgModule({
-  declarations: [AppComponent, ProjectComponent, HomeComponent],
-  imports: [BrowserModule, RouterModule.forRoot(routes)],
+  declarations: [AppComponent],
+  imports: [BrowserModule, KeycloakAngularModule, RouterModule.forRoot(routes)],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
