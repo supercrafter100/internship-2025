@@ -13,6 +13,7 @@ services:
       - traefik.http.routers.frontend.tls.certresolver=letsencrypt
 
   backend:
+    command: cd apps/backend && npm run db:dev && npm run db:seed && npm run start:prod
     container_name: b-saffer-backend
     build:
       context: .
