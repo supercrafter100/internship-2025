@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
-  keycloakRealm: 'AP_Terra',
-  keycloakUrl: 'http://localhost:8080/auth',
-  keycloakClientId: `Frontend`,
+  keycloakRealm: 'DEV_AP_Terra',
+  keycloakUrl: 'https://keycloak.iot-ap.be',
+  keycloakClientId: `angular-client`,
 };
