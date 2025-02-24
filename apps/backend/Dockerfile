@@ -32,4 +32,4 @@ COPY --from=installer /app .
 
 WORKDIR /app/apps/backend
 
-CMD ["node", "apps/backend/dist/src/main.js"]
+CMD ["node", "backend/dist/src/main.js"]
