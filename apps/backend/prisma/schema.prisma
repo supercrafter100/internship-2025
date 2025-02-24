@@ -37,6 +37,8 @@ model Project {
   public Boolean
 
   Dashboard Dashboard[]
+
+  imgKey String @db.VarChar(255)
 }
 
 model ProjectUser {
