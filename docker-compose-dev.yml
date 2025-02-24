@@ -13,7 +13,7 @@ services:
       - traefik.http.routers.frontend-staging.tls.certresolver=letsencrypt
 
   backend:
-    command: cd /app/apps/backend && npm run ci:dev
+    command: npm run ci:dev
     container_name: b-saffer-backend-staging
     depends_on:
       postgres:

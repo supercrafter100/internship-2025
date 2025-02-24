@@ -30,5 +30,6 @@ FROM node:21-alpine
 WORKDIR /app
 COPY --from=installer /app .
 
+WORKDIR /app/apps/backend
 
-CMD cd apps/backend/ && node dist/src/main.js
+CMD ["node", "apps/backend/dist/src/main.js"]
