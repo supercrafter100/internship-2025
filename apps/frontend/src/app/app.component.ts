@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
-import { KeycloakProfile } from 'keycloak-js';
+import { KeycloakProfile, KeycloakRoles } from 'keycloak-js';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   title = 'frontend';
   public isLoggedIn = false;
   public userProfile: KeycloakProfile | null = null;
+  public userRoles: String[] | null = null;
 
   constructor(private readonly keycloak: KeycloakService) {}
 
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
 
     if (this.isLoggedIn) {
       this.userProfile = await this.keycloak.loadUserProfile();
+      this.userRoles = await this.keycloak.getUserRoles();
     }
   }
 
