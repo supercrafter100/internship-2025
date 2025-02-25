@@ -1,11 +1,23 @@
 import { PrismaClient } from '@prisma/client';
+import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('Seeding database...');
+  // Create random users
 
-  // Maak een gebruiker aan
+  console.log('Creating users...');
+  for (let i = 0; i < 500; i++) {
+    await prisma.user.create({
+      data: {
+        email: faker.internet.email(),
+        name: faker.person.fullName(),
+      },
+    });
+  }
+
+  // Maak een specifieke gebruiker aan
   const user = await prisma.user.create({
     data: {
       email: 'mathieu.kervyn@example.com',
@@ -13,15 +25,30 @@ async function main() {
     },
   });
 
+  console.log('Creating projects');
   // Maak een project aan
   const project = await prisma.project.create({
     data: {
       title: 'B-SaFFeR',
       userId: user.id,
       public: true,
-      imgKey: 'https://placehold.co/600x400',
+      imgKey:
+        'https://www.regenwoudredden.org/photos/article/facebook/fb/nl/murchinson-falls-uganda-1.jpg',
+      shortDescription: 'Beschrijving van het project',
     },
   });
+
+  for (let i = 0; i < 50; i++) {
+    await prisma.project.create({
+      data: {
+        title: faker.company.name(),
+        userId: Math.floor(Math.random() * 500) + 1,
+        public: Math.random() > 0.5,
+        imgKey: faker.image.urlPicsumPhotos(),
+        shortDescription: faker.lorem.sentence(),
+      },
+    });
+  }
 
   // Koppel de gebruiker aan het project als ADMIN
   await prisma.projectUser.create({
@@ -59,7 +86,22 @@ async function main() {
     },
   });
 
+  console.log('Adding devices');
   // Voeg een device toe
+  for (let i = 0; i < 150; i++) {
+    await prisma.device.create({
+      data: {
+        name: faker.commerce.productName(),
+        latitude: faker.location.latitude().toString(),
+        longitude: faker.location.longitude().toString(),
+        imgKey: faker.image.urlLoremFlickr(),
+        type: 'WIMV1',
+        protocol: 'WIFI',
+        projectId: Math.floor(Math.random() * 50) + 1,
+      },
+    });
+  }
+
   const device = await prisma.device.create({
     data: {
       name: 'Sensor 001',

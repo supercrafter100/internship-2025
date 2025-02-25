@@ -1,13 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import "tailwindcss";
 
 @theme {
   --color-primary: #425f4c;
   --color-primary-light: #7bb28e;
+
+  --font-sans: InterVariable, sans-serif;
+  --font-raleway: "Space Mono", serif;
 }
 
 body,
 html {
   height: 100%;
   width: 100%;
+  margin: 0 0;
+  padding: 0 0;
 }

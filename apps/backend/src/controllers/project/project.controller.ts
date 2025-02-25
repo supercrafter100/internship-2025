@@ -28,9 +28,9 @@ export class ProjectController {
   }
 
   @Get()
-  async findAll(@Query('showPublic') showPublic: string) {
+  async findAll(@Query('hidden') showHidden: string) {
     const projects = await this.projectService
-      .findAll(showPublic === 'true')
+      .findAll(showHidden === 'true')
       .catch((error) => {
         console.error(error);
       });
