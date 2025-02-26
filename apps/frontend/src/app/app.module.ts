@@ -32,8 +32,13 @@ import {
   Plus,
   ArrowLeft,
   ArrowRight,
+  Upload,
 } from 'lucide-angular';
 import { CreateProjectComponent } from './pages/create-project/create-project.component';
+import { CreateProjectStepsComponent } from './pages/create-project/steps/steps.component';
+import { NgComponentOutlet } from '@angular/common';
+import { CreateProjectFirstStep } from './pages/create-project/first/first.component';
+import { CreateProjectSecondStep } from './pages/create-project/second/second.component';
 
 @NgModule({
   declarations: [
@@ -41,11 +46,15 @@ import { CreateProjectComponent } from './pages/create-project/create-project.co
     ProjectComponent,
     HomeComponent,
     CreateProjectComponent,
+    CreateProjectStepsComponent,
+    CreateProjectFirstStep,
+    CreateProjectSecondStep,
   ],
   imports: [
     BrowserModule,
     KeycloakAngularModule,
     RouterModule.forRoot(routes),
+    NgComponentOutlet,
     LucideAngularModule.pick({
       Globe,
       User,
@@ -53,6 +62,7 @@ import { CreateProjectComponent } from './pages/create-project/create-project.co
       Plus,
       ArrowLeft,
       ArrowRight,
+      Upload,
     }),
   ],
   providers: [
