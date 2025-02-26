@@ -34,6 +34,7 @@ import {
   ArrowRight,
 } from 'lucide-angular';
 import { CreateProjectComponent } from './pages/create-project/create-project.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { CreateProjectComponent } from './pages/create-project/create-project.co
     ProjectComponent,
     HomeComponent,
     CreateProjectComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

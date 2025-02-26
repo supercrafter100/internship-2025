@@ -8,13 +8,6 @@ import {
 } from '@angular/router';
 import { inject } from '@angular/core';
 
-/**
- * The logic below is a simple example, please make it more robust when implementing in your application.
- *
- * Reason: isAccessGranted is not validating the resource, since it is merging all roles. Two resources might
- * have the same role name and it makes sense to validate it more granular.
- */
-
 const isAccessAllowed = async (
   route: ActivatedRouteSnapshot,
   __: RouterStateSnapshot,
