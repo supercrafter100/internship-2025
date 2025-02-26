@@ -3,4 +3,5 @@ export class CreateProjectDto {
   userId: number;
   public: boolean;
   imgKey: string;
+  shortDescription: string;
 }

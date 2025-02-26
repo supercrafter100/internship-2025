@@ -1,11 +1,19 @@
-import { Component } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
+import { Project } from '@bsaffer/common/entity/project.entity';
 @Component({
   selector: 'app-project',
   standalone: false,
   templateUrl: './project.component.html',
-  styleUrl: './project.component.css'
+  styleUrl: './project.component.css',
 })
 export class ProjectComponent {
+  @Input() project!: Project;
 
+  public getImageUrl() {
+    const imgUrl =
+      'linear-gradient(rgba(123, 178, 142, 0.35), rgba(123, 178, 142, 0.35)), url(' +
+      this.project.imgKey +
+      ')';
+    return imgUrl;
+  }
 }
