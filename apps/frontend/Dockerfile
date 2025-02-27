@@ -24,5 +24,4 @@ RUN npx turbo run build
 
 FROM nginx:1.27.0-alpine
 
-COPY frontend.conf /etc/nginx/conf.d/default.conf
 COPY --from=installer /app/apps/frontend/dist/frontend/browser/. /usr/share/nginx/html/
