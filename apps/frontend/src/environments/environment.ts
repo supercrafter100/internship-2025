@@ -3,5 +3,5 @@ export const environment = {
   apiUrl: '/api',
   keycloakRealm: 'DEV_AP_Terra',
   keycloakUrl: 'https://keycloak.iot-ap.be',
-  keycloakClientId: `Frontend`,
+  keycloakClientId: `angular-client`,
 };
