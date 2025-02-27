@@ -11,7 +11,7 @@ COPY . .
 RUN turbo prune frontend --docker
 
 FROM base AS installer
-RUN apk update 
+RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 RUN npm install --global turbo@^2.4.2
@@ -23,4 +23,6 @@ COPY --from=builder /app/out/full/ .
 RUN npx turbo run build
 
 FROM nginx:1.27.0-alpine
+
+COPY frontend.conf /etc/nginx/conf.d/default.conf
 COPY --from=installer /app/apps/frontend/dist/frontend/browser/. /usr/share/nginx/html/
