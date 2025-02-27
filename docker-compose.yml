@@ -9,8 +9,6 @@ services:
       - proxy
     volumes:
       - ./apps/frontend/frontend.conf:/etc/nginx/conf.d/default.conf
-
-
     labels:
       - traefik.http.routers.frontend.rule=Host(`${SERVER_DOMAIN}`)
       - traefik.http.routers.frontend.tls=true
