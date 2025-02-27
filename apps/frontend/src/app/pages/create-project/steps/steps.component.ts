@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CreateProjectFirstStep } from '../first/first.component';
 import { CreateProjectSecondStep } from '../second/second.component';
 import { CreateProjectSecondInputStep } from '../second-input/second-input.component';
+import { CreateProjectThirdStep } from '../third/third.component';
+import { CreateProjectThirdInputStep } from '../third-input/third-input.component';
+import { CreateProjectFinishStep } from '../finish/finish.component';
 
 @Component({
   selector: 'app-create-project-steps',
@@ -26,6 +29,21 @@ export class CreateProjectStepsComponent implements OnInit {
       step: 1,
       path: '2.2',
       component: CreateProjectSecondInputStep,
+    },
+    {
+      step: 2,
+      path: '3.1',
+      component: CreateProjectThirdStep,
+    },
+    {
+      step: 2,
+      path: '3.2',
+      component: CreateProjectThirdInputStep,
+    },
+    {
+      step: 3,
+      path: 'finish',
+      component: CreateProjectFinishStep,
     },
   ];
 

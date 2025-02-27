@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ContentChange } from 'ngx-quill';
 
 @Component({
   selector: 'app-create-project-second-input',
@@ -6,4 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './second-input.component.html',
   styleUrl: './second-input.component.css',
 })
-export class CreateProjectSecondInputStep {}
+export class CreateProjectSecondInputStep {
+  onContentChanged(event: ContentChange) {
+    console.log(event);
+  }
+}

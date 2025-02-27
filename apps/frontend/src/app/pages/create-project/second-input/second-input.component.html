@@ -1,1 +1,16 @@
-<p>second-input works!</p>
+<div class="h-full w-full flex justify-center items-center flex-col gap-15">
+  <quill-editor
+    class="h-48"
+    (onContentChanged)="onContentChanged($event)"
+  ></quill-editor>
+  <a
+    class="rounded-full w-1/2 bg-primary flex justify-center items-center mx-auto py-3 text-white hover:scale-105 transition-transform duration-200"
+    routerLink="/create-project/3.1"
+  >
+    Next
+    <lucide-angular
+      name="arrow-right"
+      class="text-white cursor-pointer hover:text-gray-300 transition-colors duration-100 ml-2"
+    ></lucide-angular>
+  </a>
+</div>
