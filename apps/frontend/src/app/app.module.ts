@@ -39,6 +39,7 @@ import { CreateProjectStepsComponent } from './pages/create-project/steps/steps.
 import { NgComponentOutlet } from '@angular/common';
 import { CreateProjectFirstStep } from './pages/create-project/first/first.component';
 import { CreateProjectSecondStep } from './pages/create-project/second/second.component';
+import { CreateProjectSecondInputStep } from './pages/create-project/second-input/second-input.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { CreateProjectSecondStep } from './pages/create-project/second/second.co
     CreateProjectStepsComponent,
     CreateProjectFirstStep,
     CreateProjectSecondStep,
+    CreateProjectSecondInputStep,
   ],
   imports: [
     BrowserModule,

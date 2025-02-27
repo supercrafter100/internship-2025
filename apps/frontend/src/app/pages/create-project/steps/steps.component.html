@@ -32,9 +32,6 @@
         (click)="prevStep()"
       ></lucide-angular>
     </div>
-    <ng-container
-      class="w-full"
-      *ngComponentOutlet="steps[step].component"
-    ></ng-container>
+    <ng-container class="w-full" *ngComponentOutlet="component"></ng-container>
   </div>
 </div>
