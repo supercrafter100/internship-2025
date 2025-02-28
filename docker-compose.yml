@@ -38,7 +38,7 @@ services:
       - data:/data
     environment:
       - MINIO_ROOT_USER=admin
-      - MINIO_ROOT_PASSWORD=admin
+      - MINIO_ROOT_PASSWORD=adminadmin
     labels:
       - traefik.docker.network=traefik
       - traefik.http.routers.minio-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`)
