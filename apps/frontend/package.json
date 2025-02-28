@@ -47,6 +47,7 @@
     "typescript": "~5.7.2"
   },
   "optionalDependencies": {
-    "@tailwindcss/oxide-linux-arm64-musl": "^4.0.9"
+    "@tailwindcss/oxide-linux-arm64-musl": "^4.0.9",
+    "lightningcss-linux-arm64-musl": "^1.29.1"
   }
 }
