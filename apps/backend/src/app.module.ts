@@ -7,9 +7,10 @@ import { DevicesModule } from './devices/devices.module';
 import { ProjectController } from './controllers/project/project.controller';
 import { ProjectService } from './services/project/project.service';
 import { MinioClientModule } from './minio-client/minio-client.module';
+import { InfluxdbModule } from './influxdb/influxdb.module';
 
 @Module({
-  imports: [PrismaModule, DevicesModule, MinioClientModule],
+  imports: [PrismaModule, DevicesModule, InfluxdbModule, MinioClientModule],
   controllers: [AppController, ProjectController],
   providers: [AppService, PrismaService, ProjectService],
 })
