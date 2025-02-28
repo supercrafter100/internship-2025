@@ -39,4 +39,9 @@ export class DevicesController {
   remove(@Param('id') id: string) {
     return this.devicesService.remove(+id);
   }
+
+  @Get(':id/data')
+  async getData(@Param('id') id: string) {
+    return await this.devicesService.getData(id);
+  }
 }
