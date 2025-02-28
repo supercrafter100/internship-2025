@@ -136,6 +136,7 @@ services:
 
 volumes:
   keycloak-postgres:
+  data:
 
 networks:
   keycloak-network:
