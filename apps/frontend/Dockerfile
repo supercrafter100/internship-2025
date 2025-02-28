@@ -17,7 +17,7 @@ WORKDIR /app
 RUN npm install --global turbo@^2.4.2
 
 COPY --from=builder /app/out/json .
-RUN npm install --frozen-lockfile
+RUN npm install --frozen-lockfile --force
 
 COPY --from=builder /app/out/full/ .
 RUN npx turbo run build
