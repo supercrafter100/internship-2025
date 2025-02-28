@@ -61,6 +61,7 @@ services:
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=adminadmin
+      - MINIO_BROWSER_REDIRECT_URL=https://minio-staging.bsaffer.iot-ap.be/minio/ui/
     labels:
       - traefik.docker.network=traefik
       - traefik.http.routers.minio-staging.rule=Host(`minio-staging.bsaffer.iot-ap.be`)
