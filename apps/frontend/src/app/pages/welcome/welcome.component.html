@@ -1,0 +1,9 @@
+<div class="text-center pt-12">
+    <button class="inline-block px-6 py-2 mr-4 border border-gray-500 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+        Continue as guest
+    </button>
+    <button *ngIf="!isLoggedIn" type="button" (click)="login()"
+        class="inline-block px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition">
+        Log in
+    </button>
+</div>

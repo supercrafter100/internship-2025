@@ -46,6 +46,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
       },
     });
 }
+import { WelcomeComponent } from './pages/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ProjectComponent,
     HomeComponent,
     CreateProjectComponent,
+    WelcomeComponent,
     CreateProjectStepsComponent,
     CreateProjectFirstStep,
     CreateProjectSecondStep,
