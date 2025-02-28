@@ -7,7 +7,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
-
+import { provideHotToastConfig } from '@ngneat/hot-toast';
 import {
   LucideAngularModule,
   Globe,
@@ -28,6 +28,8 @@ import { QuillModule } from 'ngx-quill';
 import { CreateProjectThirdStep } from './pages/create-project/third/third.component';
 import { CreateProjectThirdInputStep } from './pages/create-project/third-input/third-input.component';
 import { CreateProjectFinishStep } from './pages/create-project/finish/finish.component';
+import { DevicesComponent } from './pages/dashboard/devices/devices.component';
+import { FormsModule } from '@angular/forms';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -58,6 +60,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     CreateProjectThirdStep,
     CreateProjectThirdInputStep,
     CreateProjectFinishStep,
+    DevicesComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +68,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     RouterModule.forRoot(routes),
     NgComponentOutlet,
     QuillModule.forRoot(),
+    FormsModule,
     LucideAngularModule.pick({
       Globe,
       User,
@@ -82,6 +86,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
       multi: true,
       deps: [KeycloakService],
     },
+    provideHotToastConfig(),
   ],
   bootstrap: [AppComponent],
 })

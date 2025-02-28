@@ -53,6 +53,26 @@ services:
     networks:
       - backend
 
+  minio:
+    image: quay.io/minio/minio
+    networks:
+      - proxy
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=admin
+    labels:
+      - traefik.docker.network=traefik
+      - traefik.http.routers.minio-staging.rule=Host(`minio-staging.bsaffer.iot-ap.be`)
+      - traefik.http.routers.minio-staging.tls=true
+      - traefik.http.routers.minio-staging.tls.certresolver=letsencrypt
+      - traefik.http.services.minio-staging.loadbalancer.server.port=9000
+
+      - traefik.http.routers.minio-ui-staging.rule=Host(`minio-staging.bsaffer.iot-ap.be`) && PathPrefix(`/minio/ui`)
+      - traefik.http.routers.minio-ui-staging.tls=true
+      - traefik.http.routers.minio-ui-staging.tls.certresolver=letsencrypt
+      - traefik.http.services.minio-ui-staging.loadbalancer.server.port=9001
+
 networks:
   proxy:
     external: true

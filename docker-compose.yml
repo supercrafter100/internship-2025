@@ -29,7 +29,27 @@ services:
       - traefik.http.services.backend.loadbalancer.server.port=3000
     environment:
       - DATABASE_URL=${DATABASE_URL}
+  minio:
+    image: quay.io/minio/minio
+    networks:
+      - proxy
+    command: server /data --console-address ":9001"
+    volumes:
+      - data:/data
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=admin
+    labels:
+      - traefik.docker.network=traefik
+      - traefik.http.routers.minio-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`)
+      - traefik.http.routers.minio-prod.tls=true
+      - traefik.http.routers.minio-prod.tls.certresolver=letsencrypt
+      - traefik.http.services.minio-prod.loadbalancer.server.port=9000
 
+      - traefik.http.routers.minio-ui-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`) && PathPrefix(`/minio/ui`)
+      - traefik.http.routers.minio-ui-prod.tls=true
+      - traefik.http.routers.minio-ui-prod.tls.certresolver=letsencrypt
+      - traefik.http.services.minio-ui-prod.loadbalancer.server.port=9001
   # postgres:
   #   image: postgres:16
   #   volumes:

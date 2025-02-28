@@ -15,7 +15,10 @@
           <p class="text-lg">{{ step.description }}</p>
         </div>
         <div
-          class="rounded-full w-15 h-15 bg-white text-lg flex justify-center items-center text-gray-800 font-bold relative"
+          class="rounded-full w-15 h-15 bg-white text-lg flex justify-center items-center text-gray-800 font-bold relative transition-transform duration-200"
+          (click)="(step.canNavigate ?? true) && goToStep(i)"
+          [style.cursor]="(step.canNavigate ?? true) ? 'pointer' : 'default'"
+          [class.hover:scale-105]="step.canNavigate ?? true"
         >
           {{ i + 1 }}
         </div>

@@ -63,6 +63,7 @@ export class CreateProjectStepsComponent implements OnInit {
     {
       title: 'Finish',
       description: undefined,
+      canNavigate: false,
     },
   ];
 
@@ -94,6 +95,13 @@ export class CreateProjectStepsComponent implements OnInit {
       this.router.navigate(['/create-project', page.path]);
     } else {
       this.router.navigate(['/create-project']);
+    }
+  }
+
+  public goToStep(step: number) {
+    const page = this.pages.find((page) => page.step === step);
+    if (page) {
+      this.router.navigate(['/create-project', page.path]);
     }
   }
 }
