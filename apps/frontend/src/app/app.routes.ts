@@ -3,6 +3,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { CreateProjectComponent } from './pages/create-project/create-project.component';
 import { canActivateAuthRole } from './guards/app-auth.guard';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { CreateProjectStepsComponent } from './pages/create-project/steps/steps.component';
 
 export const routes: Routes = [
   {
@@ -18,5 +19,9 @@ export const routes: Routes = [
     component: CreateProjectComponent,
     canActivate: [canActivateAuthRole],
     data: { roles: ['Gebruiker'] },
+  },
+  {
+    path: 'create-project/:step',
+    component: CreateProjectStepsComponent,
   },
 ];

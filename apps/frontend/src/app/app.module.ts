@@ -4,10 +4,32 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './components/project/project.component';
 import { HomeComponent } from './pages/home/home.component';
-
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
+import { provideHotToastConfig } from '@ngneat/hot-toast';
+import {
+  LucideAngularModule,
+  Globe,
+  User,
+  CircleDot,
+  Plus,
+  ArrowLeft,
+  ArrowRight,
+  Upload,
+} from 'lucide-angular';
+import { CreateProjectComponent } from './pages/create-project/create-project.component';
+import { CreateProjectStepsComponent } from './pages/create-project/steps/steps.component';
+import { NgComponentOutlet } from '@angular/common';
+import { CreateProjectFirstStep } from './pages/create-project/first/first.component';
+import { CreateProjectSecondStep } from './pages/create-project/second/second.component';
+import { CreateProjectSecondInputStep } from './pages/create-project/second-input/second-input.component';
+import { QuillModule } from 'ngx-quill';
+import { CreateProjectThirdStep } from './pages/create-project/third/third.component';
+import { CreateProjectThirdInputStep } from './pages/create-project/third-input/third-input.component';
+import { CreateProjectFinishStep } from './pages/create-project/finish/finish.component';
+import { DevicesComponent } from './pages/dashboard/devices/devices.component';
+import { FormsModule } from '@angular/forms';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -24,16 +46,6 @@ function initializeKeycloak(keycloak: KeycloakService) {
       },
     });
 }
-import {
-  LucideAngularModule,
-  Globe,
-  User,
-  CircleDot,
-  Plus,
-  ArrowLeft,
-  ArrowRight,
-} from 'lucide-angular';
-import { CreateProjectComponent } from './pages/create-project/create-project.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 
 @NgModule({
@@ -43,11 +55,22 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
     HomeComponent,
     CreateProjectComponent,
     WelcomeComponent,
+    CreateProjectStepsComponent,
+    CreateProjectFirstStep,
+    CreateProjectSecondStep,
+    CreateProjectSecondInputStep,
+    CreateProjectThirdStep,
+    CreateProjectThirdInputStep,
+    CreateProjectFinishStep,
+    DevicesComponent,
   ],
   imports: [
     BrowserModule,
     KeycloakAngularModule,
     RouterModule.forRoot(routes),
+    NgComponentOutlet,
+    QuillModule.forRoot(),
+    FormsModule,
     LucideAngularModule.pick({
       Globe,
       User,
@@ -55,6 +78,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
       Plus,
       ArrowLeft,
       ArrowRight,
+      Upload,
     }),
   ],
   providers: [
@@ -64,6 +88,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
       multi: true,
       deps: [KeycloakService],
     },
+    provideHotToastConfig(),
   ],
   bootstrap: [AppComponent],
 })

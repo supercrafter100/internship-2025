@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { DevicesService } from './devices.service';
-import { CreateDeviceDto } from './dto/create-device.dto';
-import { UpdateDeviceDto } from './dto/update-device.dto';
+import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
+import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
 
 @Controller('devices')
 export class DevicesController {

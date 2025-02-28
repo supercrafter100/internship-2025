@@ -7,6 +7,8 @@ services:
       dockerfile: ./apps/frontend/Dockerfile
     networks:
       - proxy
+    volumes:
+      - ./apps/frontend/frontend.conf:/etc/nginx/conf.d/default.conf
     labels:
       - traefik.http.routers.frontend.rule=Host(`${SERVER_DOMAIN}`)
       - traefik.http.routers.frontend.tls=true
@@ -25,9 +27,37 @@ services:
       - traefik.http.routers.backend.tls=true
       - traefik.http.routers.backend.tls.certresolver=letsencrypt
       - traefik.http.services.backend.loadbalancer.server.port=3000
+      - traefik.http.routers.backend.middlewares=backend-prod-stripprefix
+      - traefik.http.middlewares.backend-prod-stripprefix.stripprefix.prefixes=/api
+
     environment:
       - DATABASE_URL=${DATABASE_URL}
+  minio:
+    image: quay.io/minio/minio
+    networks:
+      - proxy
+    command: server /data --console-address ":9001"
+    volumes:
+      - data:/data
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=adminadmin
+      - MINIO_BROWSER_REDIRECT_URL=https://minio-prod.bsaffer.iot-ap.be/minio/ui/
+    labels:
+      - traefik.docker.network=traefik
+      - traefik.http.routers.minio-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`)
+      - traefik.http.routers.minio-prod.tls=true
+      - traefik.http.routers.minio-prod.service=minio-prod
+      - traefik.http.routers.minio-prod.tls.certresolver=letsencrypt
+      - traefik.http.services.minio-prod.loadbalancer.server.port=9000
 
+      - traefik.http.routers.minio-ui-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`) && PathPrefix(`/minio/ui`)
+      - traefik.http.routers.minio-ui-prod.tls=true
+      - traefik.http.routers.minio-ui-prod.service=minio-ui-prod
+      - traefik.http.routers.minio-ui-prod.tls.certresolver=letsencrypt
+      - traefik.http.services.minio-ui-prod.loadbalancer.server.port=9001
+      - traefik.http.routers.minio-ui-prod.middlewares=minio-prod-stripprefix
+      - traefik.http.middlewares.minio-prod-stripprefix.stripprefix.prefixes=/minio/ui
   # postgres:
   #   image: postgres:16
   #   volumes:
@@ -106,6 +136,7 @@ services:
 
 volumes:
   keycloak-postgres:
+  data:
 
 networks:
   keycloak-network:
