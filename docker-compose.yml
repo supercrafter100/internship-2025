@@ -43,11 +43,13 @@ services:
       - traefik.docker.network=traefik
       - traefik.http.routers.minio-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`)
       - traefik.http.routers.minio-prod.tls=true
+      - traefik.http.routers.minio-prod.service=minio-prod
       - traefik.http.routers.minio-prod.tls.certresolver=letsencrypt
       - traefik.http.services.minio-prod.loadbalancer.server.port=9000
 
       - traefik.http.routers.minio-ui-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`) && PathPrefix(`/minio/ui`)
       - traefik.http.routers.minio-ui-prod.tls=true
+      - traefik.http.routers.minio-ui-prod.service=minio-ui-prod
       - traefik.http.routers.minio-ui-prod.tls.certresolver=letsencrypt
       - traefik.http.services.minio-ui-prod.loadbalancer.server.port=9001
   # postgres:
