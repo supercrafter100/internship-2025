@@ -26,6 +26,9 @@ services:
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgres://bsaffer:EqhvLbsPhrkkZjcaGWcV7qT@postgres:5432/bsaffer
+      - MINIO_USER=bsaffer
+      - MINIO_PASS=adminadmin
+      - MINIO_BUCKET=b-saffer
     networks:
       - proxy
       - backend
