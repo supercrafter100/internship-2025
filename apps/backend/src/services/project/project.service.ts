@@ -16,9 +16,12 @@ export class ProjectService {
       createProjectDto.base64Image,
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { base64Image, ...createProjectDBData } = createProjectDto;
+
     return this.prismaService.project.create({
       data: {
-        ...createProjectDto,
+        ...createProjectDBData,
         imgKey: image,
       },
     });

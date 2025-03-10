@@ -46,29 +46,40 @@
             </p>
           </div>
         </div>
-        <div class="w-full">
-          <h2 class="text-gray-700 mb-2">Add an image for the project</h2>
-          <label
-            for="uploadAfbeelding"
-            class="flex items-center hover:bg-gray-100 transition-colors duration-200 justify-center border border-dashed text-sm rounded-xl border-gray-400 text-gray-700 px-5 py-2 outline-none w-max cursor-pointer font-raleway"
-          >
-            <lucide-angular
-              name="upload"
-              class="w-4 mr-2 inline"
-            ></lucide-angular>
-            Upload image
+        <div class="flex flex-row gap-5 w-full">
+          <div class="w-full">
+            <h2 class="text-gray-700 mb-2">Is this a public project?</h2>
             <input
-              type="file"
-              name="uploadAfbeelding"
-              id="uploadAfbeelding"
-              class="hidden"
-              accept=".png,.jpg,.jpeg,.webm,.gif"
-              (change)="onFileChange($event)"
+              type="checkbox"
+              name="publicProject"
+              [(ngModel)]="projectPublic"
+              class="w-5 h-5"
             />
-          </label>
-          <p class="text-gray-500 text-sm italic font-light mt-2">
-            * Minimum resolution 1080x1080
-          </p>
+          </div>
+          <div class="w-full">
+            <h2 class="text-gray-700 mb-2">Add an image for the project</h2>
+            <label
+              for="uploadAfbeelding"
+              class="flex items-center hover:bg-gray-100 transition-colors duration-200 justify-center border border-dashed text-sm rounded-xl border-gray-400 text-gray-700 px-5 py-2 outline-none w-max cursor-pointer font-raleway"
+            >
+              <lucide-angular
+                name="upload"
+                class="w-4 mr-2 inline"
+              ></lucide-angular>
+              Upload image
+              <input
+                type="file"
+                name="uploadAfbeelding"
+                id="uploadAfbeelding"
+                class="hidden"
+                accept=".png,.jpg,.jpeg,.webm,.gif"
+                (change)="onFileChange($event)"
+              />
+            </label>
+            <p class="text-gray-500 text-sm italic font-light mt-2">
+              * Minimum resolution 1080x1080
+            </p>
+          </div>
         </div>
       </div>
     </form>

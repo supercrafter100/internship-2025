@@ -1,9 +1,12 @@
+import { toBase64 } from '../../util/utils';
+
 export class CreateProjectStorage {
   public projectName = '';
   public projectDescription = '';
   public projectImage: File | string | undefined;
   public projectStory = '';
   public launchpad: any = {};
+  public public = false;
 
   public static fromLocalstorage(): CreateProjectStorage {
     const fromLocalStorage = localStorage.getItem('create-project-storage');
@@ -21,25 +24,17 @@ export class CreateProjectStorage {
       storage.projectImage = json.projectImage;
       storage.projectStory = json.projectStory;
       storage.launchpad = json.launchpad;
+      storage.public = json.public;
       return storage;
     }
 
     return new CreateProjectStorage();
   }
 
-  private toBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-  }
-
   public async saveToLocalStorage() {
     const projectImage =
       this.projectImage instanceof File
-        ? await this.toBase64(this.projectImage)
+        ? await toBase64(this.projectImage)
         : this.projectImage;
     const json = {
       projectName: this.projectName,
@@ -47,11 +42,12 @@ export class CreateProjectStorage {
       projectImage,
       projectStory: this.projectStory,
       launchpad: this.launchpad,
+      public: this.public,
     };
     localStorage.setItem('create-project-storage', JSON.stringify(json));
   }
 
-  public clear() {
+  public static clear() {
     localStorage.removeItem('create-project-storage');
   }
 }

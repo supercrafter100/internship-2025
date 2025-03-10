@@ -4,4 +4,5 @@ export const environment = {
   keycloakRealm: 'DEV_AP_Terra',
   keycloakUrl: 'https://keycloak.iot-ap.be',
   keycloakClientId: `angular-client`,
+  cdnUrl: 'https://bsaffer.iot-ap.be/b-saffer/',
 };

@@ -13,6 +13,7 @@ export class CreateProjectFirstStep implements OnInit {
   public projectName = '';
   public projectDescription = '';
   public projectImage: File | string | undefined;
+  public projectPublic = false;
 
   constructor(
     private readonly toast: HotToastService,
@@ -44,6 +45,7 @@ export class CreateProjectFirstStep implements OnInit {
     existingSettings.projectName = this.projectName;
     existingSettings.projectDescription = this.projectDescription;
     existingSettings.projectImage = this.projectImage;
+    existingSettings.public = this.projectPublic;
     await existingSettings.saveToLocalStorage();
     this.router.navigate(['/create-project/2.1']);
   }
@@ -57,5 +59,6 @@ export class CreateProjectFirstStep implements OnInit {
     this.projectName = existingSettings.projectName;
     this.projectDescription = existingSettings.projectDescription;
     this.projectImage = existingSettings.projectImage;
+    this.projectPublic = existingSettings.public;
   }
 }

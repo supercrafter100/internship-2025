@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.1.0",
+    "@angular/cdk": "^19.2.2",
     "@angular/common": "^19.1.0",
     "@angular/compiler": "^19.1.0",
     "@angular/core": "^19.1.0",
@@ -25,6 +26,7 @@
     "keycloak-angular": "^19.0.2",
     "keycloak-js": "^26.2.0",
     "lucide-angular": "^0.475.0",
+    "ngx-dom-confetti": "^0.5.1",
     "ngx-quill": "^27.0.1",
     "ol": "^10.4.0",
     "postcss": "^8.5.2",

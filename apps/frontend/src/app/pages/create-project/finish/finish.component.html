@@ -1,13 +1,13 @@
 <div class="h-full w-full flex justify-center items-center flex-col gap-15">
   <div class="text-center">
     <h1 class="font-bold text-6xl font-raleway w-full">Congratulation! 🎉</h1>
-    <h1 class="font-raleway text-6xl font-bold">This is project BELGIUM</h1>
+    <h1 class="font-raleway text-6xl font-bold">
+      This is project {{ this.project?.title }}
+    </h1>
   </div>
-  <img
-    src="assets/create-project-finish.svg"
-    alt="Create project finish"
-    class="h-1/2"
-  />
+  <div class="w-1/2 h-full" #projectElement>
+    <app-project *ngIf="this.project" [project]="this.project" />
+  </div>
   <a
     class="rounded-full w-1/2 bg-primary flex justify-center items-center mx-auto py-3 text-white hover:scale-105 transition-transform duration-200"
     routerLink="/"

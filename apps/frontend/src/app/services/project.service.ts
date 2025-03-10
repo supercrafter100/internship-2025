@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Project } from '@bsaffer/common/entity/project.entity';
 import InvalidResponseException from '../../error/InvalidResponseException';
+import { CreateProjectStorage } from '../Classes/CreateProjectStorage';
+import { toBase64 } from '../../util/utils';
 @Injectable({
   providedIn: 'root',
 })
@@ -39,5 +41,32 @@ export class ProjectService {
       );
 
     return Project.fromJson(response);
+  }
+
+  public async createProject(project: CreateProjectStorage) {
+    if (project.projectImage instanceof File) {
+      project.projectImage = await toBase64(project.projectImage);
+    }
+
+    const response = await fetch(this._apiUrl + '/project/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: project.projectName,
+        shortDescription: project.projectDescription,
+        userId: 1,
+        public: project.public,
+        base64Image: project.projectImage,
+      }),
+    });
+
+    if (!response.ok)
+      throw new InvalidResponseException(
+        'Received invalid response from server for /project/',
+      );
+
+    return response.json();
   }
 }

@@ -30,6 +30,7 @@ import { CreateProjectThirdInputStep } from './pages/create-project/third-input/
 import { CreateProjectFinishStep } from './pages/create-project/finish/finish.component';
 import { DevicesComponent } from './pages/dashboard/devices/devices.component';
 import { FormsModule } from '@angular/forms';
+import { NgxDomConfettiModule } from 'ngx-dom-confetti';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -80,6 +81,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
       ArrowRight,
       Upload,
     }),
+    NgxDomConfettiModule,
   ],
   providers: [
     {
