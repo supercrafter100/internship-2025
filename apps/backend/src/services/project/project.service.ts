@@ -1,16 +1,25 @@
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
 import { Injectable } from '@nestjs/common';
+import { MinioClientService } from 'src/minio-client/minio-client.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ProjectService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly minioClient: MinioClientService,
+  ) {}
 
   async create(createProjectDto: CreateProjectDto) {
+    const image = await this.minioClient.uploadBase64Image(
+      createProjectDto.base64Image,
+    );
+
     return this.prismaService.project.create({
       data: {
         ...createProjectDto,
+        imgKey: image,
       },
     });
   }

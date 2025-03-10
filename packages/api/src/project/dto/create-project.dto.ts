@@ -17,5 +17,5 @@ export class CreateProjectDto {
 
   @IsNotEmpty()
   @IsString()
-  imgKey: string;
+  base64Image: string;
 }
