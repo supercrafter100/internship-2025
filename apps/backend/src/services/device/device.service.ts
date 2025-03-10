@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { mkConfig, generateCsv, asString } from 'export-to-csv';
+// import { mkConfig, generateCsv, asString } from 'export-to-csv';
 import { writeFileSync } from 'fs';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
@@ -30,12 +30,10 @@ export class DeviceService {
   }
 
   async createCsv(id: number) {
-    //Configuratie voor CSV
-    const csvConfig = mkConfig({ useKeysAsHeaders: true });
-
-    //Sensor selecteren
-
-    // Converts Array<Object> to CSV
-    //let csv = generateCsv(this.csvConfig);
+    // //Configuratie voor CSV
+    // const csvConfig = mkConfig({ useKeysAsHeaders: true });
+    // //Sensor selecteren
+    // // Converts Array<Object> to CSV
+    // //let csv = generateCsv(this.csvConfig);
   }
 }

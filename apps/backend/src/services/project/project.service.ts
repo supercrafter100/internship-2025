@@ -13,7 +13,7 @@ export class ProjectService {
 
   async create(createProjectDto: CreateProjectDto) {
     const image = await this.minioClient.uploadBase64Image(
-      createProjectDto.base64Image as string,
+      createProjectDto.base64Image,
     );
 
     return this.prismaService.project.create({
