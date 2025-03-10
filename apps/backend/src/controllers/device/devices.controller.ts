@@ -6,7 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { DeviceService } from '../../services/device/device.service';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
@@ -40,8 +42,52 @@ export class DevicesController {
     return this.devicesService.remove(+id);
   }
 
-  @Get(':id/data')
-  async getData(@Param('id') id: string) {
-    return await this.devicesService.getData(id);
+  @Get(':id/measurements')
+  async getAllMeasurementsForDevice(@Param('id') id: string) {
+    return await this.devicesService.getAllMeasurementsForDevice(id);
+  }
+
+  // Verwacht datum en tijd in volgend formaat 2025-02-22T14:00:00.000Z
+  // Dit is een ISO 8601 datum- en tijdnotatie.
+  @Get(':id/:start/:end/measurements')
+  async getSpecificDataForDevice(
+    @Param('id') id: string,
+    @Param('start') start: string,
+    @Param('end') end: string,
+  ) {
+    return await this.devicesService.getSpecificMeasurementsForDevice(
+      id,
+      start,
+      end,
+    );
+  }
+
+  // Verwacht datum en tijd in volgend formaat 2025-02-22T14:00:00.000Z
+  // Dit is een ISO 8601 datum- en tijdnotatie.
+  @Get(':id/measurements/csv/:start/:end')
+  async downloadCsv(
+    @Param('id') id: string,
+    @Param('start') start: string,
+    @Param('end') end: string,
+    @Res() res: Response,
+  ) {
+    // Genereer de CSV in het geheugen
+    let csvData = await this.devicesService.generateCsvFromMeasurements(
+      id,
+      start,
+      end,
+    );
+
+    // Stel de headers in om een CSV-bestand te downloaden
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename=measurements.csv',
+    );
+
+    console.log(csvData);
+
+    // Stuur de CSV-gegevens terug als een bestand
+    res.send(csvData);
   }
 }
