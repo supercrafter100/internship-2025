@@ -34,6 +34,7 @@ export class CreateProjectThirdInputStep {
       return;
     }
 
+    CreateProjectStorage.clear();
     localStorage.setItem('new-project', JSON.stringify(projectResponse));
     this.router.navigate(['/create-project/finish']);
   }
