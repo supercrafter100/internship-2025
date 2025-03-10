@@ -6,7 +6,7 @@ export class InfluxdbService {
   //Credentials
   private url = process.env.INFLUXDB_URL!;
   private token = process.env.INFLUXDB_TOKEN!;
-  private org = process.env.INFLUXDB_ORG!;
+  private org = process.env.INFLUXDB_ORGANISATION!;
   private client: InfluxDB;
 
   public async queryData(fluxQuery: string): Promise<String[]> {
