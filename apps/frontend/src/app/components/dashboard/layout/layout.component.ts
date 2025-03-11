@@ -13,7 +13,7 @@ export class LayoutComponent {
       icon: 'house',
       title: 'Dashboard',
       href: '/dashboard/{id}',
-      exact: true,
+      exact: false,
     },
     {
       icon: 'hard-drive',
@@ -31,7 +31,7 @@ export class LayoutComponent {
       icon: 'bell',
       title: 'Notifications',
       href: '/dashboard/{id}/notifications',
-      exact: true,
+      exact: false,
     },
     {
       icon: 'cog',
@@ -44,7 +44,7 @@ export class LayoutComponent {
   constructor(private readonly route: ActivatedRoute) {}
 
   public isActiveRoute(link: string, exact: boolean = false): boolean {
-    const currentPath = this.route.snapshot.url.join('/');
+    const currentPath = '/' + this.route.snapshot.url.join('/');
     if (!exact ? currentPath.includes(link) : currentPath === link) return true;
     return false;
   }
