@@ -7,15 +7,11 @@ import { AuthService } from './auth.service';
 export class OAuthStrategy extends PassportStrategy(Strategy, 'oauth') {
   constructor(private readonly authService: AuthService) {
     super({
-      authorizationURL:
-        'https://keycloak.iot-ap.be/realms/DEV_AP_Terra/protocol/openid-connect/auth',
-      tokenURL:
-        'https://keycloak.iot-ap.be/realms/DEV_AP_Terra/protocol/openid-connect/token',
+      authorizationURL: process.env.OATH_AUTHORIZATION_URL,
+      tokenURL: process.env.OAUTH_TOKEN_URL,
       clientID: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
-      callbackURL:
-        process.env.OAUTH_CLIENT_REDIRECT ??
-        'http://localhost:4200/api/auth/oauth/callback',
+      callbackURL: process.env.OAUTH_CALLBACK_URL,
       scope: 'openid',
     });
   }
@@ -26,14 +22,11 @@ export class OAuthStrategy extends PassportStrategy(Strategy, 'oauth') {
     profile: any,
   ): Promise<any> {
     //Om profiel op te halen
-    profile = await fetch(
-      'https://keycloak.iot-ap.be/realms/DEV_AP_Terra/protocol/openid-connect/userinfo',
-      {
-        headers: {
-          Authorization: `Bearer ` + accessToken,
-        },
+    profile = await fetch(process.env.OAUTH_PROFILE_INFO_URL!, {
+      headers: {
+        Authorization: `Bearer ` + accessToken,
       },
-    ).then((res) => res.json());
+    }).then((res) => res.json());
 
     const user = await this.authService.validateOAuthLogin(profile);
     return user;
