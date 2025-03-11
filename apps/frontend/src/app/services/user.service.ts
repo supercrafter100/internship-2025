@@ -24,10 +24,6 @@ export class UserService {
 
     // Assuming response is a plain object, so we use fromJson to create a User instance
     let user: User = User.fromJson(response);
-    console.log(user.profile.name);
-    console.log(user.profile.name);
-    console.log(user.profile.name);
-    console.log(user.profile.name);
 
     return user;
   }
