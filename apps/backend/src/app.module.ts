@@ -37,10 +37,10 @@ import { ConfigModules } from './keycloak/config/config.module';
     PrismaService,
     ProjectService,
     DeviceService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard, //By default, it will throw a 401 unauthorized when it is unable to verify the JWT token or Bearer header is missing.
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthGuard, //By default, it will throw a 401 unauthorized when it is unable to verify the JWT token or Bearer header is missing.
+    // },
     {
       provide: APP_GUARD,
       useClass: ResourceGuard, //Only controllers annotated with @Resource and methods with @Scopes are handled by this guard

@@ -11,7 +11,7 @@ import {
 import { ProjectService } from 'src/services/project/project.service';
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
-//import { Public, Roles } from 'nest-keycloak-connect';
+import { Public, Roles, KeycloakUser } from 'nest-keycloak-connect';
 
 @Controller('project')
 export class ProjectController {
@@ -38,6 +38,11 @@ export class ProjectController {
       });
 
     return projects;
+  }
+
+  @Get('user')
+  async Get() {
+    return KeycloakUser.name;
   }
 
   @Get(':id')
