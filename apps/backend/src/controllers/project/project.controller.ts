@@ -11,6 +11,7 @@ import {
 import { ProjectService } from 'src/services/project/project.service';
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
+import { Public, Roles, KeycloakUser } from 'nest-keycloak-connect';
 
 @Controller('project')
 export class ProjectController {
@@ -27,6 +28,7 @@ export class ProjectController {
     return project;
   }
 
+  //@Roles('Gebruiker')
   @Get()
   async findAll(@Query('hidden') showHidden: string) {
     const projects = await this.projectService
@@ -36,6 +38,11 @@ export class ProjectController {
       });
 
     return projects;
+  }
+
+  @Get('user')
+  async Get() {
+    return KeycloakUser.name;
   }
 
   @Get(':id')

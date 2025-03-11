@@ -30,6 +30,19 @@ export class ProjectService {
     return projects;
   }
 
+  public async getUser() {
+    const response = await fetch(this._apiUrl + '/project/user')
+      .then((res) => res.json())
+      .catch(() => undefined);
+
+    if (!response)
+      throw new InvalidResponseException(
+        'Received invalid response from server for /project/user',
+      );
+
+    return response;
+  }
+
   public async getProject(id: number) {
     const response = await fetch(this._apiUrl + '/project/' + id)
       .then((res) => res.json())

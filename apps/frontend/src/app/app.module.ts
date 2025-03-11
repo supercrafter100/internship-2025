@@ -1,6 +1,5 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './components/project/project.component';
 import { HomeComponent } from './pages/project/home/home.component';
@@ -37,22 +36,6 @@ import { CreateProjectFinishStep } from './pages/project/create-project/finish/f
 import { DevicesComponent } from './pages/dashboard/devices/devices.component';
 import { FormsModule } from '@angular/forms';
 import { NgxDomConfettiModule } from 'ngx-dom-confetti';
-
-function initializeKeycloak(keycloak: KeycloakService) {
-  return () =>
-    keycloak.init({
-      config: {
-        realm: environment.keycloakRealm,
-        url: environment.keycloakUrl,
-        clientId: environment.keycloakClientId,
-      },
-      initOptions: {
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html',
-      },
-    });
-}
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { ProjectInfoComponent } from './pages/project/project-info/project-info.component';
 import { NavbarComponent } from './components/nav/navbar/navbar.component';
@@ -81,7 +64,6 @@ import { LayoutComponent } from './components/dashboard/layout/layout.component'
   ],
   imports: [
     BrowserModule,
-    KeycloakAngularModule,
     RouterModule.forRoot(routes),
     NgComponentOutlet,
     QuillModule.forRoot(),
@@ -103,15 +85,7 @@ import { LayoutComponent } from './components/dashboard/layout/layout.component'
     }),
     NgxDomConfettiModule,
   ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService],
-    },
-    provideHotToastConfig(),
-  ],
+  providers: [provideHotToastConfig()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

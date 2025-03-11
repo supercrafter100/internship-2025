@@ -23,8 +23,6 @@
     "@bsaffer/common": "*",
     "@ngneat/hot-toast": "^7.0.0",
     "@tailwindcss/postcss": "^4.0.6",
-    "keycloak-angular": "^19.0.2",
-    "keycloak-js": "^26.2.0",
     "lucide-angular": "^0.475.0",
     "ngx-dom-confetti": "^0.5.1",
     "ngx-quill": "^27.0.1",
