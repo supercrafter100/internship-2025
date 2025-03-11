@@ -1,0 +1,25 @@
+<div>
+  <div id="sidebar" class="w-56 bg-primary min-h-screen">
+    <img src="assets/logo.png" alt="logo" class="w-20 mx-auto pt-3" />
+    <hr class="text-gray-300 mx-5 mt-4 mb-8" />
+    <div class="mx-5 flex flex-col gap-5">
+      <a
+        *ngFor="let element of navButtons"
+        [routerLink]="getParsedLink(element.href)"
+        class="text-white flex flex-row items-center rounded-xl p-2"
+        [style.background-color]="getBgColor(element.href, element.exact)"
+      >
+        <lucide-angular
+          [name]="element.icon"
+          class="text-white"
+        ></lucide-angular>
+        <span class="border-l border-white ml-3 pl-3 font-bold">{{
+          element.title
+        }}</span>
+      </a>
+    </div>
+  </div>
+  <div class="pt-56">
+    <ng-content />
+  </div>
+</div>

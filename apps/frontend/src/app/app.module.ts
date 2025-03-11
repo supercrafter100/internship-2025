@@ -17,6 +17,12 @@ import {
   ArrowLeft,
   ArrowRight,
   Upload,
+  CircleArrowRight,
+  House,
+  HardDrive,
+  KeyRound,
+  Bell,
+  Cog,
 } from 'lucide-angular';
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -50,6 +56,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { ProjectInfoComponent } from './pages/project/project-info/project-info.component';
 import { NavbarComponent } from './components/nav/navbar/navbar.component';
+import { DashboardIndexComponent } from './pages/dashboard/index/index.component';
+import { LayoutComponent } from './components/dashboard/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +76,8 @@ import { NavbarComponent } from './components/nav/navbar/navbar.component';
     DevicesComponent,
     ProjectInfoComponent,
     NavbarComponent,
+    DashboardIndexComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,6 +94,12 @@ import { NavbarComponent } from './components/nav/navbar/navbar.component';
       ArrowLeft,
       ArrowRight,
       Upload,
+      CircleArrowRight,
+      House,
+      HardDrive,
+      KeyRound,
+      Bell,
+      Cog,
     }),
     NgxDomConfettiModule,
   ],
