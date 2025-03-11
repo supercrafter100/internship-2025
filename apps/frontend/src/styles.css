@@ -1,11 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
-@import '../../../node_modules/quill/dist/quill.snow.css';
+@import "../../../node_modules/quill/dist/quill.snow.css";
 
 @theme {
   --color-primary: #425f4c;
   --color-primary-light: #7bb28e;
+  --color-primary-slight: #5f8a6e;
 
   --font-sans: InterVariable, sans-serif;
   --font-raleway: "Raleway", serif;
