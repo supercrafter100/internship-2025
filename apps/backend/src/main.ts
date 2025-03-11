@@ -9,8 +9,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(json({ limit: '1024mb' }));
   const config = new DocumentBuilder()
-    .setTitle('cAmP')
-    .setDescription('cAmP API description ')
+    .setTitle('AP_Terra')
+    .setDescription('AP_Terra description ')
     .setVersion('0.1')
     .build();
 
