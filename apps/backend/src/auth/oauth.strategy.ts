@@ -13,7 +13,9 @@ export class OAuthStrategy extends PassportStrategy(Strategy, 'oauth') {
         'https://keycloak.iot-ap.be/realms/DEV_AP_Terra/protocol/openid-connect/token',
       clientID: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/oauth/callback',
+      callbackURL:
+        process.env.OAUTH_CLIENT_REDIRECT ??
+        'http://localhost:4200/api/auth/oauth/callback',
       scope: 'openid',
     });
   }
