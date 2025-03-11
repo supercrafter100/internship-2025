@@ -15,7 +15,7 @@ export class WelcomeComponent {
   public async ngOnInit() {}
 
   public login() {
-    window.location.href = 'http://localhost:3000/auth/oauth';
+    window.location.href = '/api/auth/oauth';
   }
 
   public logout() {}

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from '../../services/project.service';
+import { ProjectService } from '../../../services/project.service';
 import { Project } from '@bsaffer/common/entity/project.entity';
 import { UserService } from '../../services/user.service';
 import { User, UserProfile } from '@bsaffer/common/entity/user.entity';

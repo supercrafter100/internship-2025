@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 export class OAuthStrategy extends PassportStrategy(Strategy, 'oauth') {
   constructor(private readonly authService: AuthService) {
     super({
-      authorizationURL: process.env.OATH_AUTHORIZATION_URL,
+      authorizationURL: process.env.OAUTH_AUTHORIZATION_URL,
       tokenURL: process.env.OAUTH_TOKEN_URL,
       clientID: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,

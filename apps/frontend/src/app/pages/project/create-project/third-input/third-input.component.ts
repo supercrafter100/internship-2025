@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProjectService } from '../../../services/project.service';
-import { CreateProjectStorage } from '../../../Classes/CreateProjectStorage';
+import { ProjectService } from '../../../../services/project.service';
+import { CreateProjectStorage } from '../../../../Classes/CreateProjectStorage';
 import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
@@ -34,6 +34,7 @@ export class CreateProjectThirdInputStep {
       return;
     }
 
+    CreateProjectStorage.clear();
     localStorage.setItem('new-project', JSON.stringify(projectResponse));
     this.router.navigate(['/create-project/finish']);
   }

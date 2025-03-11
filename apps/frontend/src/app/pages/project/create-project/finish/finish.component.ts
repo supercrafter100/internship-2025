@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Project } from '@bsaffer/common/entity/project.entity';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { NgxConfettiDirective, NgxDomConfettiService } from 'ngx-dom-confetti';
 
 @Component({

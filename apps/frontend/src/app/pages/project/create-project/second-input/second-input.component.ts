@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentChange } from 'ngx-quill';
-import { CreateProjectStorage } from '../../../Classes/CreateProjectStorage';
+import { CreateProjectStorage } from '../../../../Classes/CreateProjectStorage';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Router } from '@angular/router';
 
