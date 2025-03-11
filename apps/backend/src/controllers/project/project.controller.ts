@@ -7,6 +7,7 @@ import {
   Patch,
   Query,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { ProjectService } from 'src/services/project/project.service';
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
@@ -30,7 +31,9 @@ export class ProjectController {
 
   //@Roles('Gebruiker')
   @Get()
-  async findAll(@Query('hidden') showHidden: string) {
+  async findAll(@Query('hidden') showHidden: string, @Req() req) {
+    console.log(req.session);
+
     const projects = await this.projectService
       .findAll(showHidden === 'true')
       .catch((error) => {

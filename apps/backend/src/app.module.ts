@@ -11,10 +11,12 @@ import { InfluxdbModule } from './influxdb/influxdb.module';
 import { DevicesController } from './controllers/device/devices.controller';
 import { DeviceService } from './services/device/device.service';
 import { AuthModule } from './auth/auth.module';
+import { UserService } from './services/user/user.service';
+import { UserController } from './controllers/user/user.controller';
 
 @Module({
   imports: [PrismaModule, InfluxdbModule, MinioClientModule, AuthModule],
-  controllers: [AppController, ProjectController, DevicesController],
-  providers: [AppService, PrismaService, ProjectService, DeviceService],
+  controllers: [AppController, ProjectController, DevicesController, UserController],
+  providers: [AppService, PrismaService, ProjectService, DeviceService, UserService],
 })
 export class AppModule {}
