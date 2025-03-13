@@ -72,7 +72,7 @@ export class DevicesController {
     @Res() res: Response,
   ) {
     // Genereer de CSV in het geheugen
-    let csvData = await this.devicesService.generateCsvFromMeasurements(
+    const csvData = await this.devicesService.generateCsvFromMeasurements(
       id,
       start,
       end,

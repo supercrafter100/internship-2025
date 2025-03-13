@@ -13,7 +13,7 @@ export class LayoutComponent {
       icon: 'house',
       title: 'Dashboard',
       href: '/dashboard/{id}',
-      exact: false,
+      exact: true,
     },
     {
       icon: 'hard-drive',

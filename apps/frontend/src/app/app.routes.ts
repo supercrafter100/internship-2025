@@ -5,6 +5,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
 import { ProjectInfoComponent } from './pages/project/project-info/project-info.component';
 import { DashboardIndexComponent } from './pages/dashboard/index/index.component';
+import { DashboardDevicesComponent } from './pages/dashboard/devices/devices.component';
 
 export const routes: Routes = [
   {
@@ -18,8 +19,6 @@ export const routes: Routes = [
   {
     path: 'create-project',
     component: CreateProjectComponent,
-    //canActivate: [canActivateAuthRole],
-    //data: { roles: ['Gebruiker'] },
   },
   {
     path: 'create-project/:step',
@@ -32,5 +31,9 @@ export const routes: Routes = [
   {
     path: 'dashboard/:id',
     component: DashboardIndexComponent,
+  },
+  {
+    path: 'dashboard/:id/devices',
+    component: DashboardDevicesComponent,
   },
 ];

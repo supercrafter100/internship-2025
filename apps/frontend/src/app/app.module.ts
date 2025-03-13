@@ -33,7 +33,7 @@ import { QuillModule } from 'ngx-quill';
 import { CreateProjectThirdStep } from './pages/project/create-project/third/third.component';
 import { CreateProjectThirdInputStep } from './pages/project/create-project/third-input/third-input.component';
 import { CreateProjectFinishStep } from './pages/project/create-project/finish/finish.component';
-import { DevicesComponent } from './pages/dashboard/devices/devices.component';
+import { DashboardDevicesComponent } from './pages/dashboard/devices/devices.component';
 import { FormsModule } from '@angular/forms';
 import { NgxDomConfettiModule } from 'ngx-dom-confetti';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
@@ -56,7 +56,7 @@ import { LayoutComponent } from './components/dashboard/layout/layout.component'
     CreateProjectThirdStep,
     CreateProjectThirdInputStep,
     CreateProjectFinishStep,
-    DevicesComponent,
+    DashboardDevicesComponent,
     ProjectInfoComponent,
     NavbarComponent,
     DashboardIndexComponent,
