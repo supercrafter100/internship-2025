@@ -1,17 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { Device } from '../Interfaces/iDevice';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceService {
-  constructor(private readonly http: HttpClient) {}
   private apiUrl = environment.apiUrl;
 
   public getReading<T>(id: string, start: Date, end: Date) {
     return fetch(
       this.apiUrl + '/' + id + '/' + start.getTime() + end.getTime(),
     ).then((res) => res.json() as Promise<T>);
+  }
+
+  public getDevicesForProject(projectId: number) {
+    return fetch(this.apiUrl + '/devices/project/' + projectId).then(
+      (res) => res.json() as Promise<Device[]>,
+    );
   }
 }
