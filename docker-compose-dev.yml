@@ -41,6 +41,8 @@ services:
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUXDB_ORGANISATION=${INFLUXDB_ORGANISATION}
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+
+      - SESSION_SECRET=kmqlsdfsqmfjsqmlfqsfkjqsmlkfjqsdlfqslmdjflqsdjfmlqsdfmkqjsdfmjqsdfmokjqsdofj
     networks:
       - proxy
       - backend
