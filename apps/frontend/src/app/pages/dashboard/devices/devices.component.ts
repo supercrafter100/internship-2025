@@ -121,14 +121,14 @@ export class DashboardDevicesComponent implements OnInit {
       }
     });
 
-    // Preload all the images
+    // Preload all the images for minimal loading time
     const imgCache = document.createElement('CACHE');
     imgCache.style = 'position:absolute;z-index:-1000;opacity:0';
     document.body.appendChild(imgCache);
 
-    this._points.forEach((point) => {
+    this._devices.forEach((device) => {
       const img = new Image();
-      img.src = point.image!;
+      img.src = parseCDNUrl(device.imgKey)!;
       img.style = 'position:absolute';
       imgCache.appendChild(img);
     });

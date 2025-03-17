@@ -1,24 +1,33 @@
 <app-layout>
   <div class="p-16">
+    <!-- Map -->
     <div id="map" class="w-full h-64 rounded-lg overflow-hidden"></div>
-
     <div id="popup" class="ol-popup">
       <div
         id="pop"
         class="rounded-xl w-60 h-40 shadow-xl image-full border-4 border-neutral-50 border-opacity-100 relative overflow-hidden"
       >
-        <div class="z-10 p-2 bg-cover text-white h-full" id="popup-div">
+        <div
+          class="z-10 p-2 bg-cover text-white h-full relative"
+          id="popup-div"
+        >
           <h2 class="text-xl font-bold z-10" id="popup-title">
             Hier komt jouw sensor box naam
           </h2>
           <p id="popup-description">Coordinaten van jouw sensor box</p>
-          <div class="card-actions justify-end">
-            <button id="popup-buy-btn" class="btn btn-sm" [routerLink]="url">
+          <div class="card-actions justify-end absolute bottom-2 right-2">
+            <button
+              id="popup-buy-btn"
+              class="bg-primary-light text-white font-bold p-2 px-4 rounded-lg cursor-pointer"
+              [routerLink]="url"
+            >
               Details
             </button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Devices (TODO) -->
   </div>
 </app-layout>
