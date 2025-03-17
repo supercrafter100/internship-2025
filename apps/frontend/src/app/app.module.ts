@@ -43,9 +43,10 @@ import { ProjectInfoComponent } from './pages/project/project-info/project-info.
 import { NavbarComponent } from './components/nav/navbar/navbar.component';
 import { DashboardIndexComponent } from './pages/dashboard/index/index.component';
 import { LayoutComponent } from './components/dashboard/layout/layout.component';
-import { SettingComponent } from './components/setting/setting.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import { ManagedevicesComponent } from './pages/managedevices/managedevices.component';
+import { SettingComponent } from './components/settings/setting/setting.component';
+import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
+import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
+import { ConfiguredeviceComponent } from './components/settings/configuredevice/configuredevice.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ManagedevicesComponent } from './pages/managedevices/managedevices.comp
     SettingComponent,
     SettingsComponent,
     ManagedevicesComponent,
+    ConfiguredeviceComponent,
   ],
   imports: [
     BrowserModule,
