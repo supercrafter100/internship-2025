@@ -6,6 +6,8 @@ import { CreateProjectStepsComponent } from './pages/project/create-project/step
 import { ProjectInfoComponent } from './pages/project/project-info/project-info.component';
 import { DashboardIndexComponent } from './pages/dashboard/index/index.component';
 import { DashboardDevicesComponent } from './pages/dashboard/devices/devices.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { ManagedevicesComponent } from './pages/managedevices/managedevices.component';
 
 export const routes: Routes = [
   {
@@ -35,5 +37,13 @@ export const routes: Routes = [
   {
     path: 'dashboard/:id/devices',
     component: DashboardDevicesComponent,
+  },
+  {
+    path: 'dashboard/:id/settings',
+    component: SettingsComponent,
+  },
+  {
+    path: 'dashboard/:id/settings/manage-devices',
+    component: ManagedevicesComponent,
   },
 ];

@@ -22,7 +22,9 @@ import {
   KeyRound,
   Bell,
   Cog,
-} from 'lucide-angular';
+  UserRoundCog,
+  MonitorSmartphone,
+} from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
 import { NgComponentOutlet } from '@angular/common';
@@ -41,6 +43,9 @@ import { ProjectInfoComponent } from './pages/project/project-info/project-info.
 import { NavbarComponent } from './components/nav/navbar/navbar.component';
 import { DashboardIndexComponent } from './pages/dashboard/index/index.component';
 import { LayoutComponent } from './components/dashboard/layout/layout.component';
+import { SettingComponent } from './components/setting/setting.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { ManagedevicesComponent } from './pages/managedevices/managedevices.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +66,9 @@ import { LayoutComponent } from './components/dashboard/layout/layout.component'
     NavbarComponent,
     DashboardIndexComponent,
     LayoutComponent,
+    SettingComponent,
+    SettingsComponent,
+    ManagedevicesComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +90,8 @@ import { LayoutComponent } from './components/dashboard/layout/layout.component'
       KeyRound,
       Bell,
       Cog,
+      UserRoundCog,
+      MonitorSmartphone,
     }),
     NgxDomConfettiModule,
   ],
