@@ -94,7 +94,7 @@ async function main() {
         name: faker.commerce.productName(),
         latitude: faker.location.latitude().toString(),
         longitude: faker.location.longitude().toString(),
-        imgKey: faker.image.urlLoremFlickr(),
+        imgKey: faker.image.urlPicsumPhotos(),
         type: 'WIMV1',
         protocol: 'WIFI',
         projectId: Math.floor(Math.random() * 50) + 1,

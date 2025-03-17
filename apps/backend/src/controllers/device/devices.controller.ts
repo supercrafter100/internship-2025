@@ -27,6 +27,11 @@ export class DevicesController {
     return this.devicesService.findAll();
   }
 
+  @Get('project/:id')
+  findAllForProject(@Param('id') id: string) {
+    return this.devicesService.findAllForProject(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.devicesService.findOne(+id);
@@ -84,8 +89,6 @@ export class DevicesController {
       'Content-Disposition',
       'attachment; filename=measurements.csv',
     );
-
-    console.log(csvData);
 
     // Stuur de CSV-gegevens terug als een bestand
     res.send(csvData);

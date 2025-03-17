@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../../services/user.service';
+import { User } from '@bsaffer/common/entity/user.entity';
 
 @Component({
   selector: 'app-layout',
@@ -7,7 +9,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit {
+  public user: User | undefined;
+
   public navButtons = [
     {
       icon: 'house',
@@ -41,7 +45,10 @@ export class LayoutComponent {
     },
   ];
 
-  constructor(private readonly route: ActivatedRoute) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly userService: UserService,
+  ) {}
 
   public isActiveRoute(link: string, exact: boolean = false): boolean {
     const currentPath = '/' + this.route.snapshot.url.join('/');
@@ -57,5 +64,10 @@ export class LayoutComponent {
 
   public getParsedLink(link: string): string {
     return link.replace('{id}', this.route.snapshot.params['id']);
+  }
+
+  public async ngOnInit(): Promise<void> {
+    const user = await this.userService.getUserInfo();
+    this.user = user;
   }
 }
