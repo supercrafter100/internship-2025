@@ -1,0 +1,15 @@
+<app-layout>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-0 gap-y-10 mt-10 ml-15"
+  >
+    <app-setting
+      *ngFor="let setting of settings"
+      [routerLink]="[setting.route]"
+      [icon]="setting.icon"
+      [title]="setting.title"
+      [description]="setting.description"
+      [route]="setting.route"
+    >
+    </app-setting>
+  </div>
+</app-layout>

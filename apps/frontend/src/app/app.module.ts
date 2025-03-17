@@ -25,7 +25,9 @@ import {
   Eye,
   Trash2,
   X,
-} from 'lucide-angular';
+  UserRoundCog,
+  MonitorSmartphone,
+} from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
 import { NgComponentOutlet } from '@angular/common';
@@ -46,6 +48,10 @@ import { DashboardIndexComponent } from './pages/dashboard/index/index.component
 import { LayoutComponent } from './components/dashboard/layout/layout.component';
 import { DashboardApiComponent } from './pages/dashboard/api/api.component';
 import { ModalComponent } from './components/general/modal/modal.component';
+import { SettingComponent } from './components/settings/setting/setting.component';
+import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
+import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
+import { ConfiguredeviceComponent } from './components/settings/configuredevice/configuredevice.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +74,10 @@ import { ModalComponent } from './components/general/modal/modal.component';
     LayoutComponent,
     DashboardApiComponent,
     ModalComponent,
+    SettingComponent,
+    SettingsComponent,
+    ManagedevicesComponent,
+    ConfiguredeviceComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,6 +102,8 @@ import { ModalComponent } from './components/general/modal/modal.component';
       Eye,
       Trash2,
       X,
+      UserRoundCog,
+      MonitorSmartphone,
     }),
     NgxDomConfettiModule,
   ],

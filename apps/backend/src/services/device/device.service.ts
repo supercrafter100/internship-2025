@@ -5,13 +5,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { writeFileSync } from 'fs';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
 import { InfluxdbService } from 'src/influxdb/influxdb.service';
 import { WimMeasurement } from '@bsaffer/api/device/parser/wim-measurement';
 import { parse } from 'json2csv'; //CSV
-import { join } from 'path';
 
 @Injectable()
 export class DeviceService {
