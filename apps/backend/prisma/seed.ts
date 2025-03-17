@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import { randomBytes } from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -114,6 +115,17 @@ async function main() {
     },
   });
 
+  // Voeg API sleutels toe
+  for (let i = 0; i < 50; i++) {
+    await prisma.apiKey.create({
+      data: {
+        projectId: Math.floor(Math.random() * 50) + 1,
+        name: faker.hacker.adjective(),
+        key: generateKey(),
+      },
+    });
+  }
+
   // Voeg een video toe aan het device
   await prisma.video.create({
     data: {
@@ -123,6 +135,10 @@ async function main() {
   });
 
   console.log('Database seeding voltooid!');
+}
+
+function generateKey() {
+  return randomBytes(32).toString('hex').substring(0, 16);
 }
 
 main()

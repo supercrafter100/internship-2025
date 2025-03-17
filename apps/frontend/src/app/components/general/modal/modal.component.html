@@ -1,0 +1,25 @@
+<div
+  *ngIf="isModalOpen"
+  class="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center"
+  style="background-color: rgba(0, 0, 0, 0.5)"
+>
+  <div
+    class="relative w-full max-w-xl md:max-w-2xl xl:max-w-4xl bg-white rounded-xl shadow max-h-[90vh] overflow-y-auto mx-4 md:mx-0 p-6"
+  >
+    <div
+      class="sticky top-0 flex items-center justify-between rounded-t bg-white dark:border-gray-600"
+    >
+      <h3 class="text-xl font-semibold text-gray-900">{{ title }}</h3>
+      <button
+        (click)="closeModal()"
+        class="text-gray-400 bg-transparent rounded-lg text-sm w-4 h-4 flex items-center justify-center hover:scale-120 transition-transform duration-100"
+      >
+        <lucide-angular name="x" class="text-gray-400"></lucide-angular>
+        <span class="sr-only">Close modal</span>
+      </button>
+    </div>
+    <div>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

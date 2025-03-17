@@ -39,7 +39,8 @@ model Project {
 
   Dashboard Dashboard[]
 
-  imgKey String @db.VarChar(255)
+  imgKey String   @db.VarChar(255)
+  ApiKey ApiKey[]
 }
 
 model ProjectUser {
@@ -120,4 +121,12 @@ model Video {
   deviceId   Int
   videoUrl   String   @db.VarChar(500)
   recordedAt DateTime @default(now())
+}
+
+model ApiKey {
+  id        Int     @id @default(autoincrement())
+  name      String
+  key       String  @unique
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
 }

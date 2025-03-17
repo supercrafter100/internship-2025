@@ -22,6 +22,9 @@ import {
   KeyRound,
   Bell,
   Cog,
+  Eye,
+  Trash2,
+  X,
 } from 'lucide-angular';
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -41,6 +44,8 @@ import { ProjectInfoComponent } from './pages/project/project-info/project-info.
 import { NavbarComponent } from './components/nav/navbar/navbar.component';
 import { DashboardIndexComponent } from './pages/dashboard/index/index.component';
 import { LayoutComponent } from './components/dashboard/layout/layout.component';
+import { DashboardApiComponent } from './pages/dashboard/api/api.component';
+import { ModalComponent } from './components/general/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +66,8 @@ import { LayoutComponent } from './components/dashboard/layout/layout.component'
     NavbarComponent,
     DashboardIndexComponent,
     LayoutComponent,
+    DashboardApiComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +89,9 @@ import { LayoutComponent } from './components/dashboard/layout/layout.component'
       KeyRound,
       Bell,
       Cog,
+      Eye,
+      Trash2,
+      X,
     }),
     NgxDomConfettiModule,
   ],
