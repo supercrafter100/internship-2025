@@ -24,6 +24,7 @@ import {
   Cog,
   UserRoundCog,
   MonitorSmartphone,
+  PencilRuler,
 } from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -47,6 +48,10 @@ import { SettingComponent } from './components/settings/setting/setting.componen
 import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
 import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
 import { ConfiguredeviceComponent } from './components/settings/configuredevice/configuredevice.component';
+import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-device/create-device/create-device.component';
+import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
+import { FirstComponent } from './pages/dashboard/settingspage/create-device/first/first.component';
+import { SecondComponent } from './pages/dashboard/settingspage/create-device/second/second.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +76,10 @@ import { ConfiguredeviceComponent } from './components/settings/configuredevice/
     SettingsComponent,
     ManagedevicesComponent,
     ConfiguredeviceComponent,
+    CreateDeviceComponent,
+    StepsComponent,
+    FirstComponent,
+    SecondComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,6 +103,7 @@ import { ConfiguredeviceComponent } from './components/settings/configuredevice/
       Cog,
       UserRoundCog,
       MonitorSmartphone,
+      PencilRuler,
     }),
     NgxDomConfettiModule,
   ],

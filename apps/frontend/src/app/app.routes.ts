@@ -8,6 +8,8 @@ import { DashboardIndexComponent } from './pages/dashboard/index/index.component
 import { DashboardDevicesComponent } from './pages/dashboard/devices/devices.component';
 import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
 import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
+import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-device/create-device/create-device.component';
+import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
 
 export const routes: Routes = [
   {
@@ -45,5 +47,13 @@ export const routes: Routes = [
   {
     path: 'dashboard/:id/settings/manage-devices',
     component: ManagedevicesComponent,
+  },
+  {
+    path: 'dashboard/:id/settings/create-device',
+    component: CreateDeviceComponent,
+  },
+  {
+    path: 'dashboard/:id/settings/create-device/:step',
+    component: StepsComponent,
   },
 ];
