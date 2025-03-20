@@ -52,6 +52,8 @@ import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-dev
 import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
 import { FirstComponent } from './pages/dashboard/settingspage/create-device/first/first.component';
 import { SecondComponent } from './pages/dashboard/settingspage/create-device/second/second.component';
+import { WifiLteDeviceComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/wifi-lte-device/wifi-lte-device.component';
+import { LorawanComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/lorawan/lorawan.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,8 @@ import { SecondComponent } from './pages/dashboard/settingspage/create-device/se
     StepsComponent,
     FirstComponent,
     SecondComponent,
+    WifiLteDeviceComponent,
+    LorawanComponent,
   ],
   imports: [
     BrowserModule,

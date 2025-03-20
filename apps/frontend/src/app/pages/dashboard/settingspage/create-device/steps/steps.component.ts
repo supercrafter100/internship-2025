@@ -29,8 +29,8 @@ export class StepsComponent {
       description: 'Fill in the details of a new device.',
     },
     {
-      title: 'Project story',
-      description: 'Fill in the project story.',
+      title: 'Device identitity',
+      description: 'Add the necessary identifiers for your device.',
     },
     {
       title: 'Compose launchpad',
@@ -46,6 +46,7 @@ export class StepsComponent {
   public step = 0;
   public pageIndex = 0;
   public component: Type<any> | null = null;
+  private currentRoute = '';
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -68,9 +69,15 @@ export class StepsComponent {
     if (this.step > 0) {
       // Figure out the previous step
       const page = this.pages[this.pageIndex - 1];
-      this.router.navigate(['/create-device', page.path]);
+
+      console.log(document.location.href);
+      this.router.navigate([
+        document.location.pathname.split('/create-device')[0] +
+          '/create-device',
+        page.path,
+      ]);
     } else {
-      this.router.navigate(['/create-device']);
+      this.router.navigate([document.location.pathname.slice(0, -2)]);
     }
   }
 

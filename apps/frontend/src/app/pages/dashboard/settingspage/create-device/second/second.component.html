@@ -1,1 +1,144 @@
-<p>second works!</p>
+<div
+  class="h-screen w-full flex justify-center items-center p-4 overflow-hidden"
+>
+  <div
+    class="w-full max-w-4xl border border-gray-300 rounded-lg shadow-lg bg-white p-6 overflow-auto max-h-screen"
+  >
+    <h1 class="font-raleway text-2xl text-gray-900 font-semibold">
+      Device Identity
+    </h1>
+    <hr class="border-gray-300 my-4" />
+
+    <div class="py-6 space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="deviceName" class="block text-gray-700 font-medium mb-2"
+            >Device Name</label
+          >
+          <input
+            id="deviceName"
+            class="border border-gray-400 rounded-lg w-full p-4 focus:ring-2 focus:ring-primary outline-none"
+            name="deviceName"
+            placeholder="For example 'WIM by Xander'"
+            type="text"
+            required
+            [(ngModel)]="deviceName"
+            maxlength="15"
+          />
+          <p class="text-gray-500 text-xs italic mt-1">
+            * Required | Max 15 characters
+          </p>
+        </div>
+
+        <div>
+          <label
+            for="deviceDescription"
+            class="block text-gray-700 font-medium mb-2"
+            >Device Description</label
+          >
+          <textarea
+            id="deviceDescription"
+            class="border border-gray-400 rounded-lg w-full p-4 focus:ring-2 focus:ring-primary outline-none resize-none"
+            name="deviceDescription"
+            placeholder="e.g. 'IoT WIM sensor on the roof of AP University.'"
+            maxlength="100"
+            required
+            [(ngModel)]="deviceDescription"
+            rows="3"
+          ></textarea>
+          <p class="text-gray-500 text-xs italic mt-1">
+            * Required | Max 100 characters
+          </p>
+        </div>
+      </div>
+
+      <!-- Upload Image -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2"
+          >Upload an image of the device on location</label
+        >
+        <label
+          for="uploadAfbeelding"
+          class="flex items-center justify-center border border-dashed border-gray-400 text-gray-700 px-5 py-2 rounded-xl cursor-pointer transition hover:bg-gray-100"
+        >
+          <lucide-angular name="upload" class="w-4 mr-2"></lucide-angular>
+          Upload image
+          <input
+            type="file"
+            name="uploadAfbeelding"
+            id="uploadAfbeelding"
+            class="hidden"
+            accept=".png,.jpg,.jpeg,.webm,.gif"
+            (change)="onFileChange($event)"
+          />
+        </label>
+        <p class="text-gray-500 text-xs italic mt-1">
+          * Minimum resolution 1080x1080
+        </p>
+      </div>
+    </div>
+
+    <!-- Location Section -->
+    <div class="mt-6">
+      <h2 class="text-xl font-semibold text-gray-900">Location</h2>
+      <p class="text-gray-600 text-sm mt-1">
+        Enter the precise latitude and longitude coordinates where the device is
+        located.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div>
+          <label for="latitude" class="block text-gray-700 font-medium mb-2"
+            >Latitude</label
+          >
+          <input
+            id="latitude"
+            class="border border-gray-400 rounded-lg w-full p-4 focus:ring-2 focus:ring-primary outline-none"
+            name="latitude"
+            placeholder="e.g. 51.2194"
+            type="number"
+            step="0.000001"
+            required
+            [(ngModel)]="latitude"
+          />
+          <p class="text-gray-500 text-xs italic mt-1">
+            * Required | Use decimal format
+          </p>
+        </div>
+
+        <div>
+          <label for="longitude" class="block text-gray-700 font-medium mb-2"
+            >Longitude</label
+          >
+          <input
+            id="longitude"
+            class="border border-gray-400 rounded-lg w-full p-4 focus:ring-2 focus:ring-primary outline-none"
+            name="longitude"
+            placeholder="e.g. 4.4025"
+            type="number"
+            step="0.000001"
+            required
+            [(ngModel)]="longitude"
+          />
+          <p class="text-gray-500 text-xs italic mt-1">
+            * Required | Use decimal format
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Button -->
+    <div class="flex justify-center mt-8">
+      <button
+        class="w-full max-w-md bg-primary text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-200 active:scale-95 flex items-center justify-center gap-2"
+        (click)="submit()"
+      >
+        Next
+        <lucide-angular
+          name="arrow-right"
+          class="text-white transition-all duration-100"
+        ></lucide-angular>
+      </button>
+    </div>
+  </div>
+</div>

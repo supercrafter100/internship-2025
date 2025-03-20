@@ -11,11 +11,6 @@ import { getDashboardId } from '../../../../../../util/utils';
   styleUrl: './first.component.css',
 })
 export class FirstComponent {
-  public projectName = '';
-  public projectDescription = '';
-  public projectImage: File | string | undefined;
-  public projectPublic = false;
-
   public allDeviceTypes = Object.values(DeviceType);
   public deviceType?: DeviceType;
 
@@ -40,10 +35,6 @@ export class FirstComponent {
     this.router.navigate([
       `/dashboard/${getDashboardId(window.location.href)}/settings/create-device/2`,
     ]);
-  }
-
-  public onFileChange(evt: any) {
-    this.projectImage = evt.target.files[0];
   }
 
   ngOnInit() {

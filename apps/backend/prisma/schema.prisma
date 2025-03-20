@@ -93,25 +93,19 @@ model Device {
   projectId Int
 
   name      String     @db.VarChar(255)
-  latitude  String
-  longitude String
+  latitude  Decimal
+  longitude Decimal
   imgKey    String     @db.VarChar(255)
   createdAt DateTime   @default(now())
   type      DeviceType
-  protocol  Protocol
   videos    Video[]
 }
 
 enum DeviceType {
-  WIMV1
-  ROBV1
-  GATE
-}
-
-enum Protocol {
-  LTE
+  LTE_WIFI
   LORA
-  WIFI
+  GATEWAY
+  CAMERA
 }
 
 model Video {

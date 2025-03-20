@@ -3,25 +3,27 @@ import { toBase64 } from '../../util/utils';
 export class CreateDeviceStorage {
   public deviceName = '';
   public deviceImage: File | string | undefined;
-  public deviceXCoordinates = '';
-  public deviceYCoordinates = '';
   public deviceType = '';
+  public deviceDescription = '';
+  public latitude!: Number;
+  public longitude!: Number;
 
   public static fromLocalstorage(): CreateDeviceStorage {
     const fromLocalStorage = localStorage.getItem('create-device-storage');
     if (fromLocalStorage) {
       const json = JSON.parse(fromLocalStorage);
       const storage = new CreateDeviceStorage();
-      storage.deviceName = json.projectName;
+      storage.deviceName = json.deviceName;
 
-      if (json.projectImage) {
-        // project image is base64 encoded, so we need to create a file from i
-        storage.deviceImage = json.projectImage;
+      if (json.deviceImage) {
+        // device image is base64 encoded, so we need to create a file from it
+        storage.deviceImage = json.deviceImage;
       }
 
       storage.deviceType = json.deviceType;
-      storage.deviceXCoordinates = json.deviceXCoordinates;
-      storage.deviceYCoordinates = json.deviceYCoordinates;
+      storage.deviceDescription = json.deviceDescription;
+      storage.latitude = json.latitude;
+      storage.longitude = json.longitude;
 
       return storage;
     }
@@ -37,11 +39,15 @@ export class CreateDeviceStorage {
     const json = {
       deviceName: this.deviceName,
       deviceImage,
+      deviceType: this.deviceType,
+      deviceDescription: this.deviceDescription,
+      latitude: this.latitude,
+      longitude: this.longitude,
     };
-    localStorage.setItem('create-project-storage', JSON.stringify(json));
+    localStorage.setItem('create-device-storage', JSON.stringify(json));
   }
 
   public static clear() {
-    localStorage.removeItem('create-project-storage');
+    localStorage.removeItem('create-device-storage');
   }
 }
