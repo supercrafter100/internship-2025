@@ -5,4 +5,5 @@ export const environment = {
   keycloakUrl: 'https://keycloak.iot-ap.be',
   keycloakClientId: `angular-client`,
   cdnUrl: 'https://bsaffer.iot-ap.be/b-saffer/',
+  MQTTServer: 'mqtt.iot-ap.be',
 };

@@ -3,6 +3,7 @@ import { CreateDeviceStorage } from '../../../../../Classes/CreateDeviceStorage'
 import { HotToastService } from '@ngneat/hot-toast';
 import { Router } from '@angular/router';
 import { getDashboardId } from '../../../../../../util/utils';
+import { DeviceType } from '../../../../../../types/types';
 
 @Component({
   selector: 'app-first',
@@ -40,13 +41,8 @@ export class FirstComponent {
   ngOnInit() {
     const existingSettings = CreateDeviceStorage.fromLocalstorage();
     this.deviceType =
-      DeviceType[existingSettings.deviceType as keyof typeof DeviceType];
+      DeviceType[
+        existingSettings.deviceType as unknown as keyof typeof DeviceType
+      ];
   }
-}
-
-enum DeviceType {
-  TTN = 'TheThingsNetwork device',
-  WIFIANDLTE = 'Wifi and or LTE device using MQTT',
-  CAMERA = 'Camera',
-  GATEWAY = 'Gateway',
 }

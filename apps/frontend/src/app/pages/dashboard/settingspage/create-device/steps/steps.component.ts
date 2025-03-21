@@ -2,6 +2,11 @@ import { Component, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirstComponent } from '../first/first.component';
 import { SecondComponent } from '../second/second.component';
+import { LorawanComponent } from '../third_specific_components/lorawan/lorawan.component';
+import { WifiLteDeviceComponent } from '../third_specific_components/wifi-lte-device/wifi-lte-device.component';
+import { CameraComponent } from '../third_specific_components/camera/camera.component';
+import { GatewayComponent } from '../third_specific_components/gateway/gateway.component';
+import { ParameterstepComponent } from '../parameterstep/parameterstep.component';
 
 @Component({
   selector: 'app-steps',
@@ -21,6 +26,31 @@ export class StepsComponent {
       path: '2',
       component: SecondComponent,
     },
+    {
+      step: 1,
+      path: '2.1',
+      component: ParameterstepComponent,
+    },
+    {
+      step: 2,
+      path: '3.1',
+      component: LorawanComponent,
+    },
+    {
+      step: 2,
+      path: '3.2',
+      component: WifiLteDeviceComponent,
+    },
+    {
+      step: 2,
+      path: '3.3',
+      component: CameraComponent,
+    },
+    {
+      step: 2,
+      path: '3.4',
+      component: GatewayComponent,
+    },
   ];
 
   public steps = [
@@ -33,8 +63,8 @@ export class StepsComponent {
       description: 'Add the necessary identifiers for your device.',
     },
     {
-      title: 'Compose launchpad',
-      description: 'Form your launchpad as you wish.',
+      title: 'Device specific actions',
+      description: 'Depending the device, specific actions should be executed.',
     },
     {
       title: 'Finish',

@@ -87,7 +87,7 @@ model User {
 }
 
 model Device {
-  id Int @id @default(autoincrement())
+  id String @id @unique @default(uuid())
 
   project   Project @relation(fields: [projectId], references: [id])
   projectId Int
@@ -111,7 +111,7 @@ enum DeviceType {
 model Video {
   id         Int      @id @default(autoincrement())
   device     Device   @relation(fields: [deviceId], references: [id])
-  deviceId   Int
+  deviceId   String
   videoUrl   String   @db.VarChar(500)
   recordedAt DateTime @default(now())
 }

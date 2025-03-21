@@ -1,9 +1,10 @@
+import { DeviceType } from '../../types/types';
 import { toBase64 } from '../../util/utils';
 
 export class CreateDeviceStorage {
   public deviceName = '';
   public deviceImage: File | string | undefined;
-  public deviceType = '';
+  public deviceType!: DeviceType;
   public deviceDescription = '';
   public latitude!: Number;
   public longitude!: Number;

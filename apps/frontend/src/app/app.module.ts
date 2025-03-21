@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import {
   LucideAngularModule,
   Globe,
@@ -54,6 +55,9 @@ import { FirstComponent } from './pages/dashboard/settingspage/create-device/fir
 import { SecondComponent } from './pages/dashboard/settingspage/create-device/second/second.component';
 import { WifiLteDeviceComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/wifi-lte-device/wifi-lte-device.component';
 import { LorawanComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/lorawan/lorawan.component';
+import { CameraComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/camera/camera.component';
+import { GatewayComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/gateway/gateway.component';
+import { ParameterstepComponent } from './pages/dashboard/settingspage/create-device/parameterstep/parameterstep.component';
 
 @NgModule({
   declarations: [
@@ -84,8 +88,12 @@ import { LorawanComponent } from './pages/dashboard/settingspage/create-device/t
     SecondComponent,
     WifiLteDeviceComponent,
     LorawanComponent,
+    CameraComponent,
+    GatewayComponent,
+    ParameterstepComponent,
   ],
   imports: [
+    DragDropModule,
     BrowserModule,
     RouterModule.forRoot(routes),
     NgComponentOutlet,

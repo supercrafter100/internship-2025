@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
-import { getDashboardId } from '../../../../../../util/utils';
 import { CreateDeviceStorage } from '../../../../../Classes/CreateDeviceStorage';
+import { DeviceType } from '../../../../../../types/types';
 
 @Component({
   selector: 'app-second',
@@ -22,7 +22,7 @@ export class SecondComponent {
     private readonly router: Router,
   ) {}
 
-  public async submit() {
+  public async next() {
     if (this.deviceName.length <= 0 || this.deviceName.length > 15) {
       this.toast.error('Device name must be between 1 and 15 characters.');
       return;
@@ -55,7 +55,28 @@ export class SecondComponent {
     existingSettings.latitude = this.latitude;
     existingSettings.longitude = this.longitude;
     await existingSettings.saveToLocalStorage();
-    this.router.navigate(['']);
+
+    //Depending on the device type, we will navigate to the next page
+
+    switch (existingSettings.deviceType) {
+      case DeviceType.TTN || DeviceType.WIFIANDLTE:
+        this.router.navigate([
+          [document.location.pathname.slice(0, -2)] + '/2.1',
+        ]);
+        break;
+
+      case DeviceType.CAMERA:
+        this.router.navigate([
+          [document.location.pathname.slice(0, -2)] + '/3.3',
+        ]);
+        break;
+
+      case DeviceType.GATEWAY:
+        this.router.navigate([
+          [document.location.pathname.slice(0, -2)] + '/3.4',
+        ]);
+        break;
+    }
   }
 
   public onFileChange(evt: any) {
