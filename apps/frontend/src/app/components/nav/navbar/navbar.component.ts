@@ -19,7 +19,6 @@ export class NavbarComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.user = await this._userService.getUserInfo();
-    console.log(this.user.profile.name);
   }
 
   public login() {

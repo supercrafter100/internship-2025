@@ -25,12 +25,12 @@
         <img
           [src]="
             'https://api.dicebear.com/5.x/initials/png?seed=' +
-            user?.profile?.name?.replace(' ', '+')
+            user?.user?.profile?.name?.replace(' ', '+')
           "
           alt="user"
           class="w-10 h-10 rounded-full"
         />
-        <span class="text-gray-800 ml-3">{{ user?.profile?.name }}</span>
+        <span class="text-gray-800 ml-3">{{ user?.user?.profile?.name }}</span>
       </div>
     </div>
     <ng-content />
