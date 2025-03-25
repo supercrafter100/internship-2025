@@ -1,3 +1,5 @@
+import { Project } from './project.entity';
+
 export class UserProfile {
     public sub!: string;
     public emailVerified!: boolean;
@@ -40,14 +42,39 @@ export class InternalUser {
     }
 }
 
+export class UserProjects {
+    public id!: number;
+    public projectId!: number;
+    public userId!: number;
+    public role!: 'USER' | 'ADMIN';
+    public project!: Project;
+
+    public static fromJson(json: any): UserProjects {
+        const userProjects = new UserProjects();
+        userProjects.id = json.id;
+        userProjects.projectId = json.projectId;
+        userProjects.userId = json.userId;
+        userProjects.role = json.role;
+        userProjects.project = Project.fromJson(json.project);
+        return userProjects;
+    }
+}
+
 export class User {
-    public user!: { profile: UserProfile };
+    public user!: { profile: UserProfile; refreshToken: string };
     public internalUser!: InternalUser;
+    public projects!: UserProjects[];
 
     public static fromJson(json: any): User {
         const user = new User();
-        user.user = { profile: UserProfile.fromJson(json.user.profile) }; // Assuming the user has a `profile` object
+        user.user = {
+            profile: UserProfile.fromJson(json.user.profile),
+            refreshToken: json.user.refreshToken,
+        }; // Assuming the user has a `profile` object
         user.internalUser = InternalUser.fromJson(json.internalUser);
+        user.projects = json.projects.map((project: any) =>
+            UserProjects.fromJson(project)
+        );
         return user;
     }
 }

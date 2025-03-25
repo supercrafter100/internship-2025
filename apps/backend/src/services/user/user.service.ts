@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import { User } from '@bsaffer/common/entity/user.entity';
+import { User, UserProfile } from '@bsaffer/common/entity/user.entity';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -7,7 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async registerUser(user: User) {
+  public async registerUser(user: { profile: UserProfile }) {
     const createdUser = await this.prisma.user.upsert({
       update: {
         email: user.profile.email,

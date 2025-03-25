@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit {
-  public user: User | null = null;
+  public user: User | undefined;
 
   constructor(
     private readonly _userService: UserService,

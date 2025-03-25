@@ -14,10 +14,7 @@ import { ProjectService } from 'src/services/project/project.service';
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
 import { SessionRequest } from 'src/auth/sessionData';
-import { Role } from '@prisma/client';
-import { request } from 'http';
 import { isAdmin } from 'src/auth/methods/isAdmin';
-import { canViewProject } from 'src/auth/methods/canViewProject';
 
 @Controller('project')
 export class ProjectController {
@@ -57,11 +54,7 @@ export class ProjectController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Req() request: SessionRequest) {
-    if (!canViewProject(request, +id)) {
-      throw new UnauthorizedException();
-    }
-
+  async findOne(@Param('id') id: string) {
     const project = await this.projectService.findOne(+id).catch((error) => {
       console.error(error);
     });

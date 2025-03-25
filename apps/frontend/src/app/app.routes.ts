@@ -9,6 +9,8 @@ import { DashboardDevicesComponent } from './pages/dashboard/devices/devices.com
 import { DashboardApiComponent } from './pages/dashboard/api/api.component';
 import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
 import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
+import { ProjectAdminGuard } from './guards/auth-projectadmin.guard';
+import { ProjectGuard } from './guards/auth-guard.guard';
 
 export const routes: Routes = [
   {
@@ -34,21 +36,26 @@ export const routes: Routes = [
   {
     path: 'dashboard/:id',
     component: DashboardIndexComponent,
+    canActivate: [ProjectGuard],
   },
   {
     path: 'dashboard/:id/devices',
     component: DashboardDevicesComponent,
+    canActivate: [ProjectGuard],
   },
   {
     path: 'dashboard/:id/api',
     component: DashboardApiComponent,
+    canActivate: [ProjectAdminGuard],
   },
   {
     path: 'dashboard/:id/settings',
     component: SettingsComponent,
+    canActivate: [ProjectAdminGuard],
   },
   {
     path: 'dashboard/:id/settings/manage-devices',
     component: ManagedevicesComponent,
+    canActivate: [ProjectAdminGuard],
   },
 ];
