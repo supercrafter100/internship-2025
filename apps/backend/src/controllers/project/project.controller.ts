@@ -15,13 +15,23 @@ import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
 import { SessionRequest } from 'src/auth/sessionData';
 import { Role } from '@prisma/client';
+import { request } from 'http';
+import { isAdmin } from 'src/auth/methods/isAdmin';
+import { canViewProject } from 'src/auth/methods/canViewProject';
 
 @Controller('project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
-  async create(@Body() createProjectDto: CreateProjectDto) {
+  async create(
+    @Body() createProjectDto: CreateProjectDto,
+    @Req() request: SessionRequest,
+  ) {
+    if (!isAdmin(request)) {
+      throw new UnauthorizedException();
+    }
+
     const project = await this.projectService
       .create(createProjectDto)
       .catch((error) => {
@@ -32,9 +42,13 @@ export class ProjectController {
   }
 
   @Get()
-  async findAll(@Query('hidden') showHidden: string) {
+  async findAll(
+    @Query('hidden') showHidden: string,
+    @Req() request: SessionRequest,
+  ) {
+    const admin = isAdmin(request);
     const projects = await this.projectService
-      .findAll(showHidden === 'true')
+      .findAll(admin ? showHidden === 'true' : false)
       .catch((error) => {
         console.error(error);
       });
@@ -43,7 +57,11 @@ export class ProjectController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string, @Req() request: SessionRequest) {
+    if (!canViewProject(request, +id)) {
+      throw new UnauthorizedException();
+    }
+
     const project = await this.projectService.findOne(+id).catch((error) => {
       console.error(error);
     });
@@ -57,34 +75,23 @@ export class ProjectController {
     @Body() updateProjectDto: UpdateProjectDto,
     @Req() request: SessionRequest,
   ) {
-    // Check if logged in user has access to edit this project
-    if (
-      request.session.internalUser.admin ||
-      request.session.projects.find(
-        (p) => p.projectId === +id && p.role === Role.ADMIN,
-      )
-    ) {
-      return this.projectService
-        .update(+id, updateProjectDto)
-        .catch((error) => {
-          console.error(error);
-        });
+    if (!isAdmin(request)) {
+      throw new UnauthorizedException();
     }
-    throw new UnauthorizedException();
+
+    return this.projectService.update(+id, updateProjectDto).catch((error) => {
+      console.error(error);
+    });
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() request: SessionRequest) {
-    if (
-      request.session.internalUser.admin ||
-      request.session.projects.find(
-        (p) => p.projectId === +id && p.role === Role.ADMIN,
-      )
-    ) {
-      return this.projectService.remove(+id).catch((error) => {
-        console.error(error);
-      });
+    if (!isAdmin(request)) {
+      throw new UnauthorizedException();
     }
-    throw new UnauthorizedException();
+
+    return this.projectService.remove(+id).catch((error) => {
+      console.error(error);
+    });
   }
 }
