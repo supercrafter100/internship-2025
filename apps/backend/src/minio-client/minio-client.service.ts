@@ -18,4 +18,12 @@ export class MinioClientService {
     await this.client.putObject(config.MINIO_BUCKET, key, buffer);
     return key;
   }
+
+  public async uploadDeviceBase64Image(image: string) {
+    const buffer = Buffer.from(image.split(',')[1], 'base64');
+    const key = `devices/${uuid()}.jpg`;
+
+    await this.client.putObject(config.MINIO_BUCKET, key, buffer);
+    return key;
+  }
 }

@@ -50,7 +50,7 @@ export class SecondComponent {
       return;
     }
 
-    const existingSettings = CreateDeviceStorage.newDeviceStorage();
+    const existingSettings = CreateDeviceStorage.getDeviceStorage();
     if (existingSettings === undefined) {
       this.toast.error('Device settings not found.');
       return;
@@ -90,7 +90,7 @@ export class SecondComponent {
   }
 
   ngOnInit() {
-    const existingSettings = CreateDeviceStorage.newDeviceStorage();
+    const existingSettings = CreateDeviceStorage.getDeviceStorage();
     if (existingSettings === undefined) {
       this.toast.error('Device settings not found.');
       return;

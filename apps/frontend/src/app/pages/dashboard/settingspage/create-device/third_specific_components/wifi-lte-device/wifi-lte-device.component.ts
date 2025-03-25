@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../../../../environments/environment';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { CreateDeviceStorage } from '../../../../../../Classes/CreateDeviceStorage';
+import { MqttDeviceStorage } from '../../../../../../Classes/CreateDevices/CreateMQTTDevice';
 
 @Component({
   selector: 'app-wifi-lte-device',
@@ -8,10 +10,20 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './wifi-lte-device.component.html',
   styleUrl: './wifi-lte-device.component.css',
 })
-export class WifiLteDeviceComponent {
-  constructor(private router: Router) {}
+export class WifiLteDeviceComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
+  ngOnInit(): void {
+    this.topic = this.deviceStorage.deviceId;
+    this.points[1].param = 'device/' + this.topic;
+  }
+
   private mqtt: string = environment.MQTT_Server;
-  private topic: string = '550e8400-e29b-41d4-a716-446655440000';
+  private topic: string | undefined = undefined;
+  private deviceStorage =
+    CreateDeviceStorage.getDeviceStorage() as MqttDeviceStorage;
 
   public points = [
     {
@@ -30,9 +42,9 @@ export class WifiLteDeviceComponent {
     },
   ];
 
-  public goToStep() {
-    this.router.navigate([
-      [document.location.pathname.slice(0, -2)] + '/finish',
-    ]);
+  public showModal = false;
+
+  public confirmNavigation() {
+    this.router.navigate(['../finish'], { relativeTo: this.route });
   }
 }

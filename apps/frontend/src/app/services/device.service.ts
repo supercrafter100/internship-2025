@@ -30,7 +30,7 @@ export class DeviceService {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(device),
+      body: JSON.stringify(device.toJsonObject()),
     });
   }
 }

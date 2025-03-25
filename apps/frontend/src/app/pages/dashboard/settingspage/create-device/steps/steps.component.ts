@@ -7,6 +7,7 @@ import { WifiLteDeviceComponent } from '../third_specific_components/wifi-lte-de
 import { CameraComponent } from '../third_specific_components/camera/camera.component';
 import { GatewayComponent } from '../third_specific_components/gateway/gateway.component';
 import { ParameterstepComponent } from '../parameterstep/parameterstep.component';
+import { FinishComponent } from '../finish/finish.component';
 
 @Component({
   selector: 'app-steps',
@@ -50,6 +51,11 @@ export class StepsComponent {
       step: 2,
       path: '3.4',
       component: GatewayComponent,
+    },
+    {
+      step: 3,
+      path: 'finish',
+      component: FinishComponent,
     },
   ];
 

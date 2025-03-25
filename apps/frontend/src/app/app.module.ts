@@ -58,6 +58,7 @@ import { LorawanComponent } from './pages/dashboard/settingspage/create-device/t
 import { CameraComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/camera/camera.component';
 import { GatewayComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/gateway/gateway.component';
 import { ParameterstepComponent } from './pages/dashboard/settingspage/create-device/parameterstep/parameterstep.component';
+import { FinishComponent } from './pages/dashboard/settingspage/create-device/finish/finish.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { ParameterstepComponent } from './pages/dashboard/settingspage/create-de
     CameraComponent,
     GatewayComponent,
     ParameterstepComponent,
+    FinishComponent,
   ],
   imports: [
     DragDropModule,

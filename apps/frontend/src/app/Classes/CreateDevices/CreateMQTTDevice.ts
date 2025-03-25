@@ -6,6 +6,8 @@ import { CreateDevice } from '../CreateDevice';
 export class MqttDeviceStorage extends CreateDevice {
   public override toJsonObject() {
     return {
+      projectId: this.projectId,
+      deviceType: this.deviceType,
       deviceName: this.deviceName,
       deviceImage: this.deviceImage,
       deviceDescription: this.deviceDescription,
@@ -21,20 +23,6 @@ export class MqttDeviceStorage extends CreateDevice {
     this.deviceParameters = [{ name: '', description: '' }];
   }
 
-  public fromLocalstorage(): CreateDevice {
-    const fromLocalStorage = localStorage.getItem('mqtt-device-storage');
-    if (fromLocalStorage) {
-      const json = JSON.parse(fromLocalStorage);
-      this.deviceName = json.deviceName;
-      this.deviceParameters = json.deviceParameters;
-      this.deviceImage = json.deviceImage;
-      this.deviceDescription = json.deviceDescription;
-      this.latitude = json.latitude;
-      this.longitude = json.longitude;
-    }
-    return this;
-  }
-
   // Parameters for MQTT device
   public deviceParameters: { name: string; description: string }[] = [];
 
@@ -44,12 +32,15 @@ export class MqttDeviceStorage extends CreateDevice {
     if (fromLocalStorage) {
       const json = JSON.parse(fromLocalStorage);
       const storage = new MqttDeviceStorage();
+      storage.deviceId = json.deviceId;
       storage.deviceName = json.deviceName;
       storage.deviceParameters = json.deviceParameters;
       storage.deviceImage = json.deviceImage;
       storage.deviceDescription = json.deviceDescription;
       storage.latitude = json.latitude;
       storage.longitude = json.longitude;
+      storage.projectId = json.projectId;
+      storage.deviceType = json.deviceType;
 
       return storage;
     }
@@ -64,12 +55,15 @@ export class MqttDeviceStorage extends CreateDevice {
         ? await toBase64(this.deviceImage)
         : this.deviceImage;
     const json = {
+      deviceId: this.deviceId,
       deviceName: this.deviceName,
       deviceImage,
       deviceDescription: this.deviceDescription,
       latitude: this.latitude,
       longitude: this.longitude,
       deviceParameters: this.deviceParameters,
+      projectId: this.projectId,
+      deviceType: this.deviceType,
     };
     localStorage.setItem('mqtt-device-storage', JSON.stringify(json));
   }

@@ -4,7 +4,7 @@ import { DeviceType } from '../../types/types';
 
 // Base class for all devices
 export class CreateDeviceStorage {
-  public static newDeviceStorage(): CreateDevice | undefined {
+  public static getDeviceStorage(): CreateDevice | undefined {
     let deviceType = localStorage.getItem('deviceType') as DeviceType;
 
     switch (deviceType) {
