@@ -8,7 +8,11 @@ export class UserController {
 
   @Get('info')
   getUserInfo(@Req() req: SessionRequest) {
-    return req.session.user;
+    return {
+      user: req.session.user,
+      internalUser: req.session.internalUser,
+      projects: req.session.projects,
+    };
   }
 
   @Get('projects')

@@ -7,11 +7,16 @@ import {
   Param,
   Delete,
   Res,
+  Req,
+  UnauthorizedException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { DeviceService } from '../../services/device/device.service';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
+import { canViewProject } from 'src/auth/methods/canViewProject';
+import { SessionRequest } from 'src/auth/sessionData';
 
 @Controller('devices')
 export class DevicesController {
@@ -28,12 +33,24 @@ export class DevicesController {
   }
 
   @Get('project/:id')
-  findAllForProject(@Param('id') id: string) {
+  findAllForProject(@Param('id') id: string, @Req() request: SessionRequest) {
+    if (!canViewProject(request, +id)) {
+      throw new UnauthorizedException();
+    }
     return this.devicesService.findAllForProject(+id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string, @Req() request: SessionRequest) {
+    const device = await this.devicesService.findOne(+id);
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    if (!canViewProject(request, device.projectId)) {
+      throw new UnauthorizedException();
+    }
+
     return this.devicesService.findOne(+id);
   }
 
@@ -59,7 +76,17 @@ export class DevicesController {
     @Param('id') id: string,
     @Param('start') start: string,
     @Param('end') end: string,
+    @Req() request: SessionRequest,
   ) {
+    const device = await this.devicesService.findOne(+id);
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    if (!canViewProject(request, device.projectId)) {
+      throw new UnauthorizedException();
+    }
+
     return await this.devicesService.getSpecificMeasurementsForDevice(
       id,
       start,
@@ -75,7 +102,17 @@ export class DevicesController {
     @Param('start') start: string,
     @Param('end') end: string,
     @Res() res: Response,
+    @Req() request: SessionRequest,
   ) {
+    const device = await this.devicesService.findOne(+id);
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    if (!canViewProject(request, device.projectId)) {
+      throw new UnauthorizedException();
+    }
+
     // Genereer de CSV in het geheugen
     const csvData = await this.devicesService.generateCsvFromMeasurements(
       id,
