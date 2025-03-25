@@ -7,10 +7,14 @@ import {
   Patch,
   Query,
   Delete,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ProjectService } from 'src/services/project/project.service';
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
+import { SessionRequest } from 'src/auth/sessionData';
+import { Role } from '@prisma/client';
 
 @Controller('project')
 export class ProjectController {
@@ -27,7 +31,6 @@ export class ProjectController {
     return project;
   }
 
-  //@Roles('Gebruiker')
   @Get()
   async findAll(@Query('hidden') showHidden: string) {
     const projects = await this.projectService
@@ -52,16 +55,36 @@ export class ProjectController {
   async update(
     @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
+    @Req() request: SessionRequest,
   ) {
-    return this.projectService.update(+id, updateProjectDto).catch((error) => {
-      console.error(error);
-    });
+    // Check if logged in user has access to edit this project
+    if (
+      request.session.internalUser.admin ||
+      request.session.projects.find(
+        (p) => p.projectId === +id && p.role === Role.ADMIN,
+      )
+    ) {
+      return this.projectService
+        .update(+id, updateProjectDto)
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+    throw new UnauthorizedException();
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.projectService.remove(+id).catch((error) => {
-      console.error(error);
-    });
+  async remove(@Param('id') id: string, @Req() request: SessionRequest) {
+    if (
+      request.session.internalUser.admin ||
+      request.session.projects.find(
+        (p) => p.projectId === +id && p.role === Role.ADMIN,
+      )
+    ) {
+      return this.projectService.remove(+id).catch((error) => {
+        console.error(error);
+      });
+    }
+    throw new UnauthorizedException();
   }
 }

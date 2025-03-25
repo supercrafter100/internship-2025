@@ -41,6 +41,9 @@ export class AuthController {
         req.session.internalUser = await this.userService.registerUser(
           user as User,
         );
+        req.session.projects = await this.userService.getUserProjects(
+          req.session.internalUser.id as number,
+        );
 
         // save the session before redirection to ensure page
         // load does not happen before session is saved

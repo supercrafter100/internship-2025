@@ -84,6 +84,7 @@ model User {
   providerId   String        @unique
   email        String        @unique
   name         String
+  admin        Boolean       @default(false)
   projects     Project[]
   projectUsers ProjectUser[]
 }
