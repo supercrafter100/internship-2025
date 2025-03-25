@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { CreateDeviceStorage } from '../../../../../Classes/CreateDeviceStorage';
 import { DeviceType } from '../../../../../../types/types';
+import { DeviceService } from '../../../../../services/device.service';
 
 @Component({
   selector: 'app-second',
@@ -20,6 +21,7 @@ export class SecondComponent {
   constructor(
     private readonly toast: HotToastService,
     private readonly router: Router,
+    private deviceService: DeviceService,
   ) {}
 
   public async next() {
@@ -48,7 +50,11 @@ export class SecondComponent {
       return;
     }
 
-    const existingSettings = CreateDeviceStorage.fromLocalstorage();
+    const existingSettings = CreateDeviceStorage.newDeviceStorage();
+    if (existingSettings === undefined) {
+      this.toast.error('Device settings not found.');
+      return;
+    }
     existingSettings.deviceName = this.deviceName;
     existingSettings.deviceDescription = this.deviceDescription;
     existingSettings.deviceImage = this.deviceImage;
@@ -59,7 +65,7 @@ export class SecondComponent {
     //Depending on the device type, we will navigate to the next page
 
     switch (existingSettings.deviceType) {
-      case DeviceType.TTN || DeviceType.WIFIANDLTE:
+      case DeviceType.MQTT || DeviceType.TTN:
         this.router.navigate([
           [document.location.pathname.slice(0, -2)] + '/2.1',
         ]);
@@ -84,7 +90,11 @@ export class SecondComponent {
   }
 
   ngOnInit() {
-    const existingSettings = CreateDeviceStorage.fromLocalstorage();
+    const existingSettings = CreateDeviceStorage.newDeviceStorage();
+    if (existingSettings === undefined) {
+      this.toast.error('Device settings not found.');
+      return;
+    }
     this.deviceName = existingSettings.deviceName;
     this.deviceDescription = existingSettings.deviceDescription;
     this.deviceImage = existingSettings.deviceImage;

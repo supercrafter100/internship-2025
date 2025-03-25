@@ -7,7 +7,7 @@ export interface MapPoint {
 
 export enum DeviceType {
   TTN = 'TheThingsNetwork device',
-  WIFIANDLTE = 'Wifi or LTE device using MQTT',
+  MQTT = 'Wifi or LTE device using MQTT',
   CAMERA = 'Camera',
   GATEWAY = 'Gateway',
 }

@@ -4,6 +4,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { Router } from '@angular/router';
 import { getDashboardId } from '../../../../../../util/utils';
 import { DeviceType } from '../../../../../../types/types';
+import { DeviceService } from '../../../../../services/device.service';
 
 @Component({
   selector: 'app-first',
@@ -13,11 +14,12 @@ import { DeviceType } from '../../../../../../types/types';
 })
 export class FirstComponent {
   public allDeviceTypes = Object.values(DeviceType);
-  public deviceType?: DeviceType;
+  public deviceType: DeviceType | undefined;
 
   constructor(
     private readonly toast: HotToastService,
     private readonly router: Router,
+    private deviceService: DeviceService,
   ) {}
 
   public async submit() {
@@ -28,10 +30,8 @@ export class FirstComponent {
       return;
     }
 
-    const existingSettings = CreateDeviceStorage.fromLocalstorage();
-    existingSettings.deviceType = this.deviceType;
-
-    await existingSettings.saveToLocalStorage();
+    // Set the device type and create a new type storage
+    localStorage.setItem('deviceType', this.deviceType);
 
     this.router.navigate([
       `/dashboard/${getDashboardId(window.location.href)}/settings/create-device/2`,
@@ -39,10 +39,6 @@ export class FirstComponent {
   }
 
   ngOnInit() {
-    const existingSettings = CreateDeviceStorage.fromLocalstorage();
-    this.deviceType =
-      DeviceType[
-        existingSettings.deviceType as unknown as keyof typeof DeviceType
-      ];
+    this.deviceType = localStorage.getItem('deviceType') as DeviceType;
   }
 }

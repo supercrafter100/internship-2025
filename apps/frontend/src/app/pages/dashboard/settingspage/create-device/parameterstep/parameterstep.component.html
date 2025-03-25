@@ -86,4 +86,19 @@
   >
     Add Parameter
   </button>
+
+  <!-- Next Button -->
+  <div class="flex justify-center mt-8">
+    <button
+      class="w-full max-w-md bg-primary text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-200 active:scale-95 flex items-center justify-center gap-2"
+      (click)="next()"
+      *ngIf="parameters.length > 0"
+    >
+      Next
+      <lucide-angular
+        name="arrow-right"
+        class="text-white transition-all duration-100"
+      ></lucide-angular>
+    </button>
+  </div>
 </div>

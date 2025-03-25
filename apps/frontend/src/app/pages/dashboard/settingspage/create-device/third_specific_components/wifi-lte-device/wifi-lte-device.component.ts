@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class WifiLteDeviceComponent {
   constructor(private router: Router) {}
-  private mqtt: string = environment.MQTTServer;
+  private mqtt: string = environment.MQTT_Server;
   private topic: string = '550e8400-e29b-41d4-a716-446655440000';
 
   public points = [
