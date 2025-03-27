@@ -1,4 +1,4 @@
-<div class="text-center pt-12">
+<!-- <div class="text-center pt-12">
     <button class="inline-block px-6 py-2 mr-4 border border-gray-500 rounded-lg text-gray-700 hover:bg-gray-100 transition">
         Continue as guest
     </button>
@@ -6,5 +6,52 @@
         class="inline-block px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition">
         Log in
     </button>
-    
+
+</div> -->
+<div class="min-h-screen w-full relative overflow-x-hidden">
+  <img
+    class="absolute bottom-0 right-1/2 translate-x-1/2 md:translate-x-0 md:-right-5 -z-10"
+    src="assets/undraw-mountain.png"
+  />
+  <img src="assets/apterralogo_01.png" alt="logo" class="h-32 mx-auto" />
+  <div class="mt-10 w-full flex items-center justify-center flex-col">
+    <h1 class="text-2xl xl:text-4xl font-bold">Welcome to AP Terra</h1>
+    <p
+      class="mx-5 lg:max-w-3/4 xl:max-w-1/2 text-center text-gray-600 text-lg xl:text-xl mt-5 font-extralight"
+    >
+      AP Terra is a platform that harnesses technology and research to gather
+      and analyze data. By leveraging smart solutions, we provide valuable
+      insights for innovation and informed decision-making.
+    </p>
+    <div
+      class="w-full flex flex-col gap-10 lg:gap-0 lg:flex-row mt-16 items-center justify-between mx-5 lg:max-w-3/4 xl:max-w-1/2"
+    >
+      <a
+        class="bg-primary rounded-full px-12 py-2 text-white shadow-md hover:bg-primary-dark transition flex items-center justify-center gap-5"
+        [routerLink]="['/home']"
+      >
+        <ng-container *ngIf="!isLoggedIn">Continue as guest </ng-container>
+        <ng-container *ngIf="isLoggedIn"
+          >Continue as {{ user?.user?.profile?.name }}
+        </ng-container>
+        <lucide-angular name="arrow-right" size="24"></lucide-angular>
+      </a>
+      <button
+        *ngIf="!isLoggedIn"
+        type="button"
+        (click)="login()"
+        class="bg-primary rounded-full px-12 py-2 text-white shadow-md hover:bg-primary-dark transition flex items-center justify-center gap-5 cursor-pointer"
+      >
+        Log in <lucide-angular name="arrow-right" size="24"></lucide-angular>
+      </button>
+      <button
+        *ngIf="isLoggedIn"
+        type="button"
+        (click)="logout()"
+        class="bg-primary rounded-full px-12 py-2 text-white shadow-md hover:bg-primary-dark transition flex items-center justify-center gap-5 cursor-pointer"
+      >
+        Log out <lucide-angular name="arrow-right" size="24"></lucide-angular>
+      </button>
+    </div>
+  </div>
 </div>
