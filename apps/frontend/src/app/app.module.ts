@@ -52,6 +52,8 @@ import { SettingComponent } from './components/settings/setting/setting.componen
 import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
 import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
 import { ConfiguredeviceComponent } from './components/settings/configuredevice/configuredevice.component';
+import { ProjectAdminGuard } from './guards/auth-projectadmin.guard';
+import { ProjectGuard } from './guards/auth-guard.guard';
 
 @NgModule({
   declarations: [
@@ -107,7 +109,7 @@ import { ConfiguredeviceComponent } from './components/settings/configuredevice/
     }),
     NgxDomConfettiModule,
   ],
-  providers: [provideHotToastConfig()],
+  providers: [provideHotToastConfig(), ProjectAdminGuard, ProjectGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

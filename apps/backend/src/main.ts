@@ -25,13 +25,13 @@ async function bootstrap() {
 
   await prisma.$disconnect();
 
-  let pgPool = new pg.Pool({
+  const pgPool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
   });
 
   // #region Session configuratie
   //For using secure cookies in production, but allowing for testing in development
-  let sessionProperties = {
+  const sessionProperties = {
     name: 'connect.apterra',
     secret: process.env.SESSION_SECRET!,
     resave: false,

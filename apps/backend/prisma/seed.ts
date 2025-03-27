@@ -14,6 +14,7 @@ async function main() {
       data: {
         email: faker.internet.email(),
         name: faker.person.fullName(),
+        providerId: faker.string.nanoid(),
       },
     });
   }
@@ -23,6 +24,7 @@ async function main() {
     data: {
       email: 'mathieu.kervyn@example.com',
       name: 'Mathieu Kervyn',
+      providerId: 'auth0df61f7',
     },
   });
 

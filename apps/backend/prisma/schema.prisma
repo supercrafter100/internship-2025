@@ -81,8 +81,10 @@ model Tile {
 
 model User {
   id           Int           @id @default(autoincrement())
+  providerId   String        @unique
   email        String        @unique
   name         String
+  admin        Boolean       @default(false)
   projects     Project[]
   projectUsers ProjectUser[]
 }

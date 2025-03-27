@@ -1,7 +1,7 @@
 <!-- Left user info -->
-<div class="flex gap-3 text-white font-bold items-center h-full">
+<div class="flex gap-3 text-white font-bold items-center h-full" *ngIf="user">
   <lucide-angular name="user" class="text-white"></lucide-angular>
-  Hi, {{user?.profile?.name}}
+  Hi, {{ user?.user?.profile?.name }}
 </div>
 
 <!-- Center logo -->
@@ -15,8 +15,25 @@
       class="text-white cursor-pointer"
     ></lucide-angular>
   </a>
-  <a class="text-white underline" routerLink="/home?own">My projects</a>
-  <a class="text-white underline" routerLink="/home">All projects</a>
-  <a class="text-white underline" routerLink="/story">Our story</a>
-  <span class="text-white underline">Log out</span>
+  <a class="text-white underline" routerLink="/home?own" *ngIf="user"
+    >My projects</a
+  >
+  <a class="text-white underline cursor-pointer" routerLink="/home"
+    >All projects</a
+  >
+  <a class="text-white underline cursor-pointer" routerLink="/story"
+    >Our story</a
+  >
+  <span
+    class="text-white underline cursor-pointer"
+    *ngIf="user"
+    (click)="logout()"
+    >Log out</span
+  >
+  <span
+    class="text-white underline cursor-pointer"
+    *ngIf="!user"
+    (click)="login()"
+    >Log in</span
+  >
 </div>
