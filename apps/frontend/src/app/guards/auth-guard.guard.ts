@@ -44,8 +44,7 @@ export class ProjectGuard implements CanActivate {
         }
 
         window.location.href =
-          '/api/auth/oauth/login?logoutFirst=true&redirectUrl=' +
-          encodeURIComponent(state.url);
+          '/api/auth/oauth/login?redirectUrl=' + encodeURIComponent(state.url);
       }
 
       if (route.queryParams['fromLogin']) {

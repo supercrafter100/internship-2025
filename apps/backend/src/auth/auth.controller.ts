@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { User, UserProfile } from '@bsaffer/common/entity/user.entity';
+import { UserProfile } from '@bsaffer/common/entity/user.entity';
 import {
   Controller,
   Get,
@@ -15,7 +15,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from 'src/services/user/user.service';
 import { SessionRequest } from './sessionData';
-import session from 'express-session';
+
 @Controller('auth')
 export class AuthController {
   private redirectionsMap: Record<string, string> = {};
@@ -27,27 +27,11 @@ export class AuthController {
   async oauthLogin() {}
 
   @Get('oauth/login')
-  async login(
+  login(
     @Query('redirectUrl') redirectTo: string,
-    @Query('logoutFirst') logoutFirst: string,
     @Req() req: SessionRequest,
     @Res() res,
   ) {
-    if (logoutFirst === 'true' && req.session.user) {
-      const response = await fetch(process.env.OAUTH_LOGOUT_URL!, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          refresh_token: (req.session.user as any).refreshToken,
-          client_secret: process.env.OAUTH_CLIENT_SECRET!,
-          client_id: process.env.OAUTH_CLIENT_ID!,
-        }),
-      }).then((res) => res.text());
-      console.log(response);
-    }
-
     this.redirectionsMap[req.session.id] = redirectTo;
     res.redirect('/api/auth/oauth');
   }

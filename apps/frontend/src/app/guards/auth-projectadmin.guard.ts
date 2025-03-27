@@ -43,7 +43,7 @@ export class ProjectAdminGuard implements CanActivate {
         }
 
         this.router.navigate([
-          '/api/auth/oauth/login?logoutFirst=true&redirectUrl=' + state.url,
+          '/api/auth/oauth/login?redirectUrl=' + state.url,
         ]);
       }
       return canAccess;
