@@ -42,7 +42,7 @@ export class DevicesController {
 
   @Get(':id')
   async findOne(@Param('id') id: string, @Req() request: SessionRequest) {
-    const device = await this.devicesService.findOne(+id);
+    const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
     }
@@ -51,7 +51,7 @@ export class DevicesController {
       throw new UnauthorizedException();
     }
 
-    return this.devicesService.findOne(+id);
+    return this.devicesService.findOne(id);
   }
 
   @Patch(':id')
@@ -78,7 +78,7 @@ export class DevicesController {
     @Param('end') end: string,
     @Req() request: SessionRequest,
   ) {
-    const device = await this.devicesService.findOne(+id);
+    const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
     }
@@ -104,7 +104,7 @@ export class DevicesController {
     @Res() res: Response,
     @Req() request: SessionRequest,
   ) {
-    const device = await this.devicesService.findOne(+id);
+    const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
     }

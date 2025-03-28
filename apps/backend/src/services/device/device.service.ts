@@ -44,8 +44,8 @@ export class DeviceService {
     return this.prisma.device.findMany();
   }
 
-  findOne(id: number) {
-    // return this.prisma.device.findUnique({ where: { id: id } });
+  findOne(id: string) {
+    return this.prisma.device.findUnique({ where: { id: id } });
   }
 
   update(id: number, updateDeviceDto: UpdateDeviceDto) {
