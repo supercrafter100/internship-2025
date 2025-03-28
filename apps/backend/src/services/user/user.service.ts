@@ -20,6 +20,7 @@ export class UserService {
         providerId: user.profile.sub,
         email: user.profile.email,
         name: user.profile.name,
+        admin: true,
       },
     });
 
