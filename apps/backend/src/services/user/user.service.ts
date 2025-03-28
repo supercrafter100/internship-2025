@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-import { User, UserProfile } from '@bsaffer/common/entity/user.entity';
+import { UserProfile } from '@bsaffer/common/entity/user.entity';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
