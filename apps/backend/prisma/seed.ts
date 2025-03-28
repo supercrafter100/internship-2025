@@ -98,9 +98,21 @@ async function main() {
         latitude: faker.location.latitude().toString(),
         longitude: faker.location.longitude().toString(),
         imgKey: faker.image.urlPicsumPhotos(),
-        type: 'WIMV1',
-        protocol: 'WIFI',
+        deviceType: 'WIMV1',
         projectId: Math.floor(Math.random() * 50) + 1,
+        description: faker.lorem.sentence(),
+        deviceParameters: {
+          create: [
+            {
+              name: 'Parameter 1',
+              description: 'Description for parameter 1',
+            },
+            {
+              name: 'Parameter 2',
+              description: 'Description for parameter 2',
+            },
+          ],
+        },
       },
     });
   }
@@ -112,8 +124,20 @@ async function main() {
       longitude: '4.4025',
       imgKey: 'https://placehold.co/600x400',
       projectId: project.id,
-      type: 'WIMV1',
-      protocol: 'WIFI',
+      deviceType: 'Sensor',
+      description: 'Eerste sensor',
+      deviceParameters: {
+        create: [
+          {
+            name: 'Temperatuur',
+            description: 'Temperatuur in graden Celsius',
+          },
+          {
+            name: 'Luchtvochtigheid',
+            description: 'Luchtvochtigheid in procent',
+          },
+        ],
+      },
     },
   });
 

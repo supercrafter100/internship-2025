@@ -16,9 +16,15 @@ export class SettingsComponent {
     },
     {
       icon: 'monitor-smartphone',
+      title: 'Create devices',
+      description: 'Add devices to the project',
+      route: 'create-device',
+    },
+    {
+      icon: 'pencil-ruler',
       title: 'Manage devices',
       description:
-        'Manage the devices configured for this project. Add, modify or remove devices.',
+        'Manage the devices configured for this project. Modify or remove devices.',
       route: 'manage-devices',
     },
   ];

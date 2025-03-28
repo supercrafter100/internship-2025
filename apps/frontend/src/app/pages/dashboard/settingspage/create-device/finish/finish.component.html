@@ -1,0 +1,26 @@
+<div class="h-full w-full flex justify-center items-center flex-col gap-15">
+  <div class="text-center">
+    <h1 class="font-bold text-6xl font-raleway w-full">Congratulations! 🎉</h1>
+    <h1 class="font-raleway text-4xl font-bold">
+      {{ deviceName }} is now added to your project
+    </h1>
+  </div>
+  <div class="w-1/2 h-full" #projectElement>
+    <div
+      [style]="{ 'background-image': getImageUrl() }"
+      class="h-96 bg-cover bg-center relative rounded-lg shadow-2xl cursor-pointer hover:scale-105 transition-all duration-200"
+    >
+      <div class="absolute bottom-5 left-0 right-0 p-5">
+        <h1 class="text-white font-sans text-5xl font-bold text-right">
+          {{ deviceName }}
+        </h1>
+      </div>
+    </div>
+  </div>
+  <a
+    class="rounded-full w-1/2 bg-primary flex justify-center items-center mx-auto py-3 text-white hover:scale-105 transition-transform duration-200"
+    (click)="routeToSettings()"
+  >
+    Finish
+  </a>
+</div>

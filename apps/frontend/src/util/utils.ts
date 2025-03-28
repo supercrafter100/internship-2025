@@ -16,3 +16,14 @@ export function parseCDNUrl(url: string) {
 
   return `${environment.cdnUrl}${url}`;
 }
+
+export function getDashboardId(url: string): number | null {
+  const parts = url.split('/');
+  const dashboardIndex = parts.indexOf('dashboard');
+
+  if (dashboardIndex !== -1 && parts[dashboardIndex + 1]) {
+    return Number(parts[dashboardIndex + 1]) || null;
+  }
+
+  return null;
+}

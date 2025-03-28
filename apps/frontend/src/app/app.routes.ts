@@ -11,6 +11,9 @@ import { SettingsComponent } from './pages/dashboard/settingspage/settings/setti
 import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
 import { ProjectAdminGuard } from './guards/auth-projectadmin.guard';
 import { ProjectGuard } from './guards/auth-guard.guard';
+import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-device/create-device/create-device.component';
+import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
+import { FinishComponent } from './pages/dashboard/settingspage/create-device/finish/finish.component';
 
 export const routes: Routes = [
   {
@@ -57,5 +60,17 @@ export const routes: Routes = [
     path: 'dashboard/:id/settings/manage-devices',
     component: ManagedevicesComponent,
     canActivate: [ProjectAdminGuard],
+  },
+  {
+    path: 'dashboard/:id/settings/create-device',
+    component: CreateDeviceComponent,
+  },
+  {
+    path: 'dashboard/:id/settings/create-device/:step',
+    component: StepsComponent,
+  },
+  {
+    path: 'dashboard/:id/settings/create-device/finish',
+    component: FinishComponent,
   },
 ];

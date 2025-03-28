@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import {
   LucideAngularModule,
   Globe,
@@ -27,6 +28,7 @@ import {
   X,
   UserRoundCog,
   MonitorSmartphone,
+  PencilRuler,
 } from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -54,6 +56,16 @@ import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedev
 import { ConfiguredeviceComponent } from './components/settings/configuredevice/configuredevice.component';
 import { ProjectAdminGuard } from './guards/auth-projectadmin.guard';
 import { ProjectGuard } from './guards/auth-guard.guard';
+import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-device/create-device/create-device.component';
+import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
+import { FirstComponent } from './pages/dashboard/settingspage/create-device/first/first.component';
+import { SecondComponent } from './pages/dashboard/settingspage/create-device/second/second.component';
+import { WifiLteDeviceComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/wifi-lte-device/wifi-lte-device.component';
+import { LorawanComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/lorawan/lorawan.component';
+import { CameraComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/camera/camera.component';
+import { GatewayComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/gateway/gateway.component';
+import { ParameterstepComponent } from './pages/dashboard/settingspage/create-device/parameterstep/parameterstep.component';
+import { FinishComponent } from './pages/dashboard/settingspage/create-device/finish/finish.component';
 
 @NgModule({
   declarations: [
@@ -80,8 +92,19 @@ import { ProjectGuard } from './guards/auth-guard.guard';
     SettingsComponent,
     ManagedevicesComponent,
     ConfiguredeviceComponent,
+    CreateDeviceComponent,
+    StepsComponent,
+    FirstComponent,
+    SecondComponent,
+    WifiLteDeviceComponent,
+    LorawanComponent,
+    CameraComponent,
+    GatewayComponent,
+    ParameterstepComponent,
+    FinishComponent,
   ],
   imports: [
+    DragDropModule,
     BrowserModule,
     RouterModule.forRoot(routes),
     NgComponentOutlet,
@@ -106,6 +129,7 @@ import { ProjectGuard } from './guards/auth-guard.guard';
       X,
       UserRoundCog,
       MonitorSmartphone,
+      PencilRuler,
     }),
     NgxDomConfettiModule,
   ],
