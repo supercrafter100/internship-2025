@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import { randomBytes } from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -13,6 +14,7 @@ async function main() {
       data: {
         email: faker.internet.email(),
         name: faker.person.fullName(),
+        providerId: faker.string.nanoid(),
       },
     });
   }
@@ -22,6 +24,7 @@ async function main() {
     data: {
       email: 'mathieu.kervyn@example.com',
       name: 'Mathieu Kervyn',
+      providerId: 'auth0df61f7',
     },
   });
 
@@ -95,21 +98,9 @@ async function main() {
         latitude: faker.location.latitude().toString(),
         longitude: faker.location.longitude().toString(),
         imgKey: faker.image.urlPicsumPhotos(),
-        deviceType: 'WIMV1',
+        type: 'WIMV1',
+        protocol: 'WIFI',
         projectId: Math.floor(Math.random() * 50) + 1,
-        description: faker.lorem.sentence(),
-        deviceParameters: {
-          create: [
-            {
-              name: 'Parameter 1',
-              description: 'Description for parameter 1',
-            },
-            {
-              name: 'Parameter 2',
-              description: 'Description for parameter 2',
-            },
-          ],
-        },
       },
     });
   }
@@ -121,22 +112,21 @@ async function main() {
       longitude: '4.4025',
       imgKey: 'https://placehold.co/600x400',
       projectId: project.id,
-      deviceType: 'Sensor',
-      description: 'Eerste sensor',
-      deviceParameters: {
-        create: [
-          {
-            name: 'Temperatuur',
-            description: 'Temperatuur in graden Celsius',
-          },
-          {
-            name: 'Luchtvochtigheid',
-            description: 'Luchtvochtigheid in procent',
-          },
-        ],
-      },
+      type: 'WIMV1',
+      protocol: 'WIFI',
     },
   });
+
+  // Voeg API sleutels toe
+  for (let i = 0; i < 50; i++) {
+    await prisma.apiKey.create({
+      data: {
+        projectId: Math.floor(Math.random() * 50) + 1,
+        name: faker.hacker.adjective(),
+        key: generateKey(),
+      },
+    });
+  }
 
   // Voeg een video toe aan het device
   await prisma.video.create({
@@ -147,6 +137,10 @@ async function main() {
   });
 
   console.log('Database seeding voltooid!');
+}
+
+function generateKey() {
+  return randomBytes(32).toString('hex').substring(0, 16);
 }
 
 main()
