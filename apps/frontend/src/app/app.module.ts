@@ -47,6 +47,17 @@ import { SettingComponent } from './components/settings/setting/setting.componen
 import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
 import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
 import { ConfiguredeviceComponent } from './components/settings/configuredevice/configuredevice.component';
+import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-device/create-device/create-device.component';
+import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
+import { FirstComponent } from './pages/dashboard/settingspage/create-device/first/first.component';
+import { SecondComponent } from './pages/dashboard/settingspage/create-device/second/second.component';
+import { WifiLteDeviceComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/wifi-lte-device/wifi-lte-device.component';
+import { LorawanComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/lorawan/lorawan.component';
+import { CameraComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/camera/camera.component';
+import { GatewayComponent } from './pages/dashboard/settingspage/create-device/third_specific_components/gateway/gateway.component';
+import { ParameterstepComponent } from './pages/dashboard/settingspage/create-device/parameterstep/parameterstep.component';
+import { FinishComponent } from './pages/dashboard/settingspage/create-device/finish/finish.component';
+import { DeviceFrameSmallComponent } from './components/dashboard/devices/device-frame-small/device-frame-small.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +82,17 @@ import { ConfiguredeviceComponent } from './components/settings/configuredevice/
     SettingsComponent,
     ManagedevicesComponent,
     ConfiguredeviceComponent,
+    CreateDeviceComponent,
+    StepsComponent,
+    FirstComponent,
+    SecondComponent,
+    WifiLteDeviceComponent,
+    LorawanComponent,
+    CameraComponent,
+    GatewayComponent,
+    ParameterstepComponent,
+    FinishComponent,
+    DeviceFrameSmallComponent,
   ],
   imports: [
     BrowserModule,
