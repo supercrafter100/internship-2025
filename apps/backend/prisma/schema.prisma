@@ -39,7 +39,8 @@ model Project {
 
   Dashboard Dashboard[]
 
-  imgKey String @db.VarChar(255)
+  imgKey String   @db.VarChar(255)
+  ApiKey ApiKey[]
 }
 
 model ProjectUser {
@@ -80,44 +81,42 @@ model Tile {
 
 model User {
   id           Int           @id @default(autoincrement())
+  providerId   String        @unique
   email        String        @unique
   name         String
+  admin        Boolean       @default(false)
   projects     Project[]
   projectUsers ProjectUser[]
 }
 
 model Device {
-  id Int @id @default(autoincrement())
+  id         String  @id @unique @default(uuid())
+  deviceType String
+  project    Project @relation(fields: [projectId], references: [id])
+  projectId  Int
 
-  project   Project @relation(fields: [projectId], references: [id])
-  projectId Int
-
-  name      String     @db.VarChar(255)
-  latitude  String
-  longitude String
-  imgKey    String     @db.VarChar(255)
-  createdAt DateTime   @default(now())
-  type      DeviceType
-  protocol  Protocol
-  videos    Video[]
-}
-
-enum DeviceType {
-  WIMV1
-  ROBV1
-  GATE
-}
-
-enum Protocol {
-  LTE
-  LORA
-  WIFI
+  name             String   @db.VarChar(255)
+  description      String   @db.VarChar(500)
+  latitude         Decimal
+  longitude        Decimal
+  imgKey           String   @db.VarChar(255)
+  createdAt        DateTime @default(now())
+  deviceParameters Json
+  videos           Video[]
 }
 
 model Video {
   id         Int      @id @default(autoincrement())
   device     Device   @relation(fields: [deviceId], references: [id])
-  deviceId   Int
+  deviceId   String
   videoUrl   String   @db.VarChar(500)
   recordedAt DateTime @default(now())
+}
+
+model ApiKey {
+  id        Int     @id @default(autoincrement())
+  name      String
+  key       String  @unique
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
 }

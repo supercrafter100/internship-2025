@@ -1,4 +1,4 @@
-import { Get, Injectable, Scope } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-oauth2';
 import { AuthService } from './auth.service';
@@ -29,6 +29,6 @@ export class OAuthStrategy extends PassportStrategy(Strategy, 'oauth') {
     }).then((res) => res.json());
 
     const user = await this.authService.validateOAuthLogin(profile);
-    return user;
+    return { refreshToken, ...user };
   }
 }

@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@bsaffer/api": "*",
+    "@bsaffer/common": "*",
     "@fastify/secure-session": "^8.1.1",
     "@influxdata/influxdb-client": "^1.35.0",
     "@influxdata/influxdb-client-apis": "^1.35.0",

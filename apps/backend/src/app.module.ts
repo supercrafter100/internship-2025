@@ -13,10 +13,25 @@ import { DeviceService } from './services/device/device.service';
 import { AuthModule } from './auth/auth.module';
 import { UserService } from './services/user/user.service';
 import { UserController } from './controllers/user/user.controller';
+import { ApikeyController } from './controllers/apikey/apikey.controller';
+import { ApikeyService } from './services/apikey/apikey.service';
 
 @Module({
   imports: [PrismaModule, InfluxdbModule, MinioClientModule, AuthModule],
-  controllers: [AppController, ProjectController, DevicesController, UserController],
-  providers: [AppService, PrismaService, ProjectService, DeviceService, UserService],
+  controllers: [
+    AppController,
+    ProjectController,
+    DevicesController,
+    UserController,
+    ApikeyController,
+  ],
+  providers: [
+    AppService,
+    PrismaService,
+    ProjectService,
+    DeviceService,
+    UserService,
+    ApikeyService,
+  ],
 })
 export class AppModule {}

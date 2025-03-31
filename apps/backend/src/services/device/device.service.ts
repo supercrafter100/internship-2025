@@ -10,22 +10,41 @@ import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
 import { InfluxdbService } from 'src/influxdb/influxdb.service';
 import { WimMeasurement } from '@bsaffer/api/device/parser/wim-measurement';
 import { parse } from 'json2csv'; //CSV
+import { MinioClientService } from 'src/minio-client/minio-client.service';
 
 @Injectable()
 export class DeviceService {
   constructor(
     private prisma: PrismaService,
     private influx: InfluxdbService,
+    private readonly minioClient: MinioClientService,
   ) {}
 
-  create(createDeviceDto: CreateDeviceDto) {
-    return 'This action adds a new device';
+  async create(createDeviceDto: CreateDeviceDto) {
+    const image = await this.minioClient.uploadDeviceBase64Image(
+      createDeviceDto.deviceImage,
+    );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { deviceImage, ...createDeviceDBData } = createDeviceDto;
+
+    return this.prisma.device.create({
+      data: {
+        deviceType: createDeviceDBData.deviceType.toString(),
+        imgKey: image,
+        name: createDeviceDBData.deviceName,
+        description: createDeviceDBData.deviceDescription,
+        latitude: createDeviceDBData.latitude.toString(),
+        longitude: createDeviceDBData.longitude.toString(),
+        projectId: createDeviceDBData.projectId,
+        deviceParameters: createDeviceDBData.deviceParameters,
+      },
+    });
   }
   findAll() {
     return this.prisma.device.findMany();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.device.findUnique({ where: { id: id } });
   }
 

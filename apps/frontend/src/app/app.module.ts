@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import {
   LucideAngularModule,
   Globe,
@@ -22,8 +23,12 @@ import {
   KeyRound,
   Bell,
   Cog,
+  Eye,
+  Trash2,
+  X,
   UserRoundCog,
   MonitorSmartphone,
+  PencilRuler,
 } from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -43,10 +48,14 @@ import { ProjectInfoComponent } from './pages/project/project-info/project-info.
 import { NavbarComponent } from './components/nav/navbar/navbar.component';
 import { DashboardIndexComponent } from './pages/dashboard/index/index.component';
 import { LayoutComponent } from './components/dashboard/layout/layout.component';
+import { DashboardApiComponent } from './pages/dashboard/api/api.component';
+import { ModalComponent } from './components/general/modal/modal.component';
 import { SettingComponent } from './components/settings/setting/setting.component';
 import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
 import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
 import { ConfiguredeviceComponent } from './components/settings/configuredevice/configuredevice.component';
+import { ProjectAdminGuard } from './guards/auth-projectadmin.guard';
+import { ProjectGuard } from './guards/auth-guard.guard';
 import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-device/create-device/create-device.component';
 import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
 import { FirstComponent } from './pages/dashboard/settingspage/create-device/first/first.component';
@@ -78,6 +87,8 @@ import { DeviceFrameSmallComponent } from './components/dashboard/devices/device
     NavbarComponent,
     DashboardIndexComponent,
     LayoutComponent,
+    DashboardApiComponent,
+    ModalComponent,
     SettingComponent,
     SettingsComponent,
     ManagedevicesComponent,
@@ -95,6 +106,7 @@ import { DeviceFrameSmallComponent } from './components/dashboard/devices/device
     DeviceFrameSmallComponent,
   ],
   imports: [
+    DragDropModule,
     BrowserModule,
     RouterModule.forRoot(routes),
     NgComponentOutlet,
@@ -114,12 +126,16 @@ import { DeviceFrameSmallComponent } from './components/dashboard/devices/device
       KeyRound,
       Bell,
       Cog,
+      Eye,
+      Trash2,
+      X,
       UserRoundCog,
       MonitorSmartphone,
+      PencilRuler,
     }),
     NgxDomConfettiModule,
   ],
-  providers: [provideHotToastConfig()],
+  providers: [provideHotToastConfig(), ProjectAdminGuard, ProjectGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

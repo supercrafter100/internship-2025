@@ -6,4 +6,8 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: "module",
   },
+  "rules": {
+  "@typescript-eslint/no-floating-promises": "off",
+  "@typescript-eslint/no-unsafe-call": "off"
+}
 };

@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
-  async validateOAuthLogin(profile: any): Promise<any> {
+  public validateOAuthLogin(profile: any): any {
     if (!profile) {
       throw new UnauthorizedException();
     }

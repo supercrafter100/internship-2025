@@ -6,8 +6,14 @@ import { CreateProjectStepsComponent } from './pages/project/create-project/step
 import { ProjectInfoComponent } from './pages/project/project-info/project-info.component';
 import { DashboardIndexComponent } from './pages/dashboard/index/index.component';
 import { DashboardDevicesComponent } from './pages/dashboard/devices/devices.component';
+import { DashboardApiComponent } from './pages/dashboard/api/api.component';
 import { SettingsComponent } from './pages/dashboard/settingspage/settings/settings.component';
 import { ManagedevicesComponent } from './pages/dashboard/settingspage/managedevices/managedevices.component';
+import { ProjectAdminGuard } from './guards/auth-projectadmin.guard';
+import { ProjectGuard } from './guards/auth-guard.guard';
+import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-device/create-device/create-device.component';
+import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
+import { FinishComponent } from './pages/dashboard/settingspage/create-device/finish/finish.component';
 
 export const routes: Routes = [
   {
@@ -33,17 +39,38 @@ export const routes: Routes = [
   {
     path: 'dashboard/:id',
     component: DashboardIndexComponent,
+    canActivate: [ProjectGuard],
   },
   {
     path: 'dashboard/:id/devices',
     component: DashboardDevicesComponent,
+    canActivate: [ProjectGuard],
+  },
+  {
+    path: 'dashboard/:id/api',
+    component: DashboardApiComponent,
+    canActivate: [ProjectAdminGuard],
   },
   {
     path: 'dashboard/:id/settings',
     component: SettingsComponent,
+    canActivate: [ProjectAdminGuard],
   },
   {
     path: 'dashboard/:id/settings/manage-devices',
     component: ManagedevicesComponent,
+    canActivate: [ProjectAdminGuard],
+  },
+  {
+    path: 'dashboard/:id/settings/create-device',
+    component: CreateDeviceComponent,
+  },
+  {
+    path: 'dashboard/:id/settings/create-device/:step',
+    component: StepsComponent,
+  },
+  {
+    path: 'dashboard/:id/settings/create-device/finish',
+    component: FinishComponent,
   },
 ];
