@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class DeviceFrameSmallComponent {
   @Input() Type: string = '';
-  @Input() Added: string = '';
+  @Input() Date: string = '';
   @Input() Name: string = '';
   @Input() Imgurl: string = '';
   @Input() Description: string = '';
