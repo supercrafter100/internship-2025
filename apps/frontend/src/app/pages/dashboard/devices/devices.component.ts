@@ -37,7 +37,7 @@ export class DashboardDevicesComponent implements OnInit {
   public url: string[] | undefined;
   public popupOverlay!: Overlay;
 
-  private _devices: Device[] = [];
+  public devices: Device[] = [];
 
   public updateMapPoints() {
     const features = this._points.map((point) => {
@@ -126,7 +126,7 @@ export class DashboardDevicesComponent implements OnInit {
     imgCache.style = 'position:absolute;z-index:-1000;opacity:0';
     document.body.appendChild(imgCache);
 
-    this._devices.forEach((device) => {
+    this.devices.forEach((device) => {
       const img = new Image();
       img.src = parseCDNUrl(device.imgKey)!;
       img.style = 'position:absolute';
@@ -138,7 +138,7 @@ export class DashboardDevicesComponent implements OnInit {
     this.route.params.subscribe(async (params) => {
       const projectId = params['id'];
       const devices = await this.deviceService.getDevicesForProject(projectId);
-      this._devices = devices;
+      this.devices = devices;
       this._points = devices.map((device) => ({
         coordinates: [
           parseFloat(device.longitude),
@@ -152,11 +152,18 @@ export class DashboardDevicesComponent implements OnInit {
     });
   }
 
-  private getImage(url: string) {
+  public getImage(url: string) {
     const u = parseCDNUrl(url);
     const imgUrl =
       'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + u + ')';
 
+    console.log('Image URL:', imgUrl); // Log the image URL to the console
     return imgUrl;
+  }
+
+  public getImageUrl(url: string) {
+    const u = parseCDNUrl(url);
+    console.log('Image URL:', u); // Log the image URL to the console
+    return u;
   }
 }

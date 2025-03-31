@@ -1,3 +1,5 @@
+import { DeviceType } from '../../types/types';
+
 export enum Transfer_protocol {
   WIFI,
   LoraWan,
@@ -13,12 +15,13 @@ export enum Device_Type {
 export interface Device {
   id: string;
   name: string;
+  description: string;
   imgKey: string;
   createdAt: string;
   latitude: string;
   longitude: string;
   protocol: Transfer_protocol;
-  type: Device_Type;
+  deviceType: string;
 }
 
 export interface WimReading {

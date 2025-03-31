@@ -13,6 +13,7 @@
 
   --font-sans: InterVariable, sans-serif;
   --font-raleway: "Raleway", serif;
+  --breakpoint-3xl: 120rem;
 }
 
 body,

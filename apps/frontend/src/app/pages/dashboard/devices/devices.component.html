@@ -28,7 +28,17 @@
       </div>
     </div>
 
-    <!-- Devices (TODO) -->
+    <div class="ml-10 grid grid-cols-2 3xl:grid-cols-4 gap-2 mt-10">
+      <app-device-frame-small
+        [Name]="device.name"
+        [Description]="device.description"
+        [Lat]="device.latitude"
+        [Long]="device.longitude"
+        [Imgurl]="getImageUrl(device.imgKey)"
+        [Date]="device.createdAt"
+        [Type]="device.deviceType"
+        *ngFor="let device of devices"
+      ></app-device-frame-small>
+    </div>
   </div>
-  <app-device-frame-small></app-device-frame-small>
 </app-layout>
