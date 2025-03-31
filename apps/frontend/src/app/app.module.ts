@@ -67,6 +67,8 @@ import { GatewayComponent } from './pages/dashboard/settingspage/create-device/t
 import { ParameterstepComponent } from './pages/dashboard/settingspage/create-device/parameterstep/parameterstep.component';
 import { FinishComponent } from './pages/dashboard/settingspage/create-device/finish/finish.component';
 import { DeviceFrameSmallComponent } from './components/dashboard/devices/device-frame-small/device-frame-small.component';
+import { ManageusersComponent } from './pages/dashboard/settingspage/manageusers/manageusers/manageusers.component';
+import { UsertableComponent } from './components/usertable/usertable.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +106,8 @@ import { DeviceFrameSmallComponent } from './components/dashboard/devices/device
     ParameterstepComponent,
     FinishComponent,
     DeviceFrameSmallComponent,
+    ManageusersComponent,
+    UsertableComponent,
   ],
   imports: [
     DragDropModule,

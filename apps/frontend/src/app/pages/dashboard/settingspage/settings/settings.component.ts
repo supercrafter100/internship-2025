@@ -12,7 +12,7 @@ export class SettingsComponent {
       icon: 'user-round-cog',
       title: 'Manage users',
       description: 'Manage who can view and/or edit this project.',
-      route: '/iets',
+      route: 'users',
     },
     {
       icon: 'monitor-smartphone',
