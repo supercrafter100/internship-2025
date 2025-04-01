@@ -24,7 +24,7 @@ async function main() {
     data: {
       email: 'mathieu.kervyn@example.com',
       name: 'Mathieu Kervyn',
-      providerId: 'auth0df61f7',
+      providerId: 'dzadazdazdazdaz',
     },
   });
 
@@ -58,7 +58,7 @@ async function main() {
     data: {
       projectId: project.id,
       userId: user.id,
-      role: 'ADMIN',
+      admin: true,
     },
   });
 

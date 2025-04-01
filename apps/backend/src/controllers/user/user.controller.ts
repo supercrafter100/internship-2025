@@ -21,4 +21,12 @@ export class UserController {
     const projects = await this.userService.getUserProjects(internalUser.id);
     return projects;
   }
+
+  @Get('projects/:projectId/users')
+  async getProjectUsers(@Req() req: SessionRequest) {
+    const internalUser = req.session.internalUser;
+    const projectId = req.params.projectId;
+    let users = await this.userService.getAllProjectUsers(Number(projectId));
+    return users;
+  }
 }

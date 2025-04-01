@@ -1,4 +1,4 @@
-import { UserProfile } from '@bsaffer/common/entity/user.entity';
+import { User, UserProfile } from '@bsaffer/common/entity/user.entity';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -51,5 +51,50 @@ export class UserService {
     });
 
     return projects;
+  }
+
+  // Dit is een helper functie die je kan gebruiken om alle users van een project op te halen
+  public async getAllProjectUsers(projectId: number) {
+    const projectUsers = await this.prisma.projectUser.findMany({
+      where: {
+        projectId,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return projectUsers.map((projectUser) => projectUser.user);
+  }
+
+  // Dit is een helper functie die je kan gebruiken om users aan een project toe te voegen
+  public async registerUserToProject(userId: number, projectId: number) {
+    const projectUser = await this.prisma.projectUser.create({
+      data: {
+        userId,
+        projectId,
+      },
+    });
+
+    return projectUser;
+  }
+
+  // Dit is een helper functie die je kan gebruiken om users hun rol te updaten in een projec
+  public async changeUserRoleInProject(
+    userId: number,
+    projectId: number,
+    admin: boolean,
+  ) {
+    const projectUser = await this.prisma.projectUser.updateMany({
+      where: {
+        userId,
+        projectId,
+      },
+      data: {
+        admin,
+      },
+    });
+
+    return projectUser;
   }
 }

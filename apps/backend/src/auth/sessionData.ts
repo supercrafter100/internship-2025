@@ -1,5 +1,5 @@
 import { User } from '@bsaffer/common/entity/user.entity';
-import { User as dbUser, Role } from '@prisma/client';
+import { User as dbUser } from '@prisma/client';
 import { Request } from 'express';
 
 export type SessionRequest = Request & {
@@ -21,7 +21,7 @@ export type SessionRequest = Request & {
       id: number;
       projectId: number;
       userId: number;
-      role: Role;
+      admin: boolean;
     })[];
   };
 };

@@ -1,1 +1,58 @@
-<p>usertable works!</p>
+<body class="p-6 font-sans">
+  <div
+    class="max-w-5xl mx-auto bg-white p-6 rounded-xl shadow-lg border border-gray-300"
+  >
+    <h1 class="text-2xl font-bold text-gray-900 mb-6">User Management</h1>
+
+    <div class="flex space-x-4 mb-6">
+      <input
+        type="email"
+        placeholder="Enter email address of user you want to add to the project"
+        class="border border-gray-400 p-2 rounded-lg flex-1 focus:ring focus:ring-blue-300 text-base"
+      />
+      <button
+        class="bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-primary-light text-base"
+      >
+        Add
+      </button>
+    </div>
+
+    <table
+      class="w-full border-collapse shadow-md rounded-lg overflow-hidden text-base"
+    >
+      <thead>
+        <tr class="bg-primary text-white text-left">
+          <th class="p-3">Full name</th>
+          <th class="p-3">E-mail</th>
+          <th class="p-3 text-center">Project Admin</th>
+          <th class="p-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let user of users"
+          class="border-b border-gray-300 hover:bg-gray-50"
+        >
+          <td class="p-3 text-gray-800">{{ user.name }}</td>
+          <td class="p-3 text-gray-800">{{ user.email }}</td>
+          <td class="p-3 text-center">
+            <input
+              type="checkbox"
+              [(ngModel)]="user.admin"
+              (change)="updateAdminStatus(user)"
+              class="admin-checkbox w-5 h-5 text-blue-500 border-gray-300 rounded focus:ring focus:ring-blue-300"
+            />
+          </td>
+          <td class="p-3">
+            <button
+              (click)="removeUser(user)"
+              class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
