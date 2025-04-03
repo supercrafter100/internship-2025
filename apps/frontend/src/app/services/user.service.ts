@@ -113,6 +113,37 @@ export class UserService {
     console.log(`User ${email} succesvol toegevoegd aan project ${projectId}`);
   }
 
+  public async removeUserFromProject(
+    projectId: number,
+    userId: number,
+  ): Promise<void> {
+    const url = `${this._apiUrl}/user/projects/${projectId}/users`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Fout bij verwijderen van gebruiker: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      console.log(
+        `User ${userId} succesvol verwijderd uit project ${projectId}`,
+      );
+    } catch (error) {
+      console.error('Fout bij het verwijderen van de gebruiker:', error);
+    }
+  }
+
   public async updateAdminStatus(
     projectId: number,
     user: InternalUser,

@@ -9,7 +9,7 @@ export class UserService {
   public async registerUser(user: { profile: UserProfile }) {
     const createdUser = await this.prisma.user.upsert({
       update: {
-        email: user.profile.email,
+        email: user.profile.email.toLowerCase(),
         name: user.profile.name,
       },
       where: {
@@ -17,7 +17,7 @@ export class UserService {
       },
       create: {
         providerId: user.profile.sub,
-        email: user.profile.email,
+        email: user.profile.email.toLowerCase(),
         name: user.profile.name,
         admin: true,
       },
@@ -107,25 +107,19 @@ export class UserService {
     return projectUser;
   }
 
-  // Dit is een helper functie die je kan gebruiken om users hun rol te updaten in een projec
-  public async changeUserRoleInProject(
-    userId: number,
-    projectId: number,
-    admin: boolean,
-  ) {
-    const projectUser = await this.prisma.projectUser.updateMany({
+  // Dit is een helper functie die je kan gebruiken om een user te verwijderen van een project
+  public async removeUserFromProject(projectId: number, userId: string) {
+    const projectUser = await this.prisma.projectUser.deleteMany({
       where: {
-        userId,
         projectId,
-      },
-      data: {
-        admin,
+        userId: Number(userId),
       },
     });
 
     return projectUser;
   }
 
+  // Dit is een helper functie die je kan gebruiken om de admin status van een user te updaten in een project
   public async updateAdminStatus(
     projectId: number,
     userId: string,

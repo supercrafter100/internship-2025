@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Controller,
+  Delete,
   Get,
   Post,
   Put,
@@ -65,5 +66,15 @@ export class UserController {
         'Error adding user to project: ' + error.message,
       );
     }
+  }
+
+  // This endpoint is used to remove a user from a project. It requires the project ID and the user's ID in the request body.
+  @Delete('projects/:projectId/users')
+  async removeUserFromProject(@Req() req: SessionRequest) {
+    const projectId = req.params.projectId;
+    const userId = req.body.userId;
+
+    await this.userService.removeUserFromProject(Number(projectId), userId);
+    return { message: 'User removed from project successfully' };
   }
 }

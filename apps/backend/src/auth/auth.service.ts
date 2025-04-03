@@ -6,7 +6,9 @@ export class AuthService {
     if (!profile) {
       throw new UnauthorizedException();
     }
+    const { email, ...user } = profile;
 
-    return { profile };
+    // Make email lowercase
+    return { profile: { ...user, email: email.toLowerCase() } };
   }
 }

@@ -12,7 +12,7 @@ async function main() {
   for (let i = 0; i < 50; i++) {
     await prisma.user.create({
       data: {
-        email: faker.internet.email(),
+        email: faker.internet.email().toLowerCase(),
         name: faker.person.fullName(),
         providerId: faker.string.nanoid(),
       },
