@@ -53,6 +53,8 @@ model ProjectUser {
   userId Int
 
   admin Boolean
+
+  @@unique([projectId, userId]) //User kan niet nog ééns worden toegevoegd aan een project
 }
 
 model Launchpad {

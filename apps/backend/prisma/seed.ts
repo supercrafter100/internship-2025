@@ -9,7 +9,7 @@ async function main() {
   // Create random users
 
   console.log('Creating users...');
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 50; i++) {
     await prisma.user.create({
       data: {
         email: faker.internet.email(),
@@ -45,7 +45,7 @@ async function main() {
     await prisma.project.create({
       data: {
         title: faker.company.name(),
-        userId: Math.floor(Math.random() * 500) + 1,
+        userId: Math.floor(Math.random() * 50) + 1,
         public: Math.random() > 0.5,
         imgKey: faker.image.urlPicsumPhotos(),
         shortDescription: faker.lorem.sentence(),

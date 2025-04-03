@@ -83,6 +83,18 @@ export class UserService {
       throw new Error('User not found');
     }
 
+    // Controleer of de user al is toegevoegd aan het project
+    const existingProjectUser = await this.prisma.projectUser.findFirst({
+      where: {
+        projectId: projectId,
+        userId: user.id,
+      },
+    });
+
+    if (existingProjectUser) {
+      throw new Error('User is already added to the project');
+    }
+
     // Voeg de user toe als projectUser
     const projectUser = await this.prisma.projectUser.create({
       data: {

@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Put, Req } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Req,
+} from '@nestjs/common';
 import { SessionRequest } from 'src/auth/sessionData';
 import { UserService } from 'src/services/user/user.service';
 
@@ -54,7 +61,9 @@ export class UserController {
       await this.userService.addUserToProject(Number(projectId), userEmail);
       return { message: 'User added to project successfully' };
     } catch (error) {
-      return { error: 'Failed to add user to project', details: error.message };
+      throw new BadRequestException(
+        'Error adding user to project: ' + error.message,
+      );
     }
   }
 }
