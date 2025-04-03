@@ -13,5 +13,8 @@
   "devDependencies": {
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2"
+  },
+  "dependencies": {
+    "mqtt": "^5.10.4"
   }
 }
