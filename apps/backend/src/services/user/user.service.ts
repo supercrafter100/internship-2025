@@ -46,7 +46,7 @@ export class UserService {
         userId,
       },
       include: {
-        project: true,
+        user: true,
       },
     });
 
@@ -64,20 +64,20 @@ export class UserService {
       },
     });
 
-    return projectUsers.map((projectUser) => projectUser.user);
+    return projectUsers;
   }
 
-  // Dit is een helper functie die je kan gebruiken om users aan een project toe te voegen
-  public async registerUserToProject(userId: number, projectId: number) {
-    const projectUser = await this.prisma.projectUser.create({
-      data: {
-        userId,
-        projectId,
-      },
-    });
+  // // Dit is een helper functie die je kan gebruiken om users aan een project toe te voegen
+  // public async registerUserToProject(userId: number, projectId: number) {
+  //   const projectUser = await this.prisma.projectUser.create({
+  //     data: {
+  //       userId,
+  //       projectId,
+  //     },
+  //   });
 
-    return projectUser;
-  }
+  //   return projectUser;
+  // }
 
   // Dit is een helper functie die je kan gebruiken om users hun rol te updaten in een projec
   public async changeUserRoleInProject(
@@ -89,6 +89,24 @@ export class UserService {
       where: {
         userId,
         projectId,
+      },
+      data: {
+        admin,
+      },
+    });
+
+    return projectUser;
+  }
+
+  public async updateAdminStatus(
+    projectId: number,
+    userId: string,
+    admin: boolean,
+  ) {
+    const projectUser = await this.prisma.projectUser.updateMany({
+      where: {
+        userId: Number(userId),
+        projectId: Number(projectId),
       },
       data: {
         admin,

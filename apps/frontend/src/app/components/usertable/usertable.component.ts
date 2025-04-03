@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { InternalUser } from '@bsaffer/common/entity/user.entity';
+import { InternalUser, ProjectUser } from '@bsaffer/common/entity/user.entity';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -13,11 +13,9 @@ export class UsertableComponent implements OnInit {
   removeUser(_t20: InternalUser) {
     throw new Error('Method not implemented.');
   }
-  updateAdminStatus(_t20: InternalUser) {
-    throw new Error('Method not implemented.');
-  }
-  private projectId: number | undefined;
-  users: InternalUser[] = [];
+
+  private projectId!: number;
+  users: ProjectUser[] = [];
 
   constructor(
     private userService: UserService,
@@ -28,11 +26,26 @@ export class UsertableComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(async (params) => {
       this.projectId = Number(params.get('id'));
-      console.log('Project ID: ', this.projectId);
 
       if (this.projectId) {
         this.users = await this.userService.getAllProjectUsers(this.projectId);
       }
     });
+  }
+  updateAdminStatus(user: InternalUser, admin: boolean) {
+    if (this.projectId !== undefined) {
+      this.userService
+        .updateAdminStatus(this.projectId, user, admin)
+        .then(async () => {
+          console.log('Admin status updated successfully');
+
+          // **Forceer het opnieuw ophalen van gebruikers uit de database**
+          this.users = await this.userService.getAllProjectUsers(
+            this.projectId,
+          );
+        });
+    } else {
+      console.error('Project ID is undefined. Kan admin status niet updaten.');
+    }
   }
 }

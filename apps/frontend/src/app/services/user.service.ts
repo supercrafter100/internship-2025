@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import InvalidResponseException from '../../error/InvalidResponseException';
 import { environment } from '../../environments/environment.development';
-import { InternalUser, User } from '@bsaffer/common/entity/user.entity';
+import {
+  InternalUser,
+  ProjectUser,
+  User,
+} from '@bsaffer/common/entity/user.entity';
 
 @Injectable({
   providedIn: 'root',
@@ -71,8 +75,8 @@ export class UserService {
     return response.map((user) => User.fromJson(user));
   }
 
-  public async getAllProjectUsers(projectId: number): Promise<InternalUser[]> {
-    const response: InternalUser[] = await fetch(
+  public async getAllProjectUsers(projectId: number): Promise<ProjectUser[]> {
+    const response: ProjectUser[] = await fetch(
       this._apiUrl + '/user/projects/' + projectId + '/users',
     )
       .then((res) => res.json())
@@ -84,11 +88,38 @@ export class UserService {
       );
     }
 
-    console.log('Response: ', response);
-    return response.map((user) => InternalUser.fromJson(user));
+    return response.map((user) => ProjectUser.fromJson(user));
   }
 
-  public async changeAdminStatus(projectId: number, userId: number, admin: boolean) {
-   update   this._apiUrl + '/user/projects/' + projectId + '/users';
+  public async updateAdminStatus(
+    projectId: number,
+    user: InternalUser,
+    admin: boolean,
+  ): Promise<void> {
+    const url = `${this._apiUrl}/user/projects/${projectId}/users/${user.id}/admin`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          admin: admin,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Fout bij updaten: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      console.log(
+        `Admin-status succesvol aangepast voor user ${user.id} in project ${projectId}`,
+      );
+    } catch (error) {
+      console.error('Fout bij het wijzigen van de admin-status:', error);
+    }
   }
 }

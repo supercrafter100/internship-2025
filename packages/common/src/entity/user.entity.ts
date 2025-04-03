@@ -1,5 +1,23 @@
 import { Project } from "./project.entity";
 
+export class ProjectUser {
+  id!: number;
+  projectId!: number;
+  userId!: number;
+  admin!: boolean;
+  user!: InternalUser;
+
+  public static fromJson(json: any): ProjectUser {
+    const projectUser = new ProjectUser();
+    projectUser.id = json.id;
+    projectUser.projectId = json.projectId;
+    projectUser.userId = json.userId;
+    projectUser.admin = json.admin;
+    projectUser.user = InternalUser.fromJson(json.user);
+    return projectUser;
+  }
+}
+
 export class UserProfile {
   public sub!: string;
   public emailVerified!: boolean;

@@ -33,19 +33,19 @@
           *ngFor="let user of users"
           class="border-b border-gray-300 hover:bg-gray-50"
         >
-          <td class="p-3 text-gray-800">{{ user.name }}</td>
-          <td class="p-3 text-gray-800">{{ user.email }}</td>
+          <td class="p-3 text-gray-800">{{ user.user.name }}</td>
+          <td class="p-3 text-gray-800">{{ user.user.email }}</td>
           <td class="p-3 text-center">
             <input
               type="checkbox"
-              [(ngModel)]="user.admin"
-              (change)="updateAdminStatus(user)"
+              [checked]="user.admin"
+              (change)="updateAdminStatus(user.user, !user.admin)"
               class="admin-checkbox w-5 h-5 text-blue-500 border-gray-300 rounded focus:ring focus:ring-blue-300"
             />
           </td>
           <td class="p-3">
             <button
-              (click)="removeUser(user)"
+              (click)="removeUser(user.user)"
               class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600"
             >
               Delete

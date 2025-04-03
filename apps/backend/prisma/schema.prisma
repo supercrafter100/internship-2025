@@ -52,7 +52,7 @@ model ProjectUser {
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
-  admin Boolean @default(false)
+  admin Boolean
 }
 
 model Launchpad {
