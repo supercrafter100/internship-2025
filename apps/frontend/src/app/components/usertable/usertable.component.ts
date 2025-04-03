@@ -14,6 +14,7 @@ export class UsertableComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
+  public email: string = '';
   private projectId!: number;
   users: ProjectUser[] = [];
 
@@ -32,6 +33,24 @@ export class UsertableComponent implements OnInit {
       }
     });
   }
+
+  // **Voeg een gebruiker toe aan een project**
+  public async addUser(email: string) {
+    this.userService
+      .addUserToProject(this.projectId, email)
+      .then(async () => {
+        console.log('User added successfully');
+
+        this.email = ''; // **Reset het email veld**
+
+        // **Forceer het opnieuw ophalen van gebruikers uit de database**
+        this.users = await this.userService.getAllProjectUsers(this.projectId);
+      })
+      .catch((error) => {
+        console.error('Error adding user:', error);
+      });
+  }
+
   updateAdminStatus(user: InternalUser, admin: boolean) {
     if (this.projectId !== undefined) {
       this.userService

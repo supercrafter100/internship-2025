@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Req } from '@nestjs/common';
+import { Controller, Get, Post, Put, Req } from '@nestjs/common';
 import { SessionRequest } from 'src/auth/sessionData';
 import { UserService } from 'src/services/user/user.service';
 
@@ -6,6 +6,7 @@ import { UserService } from 'src/services/user/user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // This endpoint is used to retrieve the user information from the session.
   @Get('info')
   getUserInfo(@Req() req: SessionRequest) {
     return {
@@ -15,6 +16,7 @@ export class UserController {
     };
   }
 
+  // This endpoint is used to retrieve all projects associated with the user.
   @Get('projects')
   async getUserProjects(@Req() req: SessionRequest) {
     const internalUser = req.session.internalUser;
@@ -22,6 +24,7 @@ export class UserController {
     return projects;
   }
 
+  // This endpoint is used to retrieve all users associated with a specific project. It requires the project ID in the request parameters.
   @Get('projects/:projectId/users')
   async getProjectUsers(@Req() req: SessionRequest) {
     const internalUser = req.session.internalUser;
@@ -30,6 +33,7 @@ export class UserController {
     return users;
   }
 
+  // This endpoint is used to update the admin status of a user in a project. It requires the project ID, user ID, and admin status in the request body.
   @Put('projects/:projectId/users/:userId/admin')
   async updateAdminStatus(@Req() req: SessionRequest) {
     const internalUser = req.body;
@@ -38,5 +42,19 @@ export class UserController {
     const admin = req.body.admin;
 
     this.userService.updateAdminStatus(Number(projectId), userId, admin);
+  }
+
+  // This endpoint is used to add a user to a project. It requires the project ID and the user's email in the request body.
+  @Post('projects/:projectId/users')
+  async addUserToProject(@Req() req: SessionRequest) {
+    try {
+      const projectId = req.params.projectId;
+      const userEmail = req.body.email;
+
+      await this.userService.addUserToProject(Number(projectId), userEmail);
+      return { message: 'User added to project successfully' };
+    } catch (error) {
+      return { error: 'Failed to add user to project', details: error.message };
+    }
   }
 }

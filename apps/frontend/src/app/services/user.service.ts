@@ -91,6 +91,34 @@ export class UserService {
     return response.map((user) => ProjectUser.fromJson(user));
   }
 
+  public async addUserToProject(projectId: number, email: string) {
+    const url = `${this._apiUrl}/user/projects/${projectId}/users`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Fout bij toevoegen van gebruiker: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      console.log(
+        `User ${email} succesvol toegevoegd aan project ${projectId}`,
+      );
+    } catch (error) {
+      console.error('Fout bij het toevoegen van gebruiker:', error);
+    }
+  }
+
   public async updateAdminStatus(
     projectId: number,
     user: InternalUser,
