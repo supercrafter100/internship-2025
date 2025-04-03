@@ -91,6 +91,7 @@ export class UsertableComponent implements OnInit {
         .updateAdminStatus(this.projectId, user, admin)
         .then(async () => {
           console.log('Admin status updated successfully');
+          this.toast.success(user.name + ' admin status updated successfully.');
           this.users = await this.userService.getAllProjectUsers(
             this.projectId,
           );
