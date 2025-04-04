@@ -1,7 +1,8 @@
 import mqtt from "mqtt";
 import { config } from "../config";
-import { query } from "../db";
+import { query as Query } from "../db";
 import { InfluxDB, Point } from "@influxdata/influxdb-client";
+import winston from "winston";
 
 // InfluxDB connectie
 const influx = new InfluxDB({
@@ -13,8 +14,23 @@ const writeApi = influx.getWriteApi(
   config.influx.bucket
 );
 
+// Logger configuratie
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.simple(),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "combined.log" }),
+  ],
+});
+
 export class MqttService {
   private client: mqtt.MqttClient;
+  private deviceCache: Record<
+    string,
+    { parameters: any[]; expiresAt: number }
+  > = {}; // Cache voor device parameters
+  private cacheExpiry: number = 1000 * 60 * 60; // 1 uur vervaldatum voor cache
 
   constructor() {
     this.client = mqtt.connect(config.mqtt.brokerUrl);
@@ -23,32 +39,30 @@ export class MqttService {
 
   private setupListeners() {
     this.client.on("connect", () => {
-      console.log("✅ Verbonden met MQTT broker");
+      logger.info("✅ Verbonden met MQTT broker");
       this.client.subscribe("device/+");
     });
 
     this.client.on("message", async (topic, message) => {
       const deviceId = topic.split("/")[1]; // Haalt ID uit topic
-      console.log(
-        `📩 Bericht ontvangen van device ${deviceId}:`,
-        message.toString()
+      logger.info(
+        `📩 Bericht ontvangen van device ${deviceId}: ${message.toString()}`
       );
-
       await this.processMessage(deviceId, message.toString());
     });
 
-    this.client.on("error", (err) => console.error("❌ MQTT Fout:", err));
+    this.client.on("error", (err) => logger.error("❌ MQTT Fout:", err));
     this.client.on("offline", () =>
-      console.log("🌐 MQTT offline, herverbinden...")
+      logger.info("🌐 MQTT offline, herverbinden...")
     );
-    this.client.on("close", () => console.log("❌ MQTT Verbinding gesloten"));
+    this.client.on("close", () => logger.info("❌ MQTT Verbinding gesloten"));
   }
 
   private async processMessage(deviceId: string, payload: string) {
     try {
       const parameters = await this.getDeviceParameters(deviceId);
       if (!parameters.length) {
-        console.warn(`⚠️ Geen configuratie gevonden voor device ${deviceId}`);
+        logger.warn(`⚠️ Geen configuratie gevonden voor device ${deviceId}`);
         return;
       }
 
@@ -58,25 +72,48 @@ export class MqttService {
       // Sla op in InfluxDB
       await this.storeInInflux(deviceId, parsedData);
     } catch (error) {
-      console.error("🚨 Fout bij verwerken van bericht:", error);
+      logger.error("🚨 Fout bij verwerken van bericht:", error);
     }
   }
 
   private async getDeviceParameters(deviceId: string) {
-    const result = await query(
-      `SELECT "deviceParameters" FROM "Device" WHERE id = $1`,
-      [deviceId]
-    );
-
-    console.log("📦 Device parameters:", result);
-
-    if (!result.length || !result[0].deviceParameters) {
-      return [];
+    // Controleer of parameters al gecachet zijn en niet verlopen
+    if (
+      this.deviceCache[deviceId] &&
+      Date.now() < this.deviceCache[deviceId].expiresAt
+    ) {
+      logger.info(`📦 Device parameters uit cache voor device ${deviceId}`);
+      return this.deviceCache[deviceId].parameters;
     }
 
-    console.log("📦 Device parameters:", result[0].deviceParameters);
+    // Haal parameters uit database als ze niet in cache staan of cache verlopen is
+    try {
+      const result = await this.retryQuery(
+        `SELECT "deviceParameters" FROM "Device" WHERE id = $1`,
+        [deviceId]
+      );
 
-    return result[0].deviceParameters || [];
+      if (!result.length || !result[0].deviceParameters) {
+        return [];
+      }
+
+      // Sla parameters op in cache met nieuwe vervaldatum
+      this.deviceCache[deviceId] = {
+        parameters: result[0].deviceParameters,
+        expiresAt: Date.now() + this.cacheExpiry,
+      };
+
+      logger.info(
+        `📦 Device parameters opgeslagen in cache voor device ${deviceId}`
+      );
+      return result[0].deviceParameters;
+    } catch (error) {
+      logger.error(
+        "🚨 Fout bij ophalen device parameters uit database:",
+        error
+      );
+      return [];
+    }
   }
 
   private mapPayloadToParams(payload: string, parameters: any[]) {
@@ -103,7 +140,35 @@ export class MqttService {
       }
     });
 
-    writeApi.writePoint(point);
-    console.log(`📊 Data opgeslagen in Influx voor device ${deviceId}`);
+    try {
+      await writeApi.writePoint(point);
+      logger.info(
+        `📊 Data succesvol opgeslagen in Influx voor device ${deviceId}`
+      );
+    } catch (error) {
+      logger.error(
+        `🚨 Fout bij opslaan in Influx voor device ${deviceId}:`,
+        error
+      );
+    }
+  }
+
+  private async retryQuery(query: string, params: any[], retries: number = 3) {
+    let attempt = 0;
+    let error: any;
+    while (attempt < retries) {
+      try {
+        return await Query(query, params);
+      } catch (err) {
+        error = err;
+        attempt++;
+        if (attempt < retries) {
+          logger.warn(`🌀 Poging ${attempt} mislukte, probeer opnieuw...`);
+        } else {
+          logger.error(`❌ Fout na ${retries} pogingen:`, error);
+        }
+      }
+    }
+    throw error;
   }
 }
