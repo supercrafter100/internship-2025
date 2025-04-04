@@ -14,9 +14,10 @@ export const config = {
     token: process.env.INFLUX_DB_TOKEN || "",
     username: process.env.INFLUX_DB_USERNAME || "",
     password: process.env.INFLUX_DB_PASSWORD || "",
+    organization: process.env.INFLUX_DB_ORG || "",
     bucket: process.env.INFLUX_DB_BUCKET || "",
   },
   database: {
-    connectionString: process.env.DATABASE_URL || "",
+    connectionString: process.env.PG_DB_URL || "",
   },
 };
