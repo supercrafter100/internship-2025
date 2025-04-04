@@ -1,9 +1,10 @@
 import mqtt from "mqtt";
+import { config } from "../config";
 
 export class MqttClient {
   private client!: mqtt.MqttClient;
 
-  constructor(private brokerUrl: string = "mqtt://mqtt.iot-ap.be") {}
+  constructor(private brokerUrl: string = config.mqtt.brokerUrl!) {}
 
   // Functie om verbinding te maken met de broker
   connect() {

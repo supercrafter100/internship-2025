@@ -15,6 +15,7 @@
     "ts-node": "^10.9.2"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "mqtt": "^5.10.4"
   }
 }
