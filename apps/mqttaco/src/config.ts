@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import { connect } from "mqtt/*";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -19,5 +18,10 @@ export const config = {
   },
   database: {
     connectionString: process.env.PG_DB_URL || "",
+  },
+  ttn: {
+    appUrl: process.env.TTN_MQTT_APP_URL || "",
+    appId: process.env.TTN_MQTT_APP_ID || "",
+    apiKey: process.env.TTN_MQTT_API_KEY || "",
   },
 };
