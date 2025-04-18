@@ -71,6 +71,7 @@ import { DeviceFrameSmallComponent } from './components/dashboard/devices/device
 import { ManageusersComponent } from './pages/dashboard/settingspage/manageusers/manageusers/manageusers.component';
 import { UsertableComponent } from './components/usertable/usertable.component';
 import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
+import { TtnCredentialsTableComponent } from './components/settings/ttn/ttn-credentials-table/ttn-credentials-table.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
     ManageusersComponent,
     UsertableComponent,
     TtnComponent,
+    TtnCredentialsTableComponent,
   ],
   imports: [
     DragDropModule,
