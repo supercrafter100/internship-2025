@@ -15,6 +15,7 @@ import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-dev
 import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
 import { FinishComponent } from './pages/dashboard/settingspage/create-device/finish/finish.component';
 import { ManageusersComponent } from './pages/dashboard/settingspage/manageusers/manageusers/manageusers.component';
+import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
 
 export const routes: Routes = [
   {
@@ -65,6 +66,11 @@ export const routes: Routes = [
   {
     path: 'dashboard/:id/settings/manage-devices',
     component: ManagedevicesComponent,
+    canActivate: [ProjectAdminGuard],
+  },
+  {
+    path: 'dashboard/:id/settings/configure-ttn',
+    component: TtnComponent,
     canActivate: [ProjectAdminGuard],
   },
   {

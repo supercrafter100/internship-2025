@@ -70,6 +70,7 @@ import { FinishComponent } from './pages/dashboard/settingspage/create-device/fi
 import { DeviceFrameSmallComponent } from './components/dashboard/devices/device-frame-small/device-frame-small.component';
 import { ManageusersComponent } from './pages/dashboard/settingspage/manageusers/manageusers/manageusers.component';
 import { UsertableComponent } from './components/usertable/usertable.component';
+import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { UsertableComponent } from './components/usertable/usertable.component';
     DeviceFrameSmallComponent,
     ManageusersComponent,
     UsertableComponent,
+    TtnComponent,
   ],
   imports: [
     DragDropModule,

@@ -32,7 +32,7 @@ export class SettingsComponent {
       title: 'Configure TTN',
       description:
         'Configure the Things Network MQTT integration for this project.',
-      route: 'manage-devices',
+      route: 'configure-ttn',
     },
   ];
 
