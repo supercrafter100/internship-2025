@@ -27,6 +27,13 @@ export class SettingsComponent {
         'Manage the devices configured for this project. Modify or remove devices.',
       route: 'manage-devices',
     },
+    {
+      icon: 'pencil-ruler',
+      title: 'Configure TTN',
+      description:
+        'Configure the Things Network MQTT integration for this project.',
+      route: 'manage-devices',
+    },
   ];
 
   public get settings(): any[] {
