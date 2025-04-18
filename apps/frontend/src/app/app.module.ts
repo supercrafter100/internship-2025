@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {
+  CloudCog,
   LucideAngularModule,
   Globe,
   User,
@@ -117,6 +118,7 @@ import { UsertableComponent } from './components/usertable/usertable.component';
     QuillModule.forRoot(),
     FormsModule,
     LucideAngularModule.pick({
+      CloudCog,
       Globe,
       User,
       CircleDot,

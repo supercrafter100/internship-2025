@@ -28,7 +28,7 @@ export class SettingsComponent {
       route: 'manage-devices',
     },
     {
-      icon: 'pencil-ruler',
+      icon: 'cloud-cog',
       title: 'Configure TTN',
       description:
         'Configure the Things Network MQTT integration for this project.',
