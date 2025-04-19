@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-// Removed unused import
 
 const prisma = new PrismaClient();
 
@@ -45,6 +44,7 @@ async function main() {
           appUrl: 'https://eu1.cloud.thethings.network',
           appId: 'bsaffer-app',
           apiKey: 'ttn-api-key-bsaffer',
+          createdByid: mathieu.id,
         },
       },
     },
@@ -104,103 +104,80 @@ async function main() {
 
   // Devices
   console.log('Adding devices...');
-  const projectIds = (
-    await prisma.project.findMany({ select: { id: true } })
-  ).map((p) => p.id);
+  const allProjects = await prisma.project.findMany({ select: { id: true } });
 
   await Promise.all(
     Array.from({ length: 150 }).map(async () => {
-      const projectId = faker.helpers.arrayElement(projectIds);
+      const selectedProject = faker.helpers.arrayElement(allProjects);
+      const user = faker.helpers.arrayElement(createdUsers);
       const device = await prisma.device.create({
         data: {
           name: faker.commerce.productName(),
-          latitude: faker.number.float({
-            min: -90,
-            max: 90,
-            fractionDigits: 4,
-          }),
-          longitude: faker.number.float({
-            min: -180,
-            max: 180,
-            fractionDigits: 4,
-          }),
+          latitude: parseFloat(
+            faker.number
+              .float({ min: -90, max: 90, fractionDigits: 3 })
+              .toFixed(3),
+          ),
+          longitude: parseFloat(
+            faker.number
+              .float({ min: -180, max: 180, fractionDigits: 3 })
+              .toFixed(3),
+          ),
           imgKey: faker.image.urlPicsumPhotos(),
-          deviceType: 'WIMV1',
-          projectId,
+          deviceType: faker.helpers.arrayElement(['sensor', 'camera']),
+          projectId: selectedProject.id,
           description: faker.lorem.sentence(),
+          createdByid: user.id,
         },
       });
 
-      // DeviceParameters
-      await prisma.deviceParameters.createMany({
-        data: [
-          {
-            deviceId: device.id,
-            name: 'Parameter 1',
-            description: 'Description for parameter 1',
-          },
-          {
-            deviceId: device.id,
-            name: 'Parameter 2',
-            description: 'Description for parameter 2',
-          },
-        ],
-      });
+      // deviceParameters
+      const paramCount = faker.number.int({ min: 1, max: 5 });
+      await Promise.all(
+        Array.from({ length: paramCount }).map(() =>
+          prisma.deviceParameters.create({
+            data: {
+              deviceId: device.id,
+              name: faker.hacker.noun(),
+              description: faker.lorem.sentence(),
+            },
+          }),
+        ),
+      );
 
-      // TTN detail
-      await prisma.ttnDeviceDetail.create({
-        data: {
-          deviceId: device.id,
-        },
-      });
+      // Video
+      const videoCount = faker.number.int({ min: 0, max: 3 });
+      await Promise.all(
+        Array.from({ length: videoCount }).map(() =>
+          prisma.video.create({
+            data: {
+              deviceId: device.id,
+              videoUrl: faker.internet.url(),
+              recordedAt: faker.date.recent(),
+            },
+          }),
+        ),
+      );
+
+      // TtnDeviceDetail
+      if (Math.random() > 0.5) {
+        await prisma.ttnDeviceDetail.create({
+          data: {
+            deviceId: device.id,
+          },
+        });
+      }
     }),
   );
 
-  // Eén speciale sensor
-  await prisma.device.create({
-    data: {
-      id: 'special-device-uuid',
-      name: 'Speciale Sensor',
-      latitude: 51.2194,
-      longitude: 4.4025,
-      imgKey: 'https://placehold.co/600x400',
-      deviceType: 'WIMV1',
-      projectId: project.id,
-      description: 'Deze sensor meet extra parameters.',
-      deviceParameters: {
-        create: [
-          {
-            name: 'Waterstand',
-            description: 'Gemeten in cm',
-          },
-          {
-            name: 'Temperatuur',
-            description: 'Gemeten in °C',
-          },
-        ],
-      },
-      videos: {
-        create: [
-          {
-            videoUrl: 'https://example.com/video.mp4',
-          },
-        ],
-      },
-      TtnDeviceDetail: {
-        create: {},
-      },
-    },
-  });
-
-  console.log('Seeding complete.');
+  console.log('Seeding completed.');
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
+  .catch((e) => {
     console.error(e);
-    await prisma.$disconnect();
     process.exit(1);
+  })
+  .finally(() => {
+    prisma.$disconnect();
   });
