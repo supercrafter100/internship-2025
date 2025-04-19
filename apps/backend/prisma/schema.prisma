@@ -73,7 +73,8 @@ model ProjectUser {
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
-  admin Boolean
+  admin  Boolean
+  Device Device[]
 
   @@unique([projectId, userId]) //User kan niet nog ééns worden toegevoegd aan een project
 }
@@ -127,6 +128,8 @@ model Device {
   latitude         Decimal
   longitude        Decimal
   imgKey           String             @db.VarChar(255)
+  createdBy        ProjectUser?       @relation(fields: [createdByid], references: [id])
+  createdByid      Int?
   createdAt        DateTime           @default(now())
   deviceParameters deviceParameters[]
   videos           Video[]
