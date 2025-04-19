@@ -8,7 +8,7 @@ datasource db {
 }
 
 // This model is used to store the dashboard information for a project.
-// Each project can have one or more dashboards, and the dashboard information is stored here.
+// Each project can have one dashboard, and the dashboard information is stored here.
 model Dashboard {
   id        Int           @id @default(autoincrement())
   projectId Int           @unique
@@ -137,7 +137,7 @@ model Device {
 // Each device can have one or more parameters, and the parameter information is stored here.
 model deviceParameters {
   id          Int    @id @default(autoincrement())
-  deviceId    String @unique
+  deviceId    String
   device      Device @relation(fields: [deviceId], references: [id])
   name        String @db.VarChar(255)
   description String @db.VarChar(500)
