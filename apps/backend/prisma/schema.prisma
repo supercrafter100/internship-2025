@@ -52,14 +52,12 @@ model Project {
 // This model is used to store the TTN provider information for a project.
 // Each project can have one or more TTN provider, and the provider information is stored here.
 model TtnProvider {
-  id Int @id @default(autoincrement())
-
+  id        Int     @id @default(autoincrement())
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId Int     @unique
-
-  appUrl String @db.VarChar(255)
-  appId  String @db.VarChar(255)
-  apiKey String @db.VarChar(500)
+  projectId Int
+  appUrl    String  @db.VarChar(255)
+  appId     String  @db.VarChar(255)
+  apiKey    String  @db.VarChar(500)
 }
 
 // This model is used to store the project user information.
@@ -124,15 +122,25 @@ model Device {
   project    Project @relation(fields: [projectId], references: [id])
   projectId  Int
 
-  name             String           @db.VarChar(255)
-  description      String           @db.VarChar(500)
+  name             String             @db.VarChar(255)
+  description      String             @db.VarChar(500)
   latitude         Decimal
   longitude        Decimal
-  imgKey           String           @db.VarChar(255)
-  createdAt        DateTime         @default(now())
-  deviceParameters Json
+  imgKey           String             @db.VarChar(255)
+  createdAt        DateTime           @default(now())
+  deviceParameters deviceParameters[]
   videos           Video[]
   TtnDeviceDetail  TtnDeviceDetail?
+}
+
+// This model is used to store the device parameters for a device.
+// Each device can have one or more parameters, and the parameter information is stored here.
+model deviceParameters {
+  id          Int    @id @default(autoincrement())
+  deviceId    String @unique
+  device      Device @relation(fields: [deviceId], references: [id])
+  name        String @db.VarChar(255)
+  description String @db.VarChar(500)
 }
 
 // This model is used to store the ttn information for a device.
