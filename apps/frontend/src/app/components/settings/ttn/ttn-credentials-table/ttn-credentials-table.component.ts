@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TtnService } from '../../../../services/ttn.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ttn-credentials-table',
@@ -6,7 +8,24 @@ import { Component } from '@angular/core';
   templateUrl: './ttn-credentials-table.component.html',
   styleUrl: './ttn-credentials-table.component.css',
 })
-export class TtnCredentialsTableComponent {
+export class TtnCredentialsTableComponent implements OnInit {
+  constructor(
+    private ttnService: TtnService,
+    private readonly route: ActivatedRoute,
+  ) {}
+
+  private projectId: string | undefined;
+
+  async ngOnInit(): Promise<void> {
+    this.route.params.subscribe(async (params) => {
+      this.projectId = params['id'];
+    });
+
+    this.ttnConfigs = await this.ttnService.getTTNConfigs(
+      this.projectId as unknown as number,
+    );
+  }
+
   ttnConfigs: { id: string; appUrl: string; appId: string; apiKey: string }[] =
     [];
   ttnModalOpen = false;
@@ -15,6 +34,7 @@ export class TtnCredentialsTableComponent {
     appId: '',
     apiKey: '',
   };
+
   hiddenKeys = new Set<string>();
 
   openTTNModal() {
@@ -42,7 +62,7 @@ export class TtnCredentialsTableComponent {
   }
 
   isTTNKeyHidden(id: string) {
-    return this.hiddenKeys.has(id);
+    return !this.hiddenKeys.has(id);
   }
 
   toggleShowTTNKey(id: string) {
