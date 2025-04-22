@@ -57,8 +57,10 @@ export class TtnCredentialsTableComponent implements OnInit {
   }
 
   deleteTTNConfig(id: string) {
-    this.ttnConfigs = this.ttnConfigs.filter((cfg) => cfg.id !== id);
-    this.hiddenKeys.delete(id);
+    this.ttnService.removeTTNConfig(
+      this.projectId as unknown as number,
+      id as unknown as number,
+    );
   }
 
   isTTNKeyHidden(id: string) {

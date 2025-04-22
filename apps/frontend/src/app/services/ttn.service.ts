@@ -25,4 +25,19 @@ export class TtnService {
 
     return response;
   }
+
+  public async removeTTNConfig(id: number, ttnId: number) {
+    const response = await fetch(this._apiUrl + '/ttncred/project/' + id, {
+      body: JSON.stringify({ ttnId: ttnId }),
+      method: 'DELETE',
+    })
+      .then((res) => res.json())
+      .catch(() => undefined);
+
+    if (!response) {
+      throw new Error('Received invalid response from server for /ttn/configs');
+    }
+
+    return response;
+  }
 }
