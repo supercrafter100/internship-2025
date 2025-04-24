@@ -12,6 +12,4 @@ export class CreateTtnCredDto {
   @IsNotEmpty()
   @IsString()
   apiKey: string;
-  @IsNotEmpty()
-  createdByid: number;
 }

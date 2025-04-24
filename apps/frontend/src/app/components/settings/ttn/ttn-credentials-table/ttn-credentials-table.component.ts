@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TtnService } from '../../../../services/ttn.service';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../../../services/user.service';
+import { HotToastService, Toast } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-ttn-credentials-table',
@@ -11,7 +13,9 @@ import { ActivatedRoute } from '@angular/router';
 export class TtnCredentialsTableComponent implements OnInit {
   constructor(
     private ttnService: TtnService,
+    private userService: UserService,
     private readonly route: ActivatedRoute,
+    private toast: HotToastService,
   ) {}
 
   private projectId: string | undefined;
@@ -46,21 +50,36 @@ export class TtnCredentialsTableComponent implements OnInit {
     this.newTTN = { appUrl: '', appId: '', apiKey: '' };
   }
 
-  addTTNConfig() {
-    const newId = Math.random().toString(36).substring(2, 9);
-    this.ttnConfigs.push({
-      id: newId,
-      ...this.newTTN,
-    });
-    this.hiddenKeys.add(newId);
+  async addTTNConfig(appUrl: string, appId: string, apiKey: string) {
+    try {
+      this.ttnService.addTTNConfig(
+        Number(this.projectId),
+        appUrl,
+        appId,
+        apiKey,
+      );
+    } catch (error) {
+      return;
+    }
+
+    //Update TTN config
+    await this.updateTtnConfig();
+
+    // Close TTN modal
     this.closeTTNModal();
+
+    //Show success message
+    this.toast.success('TTN credentials added successfully!');
   }
 
-  deleteTTNConfig(id: string) {
-    this.ttnService.removeTTNConfig(
-      this.projectId as unknown as number,
-      id as unknown as number,
-    );
+  async deleteTTNConfig(id: number) {
+    this.ttnService.removeTTNConfig(this.projectId as unknown as number, id);
+
+    //Update TTN config
+    await this.updateTtnConfig();
+
+    //Show toast message
+    this.toast.warning('TTN credentials deleted successfully!');
   }
 
   isTTNKeyHidden(id: string) {
@@ -73,5 +92,12 @@ export class TtnCredentialsTableComponent implements OnInit {
     } else {
       this.hiddenKeys.add(id);
     }
+  }
+
+  private async updateTtnConfig() {
+    // Update ttn configs
+    this.ttnConfigs = await this.ttnService.getTTNConfigs(
+      this.projectId as unknown as number,
+    );
   }
 }

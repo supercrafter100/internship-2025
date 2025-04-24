@@ -44,7 +44,10 @@ export class TtncredController {
     if (!canEditProject(request, +id)) {
       throw new UnauthorizedException();
     }
-    return await this.ttnService.addTtnCredentialsToProject(body);
+    return await this.ttnService.addTtnCredentialsToProject(
+      body,
+      request.session.internalUser.id,
+    );
   }
 
   // Update TTN credentials for a project
@@ -70,6 +73,10 @@ export class TtncredController {
   ): Promise<void> {
     if (!canEditProject(request, +id)) {
       throw new UnauthorizedException();
+    }
+
+    if (ttnId == undefined) {
+      throw new Error('TTN ID is undefined');
     }
     await this.ttnService.removeTtnCredentialsFromProject(+id, ttnId);
   }

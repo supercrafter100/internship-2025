@@ -18,16 +18,20 @@ export class TtnService {
     };
   }
 
-  async addTtnCredentialsToProject(createTtncredDto: CreateTtnCredDto) {
+  async addTtnCredentialsToProject(
+    createTtncredDto: CreateTtnCredDto,
+    userId: number,
+  ) {
     return this.prismaService.ttnProvider.create({
       data: {
         ...createTtncredDto,
+        createdByid: userId,
       },
     });
   }
 
   async removeTtnCredentialsFromProject(projectId: number, ttnId: number) {
-    return this.prismaService.ttnProvider.deleteMany({
+    return this.prismaService.ttnProvider.delete({
       where: {
         id: ttnId,
         projectId,
