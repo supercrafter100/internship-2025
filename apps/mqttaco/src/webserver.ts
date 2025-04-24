@@ -1,5 +1,5 @@
 import express from "express";
-import { TtnClientManager } from "../src/ttn/ttn_clientmanager";
+import { TtnClientManager } from "../src/ttn/ttn_clientManager";
 
 export const startHttpServer = (ttnManager: TtnClientManager) => {
   const app = express();

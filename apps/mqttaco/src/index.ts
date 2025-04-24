@@ -1,6 +1,6 @@
 // src/index.ts
 import { MqttService } from "./mqtt/mqttService";
-import { TtnClientManager } from "../src/ttn/ttn_clientmanager"; // Zorg ervoor dat je manager importeert
+import { TtnClientManager } from "./ttn/ttn_clientManager"; // Zorg ervoor dat je manager importeert
 import { startHttpServer } from "../src/webserver";
 
 const mqttService = new MqttService();
