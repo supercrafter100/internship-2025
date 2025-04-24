@@ -82,7 +82,6 @@ export class StepsComponent {
   public step = 0;
   public pageIndex = 0;
   public component: Type<any> | null = null;
-  private currentRoute = '';
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -106,7 +105,6 @@ export class StepsComponent {
       // Figure out the previous step
       const page = this.pages[this.pageIndex - 1];
 
-      console.log(document.location.href);
       this.router.navigate([
         document.location.pathname.split('/create-device')[0] +
           '/create-device',

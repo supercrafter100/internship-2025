@@ -15,6 +15,7 @@ import { CreateDeviceComponent } from './pages/dashboard/settingspage/create-dev
 import { StepsComponent } from './pages/dashboard/settingspage/create-device/steps/steps.component';
 import { FinishComponent } from './pages/dashboard/settingspage/create-device/finish/finish.component';
 import { ManageusersComponent } from './pages/dashboard/settingspage/manageusers/manageusers/manageusers.component';
+import { DashboardDeviceComponent } from './pages/dashboard/devices/device/device.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +46,11 @@ export const routes: Routes = [
   {
     path: 'dashboard/:id/devices',
     component: DashboardDevicesComponent,
+    canActivate: [ProjectGuard],
+  },
+  {
+    path: 'dashboard/:id/devices/:deviceId',
+    component: DashboardDeviceComponent,
     canActivate: [ProjectGuard],
   },
   {

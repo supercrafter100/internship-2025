@@ -29,6 +29,7 @@ import {
   UserRoundCog,
   MonitorSmartphone,
   PencilRuler,
+  AlertTriangle,
 } from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -69,6 +70,10 @@ import { FinishComponent } from './pages/dashboard/settingspage/create-device/fi
 import { DeviceFrameSmallComponent } from './components/dashboard/devices/device-frame-small/device-frame-small.component';
 import { ManageusersComponent } from './pages/dashboard/settingspage/manageusers/manageusers/manageusers.component';
 import { UsertableComponent } from './components/usertable/usertable.component';
+import { DashboardDeviceComponent } from './pages/dashboard/devices/device/device.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { InfluxVisualsComponent } from './components/dashboard/device/influx-visuals/influx-visuals.component';
+import { CameraVisualsComponent } from './components/dashboard/device/camera-visuals/camera-visuals.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +113,9 @@ import { UsertableComponent } from './components/usertable/usertable.component';
     DeviceFrameSmallComponent,
     ManageusersComponent,
     UsertableComponent,
+    DashboardDeviceComponent,
+    InfluxVisualsComponent,
+    CameraVisualsComponent,
   ],
   imports: [
     DragDropModule,
@@ -136,8 +144,10 @@ import { UsertableComponent } from './components/usertable/usertable.component';
       UserRoundCog,
       MonitorSmartphone,
       PencilRuler,
+      AlertTriangle,
     }),
     NgxDomConfettiModule,
+    HighchartsChartModule,
   ],
   providers: [provideHotToastConfig(), ProjectAdminGuard, ProjectGuard],
   bootstrap: [AppComponent],

@@ -1,0 +1,9 @@
+<app-layout>
+  <div class="p-16">
+    <app-influx-visuals
+      [device]="device!"
+      *ngIf="isMqttDevice()"
+    ></app-influx-visuals>
+    <app-camera-visuals *ngIf="isCameraDevice()"></app-camera-visuals>
+  </div>
+</app-layout>
