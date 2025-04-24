@@ -1,35 +1,54 @@
-import mqtt from "mqtt";
-import { config } from "../config";
+import mqtt, { MqttClient } from "mqtt";
 
 export class MqttTtnService {
-  private client;
+  private client: MqttClient;
 
-  constructor() {
-    const appId = config.ttn.appId; // Dit is je App ID in TTN
-    const apiKey = config.ttn.apiKey; // Dit is je API key in TTN
-
-    this.client = mqtt.connect(config.ttn.appUrl, {
+  constructor({
+    appId,
+    apiKey,
+    appUrl,
+  }: {
+    appId: string;
+    apiKey: string;
+    appUrl: string;
+  }) {
+    this.client = mqtt.connect(appUrl, {
       username: appId,
       password: apiKey,
     });
 
     this.client.on("connect", () => {
-      console.log("✅ TTN verbonden");
+      console.log(`✅ Verbonden met TTN-server voor ${appId}`);
       const topic = `v3/${appId}@ttn/devices/+/up`;
+
       this.client.subscribe(topic, (err) => {
         if (err) {
-          console.error("❌ TTN subscribe fout:", err.message);
+          console.error(`❌ Fout bij subscriben voor ${appId}:`, err.message);
         } else {
-          console.log(`📡 TTN subscribed op ${topic}`);
+          console.log(`📡 Subscribed op ${topic}`);
         }
       });
     });
 
     this.client.on("message", (topic, message) => {
-      const payload = JSON.parse(message.toString());
-      const deviceId = payload.end_device_ids.device_id;
-      const decoded = payload.uplink_message.decoded_payload;
-      console.log(`📥 TTN data van ${deviceId}:`, decoded);
+      try {
+        const payload = JSON.parse(message.toString());
+        const deviceId = payload.end_device_ids.device_id;
+        const decoded = payload.uplink_message.decoded_payload;
+        console.log(`📥 Data van ${deviceId} (${appId}):`, decoded);
+      } catch (err) {
+        console.error(`❌ Fout bij verwerken bericht (${appId}):`, err);
+      }
+    });
+
+    this.client.on("error", (err) => {
+      console.error(`❌ MQTT fout (${appId}):`, err.message);
+    });
+  }
+
+  public disconnect() {
+    this.client.end(true, () => {
+      console.log("🔌 TTN-client ontkoppeld");
     });
   }
 }
