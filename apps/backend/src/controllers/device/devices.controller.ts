@@ -71,7 +71,7 @@ export class DevicesController {
 
   // Verwacht datum en tijd in volgend formaat 2025-02-22T14:00:00.000Z
   // Dit is een ISO 8601 datum- en tijdnotatie.
-  @Get(':id/:start/:end/measurements')
+  @Get(':id/measurements/:start/:end/')
   async getSpecificDataForDevice(
     @Param('id') id: string,
     @Param('start') start: string,
@@ -114,11 +114,15 @@ export class DevicesController {
     }
 
     // Genereer de CSV in het geheugen
-    const csvData = await this.devicesService.generateCsvFromMeasurements(
-      id,
-      start,
-      end,
-    );
+    const csvData = await this.devicesService
+      .generateCsvFromMeasurements(id, start, end)
+      .catch(() => undefined);
+
+    if (!csvData) {
+      throw new NotFoundException(
+        'Geen meetgegevens gevonden voor dit apparaat.',
+      );
+    }
 
     // Stel de headers in om een CSV-bestand te downloaden
     res.setHeader('Content-Type', 'text/csv');

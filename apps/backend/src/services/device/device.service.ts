@@ -58,18 +58,14 @@ export class DeviceService {
 
   //Requesting all data for one sensor from influx
   async getAllMeasurementsForDevice(id: string) {
-    //Todo modulair maken voor alle devicetypes
-    // Eerst type device opvragen mbhv id
-    // Adhv type, het in juiste bucket ophalen of in juiste klasse parsen
-    // let deviceType = this.prisma.device.findFirst({where: {id}})
-
-    // Wacht op de resultaten van de query
     return await this.influx.queryData(
       `from(bucket: "wim")
-    |> range(start: 0)
-    |> filter(fn: (r) => r._measurement == "tpm")
-    |> filter(fn: (r) => r.device =~ /^${id}$/)
-    |> sort(columns: ["_time"], desc: false)`,
+        |> range(start: 0)
+        |> filter(fn: (r) => r._measurement == "tpm" and r.device == "${id}")
+        |> aggregateWindow(every: 1m, fn: last, createEmpty: false) 
+        |> pivot(rowKey:["device","_time"], columnKey:["_field"], valueColumn:"_value")
+        |> drop(columns: ["_start", "_stop", "_measurement", "result", "table", "device"])
+        |> sort(columns:["_time"])`,
     );
   }
 
@@ -81,10 +77,11 @@ export class DeviceService {
     return this.influx.queryData(
       `from(bucket: "wim")
         |> range(start: ${start}, stop: ${end})  // Gebruik start en end als parameters
-        |> filter(fn: (r) => r._measurement == "tpm")
-        |> filter(fn: (r) => r.device =~ /^${id}$/)
-        |> sort(columns: ["_time"], desc: false)
-      `,
+        |> filter(fn: (r) => r._measurement == "tpm" and r.device == "${id}")
+        |> aggregateWindow(every: 1m, fn: last, createEmpty: false) 
+        |> pivot(rowKey:["device","_time"], columnKey:["_field"], valueColumn:"_value")
+        |> drop(columns: ["_start", "_stop", "_measurement", "device"])
+        |> sort(columns:["_time"])`,
     );
   }
 
@@ -100,23 +97,12 @@ export class DeviceService {
       end,
     );
 
-    // Zet de opgehaalde gegevens om naar het juiste formaat van WimMeasurement
-    const dataForCsv: WimMeasurement[] = measurements.map(
-      (measurement: any) => ({
-        result: measurement.result,
-        table: measurement.table,
-        _start: new Date(measurement._start),
-        _stop: new Date(measurement._stop),
-        _time: new Date(measurement._time),
-        _value: measurement._value,
-        _field: measurement._field,
-        _measurement: measurement._measurement,
-        device: measurement.device,
-      }),
-    );
+    if (!measurements || measurements.length === 0) {
+      throw new Error('Geen meetgegevens gevonden voor dit apparaat.');
+    }
 
     // Genereer de CSV in het geheugen
-    const csv = parse(dataForCsv);
+    const csv = parse(measurements);
 
     // Geef de CSV-string terug
     return csv;

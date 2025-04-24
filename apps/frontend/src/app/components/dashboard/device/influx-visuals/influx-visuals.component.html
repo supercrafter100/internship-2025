@@ -1,0 +1,107 @@
+<div class="shadow-md w-full bg-gray-100 rounded-md px-5 py-3">
+  <div class="mx-auto flex flex-row gap-5 justify-center">
+    <div class="flex items-center">
+      <div class="relative">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+            />
+          </svg>
+        </div>
+        <input
+          name="start"
+          type="date"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+          placeholder="Select date start"
+          [(ngModel)]="selectedTimeStart"
+          (change)="this.onSelectedTimeChange()"
+        />
+      </div>
+      <span class="mx-4 text-gray-500">to</span>
+      <div class="relative">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+            />
+          </svg>
+        </div>
+        <input
+          name="end"
+          type="date"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+          placeholder="Select date end"
+          [(ngModel)]="selectedTimeEnd"
+          (change)="this.onSelectedTimeChange()"
+        />
+      </div>
+    </div>
+
+    <select
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-52 p-2.5"
+      [(ngModel)]="selectedTimeRange"
+      (change)="this.updateSelectedTimeRange()"
+    >
+      <option value="1440">Last 24 hours</option>
+      <option value="2880">Last 2 days</option>
+      <option value="10080">Last 7 days</option>
+      <option value="43200">Last 30 days</option>
+      <option value="129600">Last 90 days</option>
+      <option value="259200">Last 6 months</option>
+      <option value="518400">Last 1 year</option>
+    </select>
+
+    <!-- I refuse to accept that paging is a proper solution here. All exported data should be in a single file, not multiple -->
+    <a
+      [href]="
+        '/api/devices/' +
+        device.id +
+        '/measurements/csv/' +
+        toISO8601(selectedTimeStart) +
+        '/' +
+        toISO8601(selectedTimeEnd)
+      "
+      target="_blank"
+      class="py-2 px-5 rounded-lg bg-primary-light float-right text-white cursor-pointer"
+      >Export data</a
+    >
+  </div>
+</div>
+<div
+  *ngIf="data.length === 0 && loaded"
+  class="mt-10 bg-yellow-200 flex items-center justify-center py-8 px-5 rounded-lg"
+>
+  <div class="flex flex-col items-center">
+    <lucide-angular name="alert-triangle" class="text-yellow-600 w-10 h-10" />
+    <h1 class="text-xl font-bold text-yellow-600">No data available</h1>
+    <p class="text-gray-700">
+      This can be either because no data has been sent yet or the selected range
+      has no data collected.
+    </p>
+  </div>
+</div>
+<div class="grid grid-cols-2 gap-5 mt-10">
+  <highcharts-chart
+    class="z-10"
+    *ngFor="let k of keys; trackBy: trackByFn"
+    [Highcharts]="highcharts"
+    [options]="getOptions(k)"
+  ></highcharts-chart>
+</div>

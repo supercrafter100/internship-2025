@@ -12,9 +12,9 @@ import { MqttDeviceStorage } from '../Classes/CreateDevices/CreateMQTTDevice';
 export class DeviceService {
   private apiUrl = environment.apiUrl;
 
-  public getReading<T>(id: string, start: Date, end: Date) {
+  public getReadings<T>(id: string, start: string, end: string) {
     return fetch(
-      this.apiUrl + '/' + id + '/' + start.getTime() + end.getTime(),
+      this.apiUrl + '/devices/' + id + '/measurements/' + start + '/' + end,
     ).then((res) => res.json() as Promise<T>);
   }
 
@@ -22,6 +22,15 @@ export class DeviceService {
     return fetch(this.apiUrl + '/devices/project/' + projectId).then(
       (res) => res.json() as Promise<Device[]>,
     );
+  }
+
+  public async getDevice(id: string) {
+    const res = await fetch(this.apiUrl + '/devices/' + id);
+    if (res.status === 200) {
+      return res.json() as Promise<Device>;
+    } else {
+      return null;
+    }
   }
 
   public postDevice(device: CreateDevice) {

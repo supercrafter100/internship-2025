@@ -8,6 +8,7 @@ import { DeviceType } from '../../../../../types/types';
   styleUrl: './device-frame-small.component.css',
 })
 export class DeviceFrameSmallComponent {
+  @Input() Id: string = '';
   @Input() Type: String = '';
   @Input() Online: Boolean = true;
   @Input() Date: string = '';
