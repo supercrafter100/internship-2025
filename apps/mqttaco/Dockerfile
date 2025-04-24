@@ -1,16 +1,31 @@
-FROM node:22-slim
+FROM node:21-alpine AS base
 
-RUN apt-get update -y && apt-get install -y openssl
+FROM base AS builder
+RUN apk update
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
-
-COPY package.json .
-COPY package-lock.json .
-
-RUN npm install -D
-
+RUN npm install --global turbo@^2.4.2
 COPY . .
 
-RUN npx tsc
+RUN turbo prune mqttaco --docker
 
-CMD ["npm", "run", "start"]
+FROM base AS installer
+RUN apk update
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+RUN npm install --global turbo@^2.4.2
+
+COPY --from=builder /app/out/json .
+RUN npm install --frozen-lockfile --force
+
+COPY --from=builder /app/out/full/ .
+RUN npx turbo run build
+
+FROM node:21-alpine
+WORKDIR /app
+COPY --from=installer /app .
+
+WORKDIR /app/apps/mqttaco
+
+CMD ["node", "dist/index.js"]
