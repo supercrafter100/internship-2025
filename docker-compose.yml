@@ -102,6 +102,7 @@ services:
       - traefik.http.middlewares.minio-prod-stripprefix.stripprefix.prefixes=/minio/ui
 
   mqttaco:
+  
     build:
       context: .
       dockerfile: ./apps/mqttaco/Dockerfile
@@ -115,6 +116,11 @@ services:
       - INFLUX_DB_BUCKET=${INFLUXDB_BUCKET}
       - INFLUX_DB_ORG=${INFLUXDB_ORGANISATION}
       - PG_DB_URL=postgres://bsaffer:EqhvLbsPhrkkZjcaGWcV7qT@postgres:5432/bsaffer
+    depends_on:
+      postgres:
+        condition: service_healthy
+      influxdb:
+      backend:
 
   influxdb:
     build:
