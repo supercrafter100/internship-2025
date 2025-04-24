@@ -120,7 +120,9 @@ services:
       postgres:
         condition: service_healthy
       influxdb:
+        condition: service_started
       backend:
+        condition: service_started
 
   influxdb:
     build:
