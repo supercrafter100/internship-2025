@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Device } from '../Interfaces/iDevice';
-import { DeviceType } from '../../types/types';
+import { DeviceType, MinioFile } from '../../types/types';
 import { CreateDevice } from '../Classes/CreateDevice';
 import { MqttDeviceStorage } from '../Classes/CreateDevices/CreateMQTTDevice';
 
@@ -41,5 +41,14 @@ export class DeviceService {
       },
       body: JSON.stringify(device.toJsonObject()),
     });
+  }
+
+  public async getDeviceVideos(id: string) {
+    const res = await fetch(this.apiUrl + '/devices/' + id + '/videos');
+    if (res.status === 200) {
+      return res.json() as Promise<MinioFile[]>;
+    } else {
+      return null;
+    }
   }
 }

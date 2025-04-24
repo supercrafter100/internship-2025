@@ -134,4 +134,21 @@ export class DevicesController {
     // Stuur de CSV-gegevens terug als een bestand
     res.send(csvData);
   }
+
+  @Get(':id/videos')
+  async getCameraFiles(
+    @Param('id') id: string,
+    @Req() request: SessionRequest,
+  ) {
+    const device = await this.devicesService.findOne(id);
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    if (!canViewProject(request, device.projectId)) {
+      throw new UnauthorizedException();
+    }
+
+    return await this.devicesService.getCameraFiles(id);
+  }
 }

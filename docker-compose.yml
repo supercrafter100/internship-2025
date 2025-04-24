@@ -48,6 +48,8 @@ services:
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUXDB_ORGANISATION=${INFLUXDB_ORGANISATION}
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+
+      - SESSION_SECRET=${SESSION_SECRET}
   minio:
     image: quay.io/minio/minio
     networks:
@@ -74,6 +76,20 @@ services:
       - traefik.http.services.minio-ui-prod.loadbalancer.server.port=9001
       - traefik.http.routers.minio-ui-prod.middlewares=minio-prod-stripprefix
       - traefik.http.middlewares.minio-prod-stripprefix.stripprefix.prefixes=/minio/ui
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: bsaffer
+      POSTGRES_USER: bsaffer
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "kc", "-U", "kc"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - backend
   # postgres:
   #   image: postgres:16
   #   volumes:
