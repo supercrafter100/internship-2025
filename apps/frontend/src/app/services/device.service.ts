@@ -51,4 +51,21 @@ export class DeviceService {
       return null;
     }
   }
+
+  public setTTNParameters(
+    deviceId: string,
+    ttnDeviceId: string,
+    ttnProviderId: number,
+  ) {
+    return fetch(this.apiUrl + '/devices/' + deviceId + '/ttnParameters', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ttnDeviceId,
+        ttnProviderId,
+      }),
+    });
+  }
 }

@@ -15,6 +15,8 @@ import { UserService } from './services/user/user.service';
 import { UserController } from './controllers/user/user.controller';
 import { ApikeyController } from './controllers/apikey/apikey.controller';
 import { ApikeyService } from './services/apikey/apikey.service';
+import { TtncredController } from './controllers/ttncred/ttncred.controller';
+import { TtnService } from './services/ttn/ttn.service';
 
 @Module({
   imports: [PrismaModule, InfluxdbModule, MinioClientModule, AuthModule],
@@ -24,6 +26,7 @@ import { ApikeyService } from './services/apikey/apikey.service';
     DevicesController,
     UserController,
     ApikeyController,
+    TtncredController,
   ],
   providers: [
     AppService,
@@ -32,6 +35,7 @@ import { ApikeyService } from './services/apikey/apikey.service';
     DeviceService,
     UserService,
     ApikeyService,
+    TtnService,
   ],
 })
 export class AppModule {}

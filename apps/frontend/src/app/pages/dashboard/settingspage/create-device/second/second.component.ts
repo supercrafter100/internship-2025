@@ -65,7 +65,8 @@ export class SecondComponent {
     //Depending on the device type, we will navigate to the next page
 
     switch (existingSettings.deviceType) {
-      case DeviceType.MQTT || DeviceType.TTN:
+      case DeviceType.MQTT:
+      case DeviceType.TTN:
         this.router.navigate([
           [document.location.pathname.slice(0, -2)] + '/2.1',
         ]);

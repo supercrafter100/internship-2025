@@ -1,0 +1,22 @@
+{
+  "name": "mqttaco",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec ts-node -- ./src/index.ts",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mqtt": "^5.10.4",
+    "winston": "^3.17.0"
+  }
+}

@@ -16,3 +16,12 @@ export type MinioFile = {
   name: string;
   size: number;
 };
+
+export type TTNProvider = {
+  id: number;
+  projectId: number;
+  appUrl: string;
+  appId: string;
+  apiKey: string;
+  addedAt: Date;
+};

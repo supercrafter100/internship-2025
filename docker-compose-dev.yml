@@ -43,6 +43,7 @@ services:
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
 
       - SESSION_SECRET=kmqlsdfsqmfjsqmlfqsfkjqsmlkfjqsdlfqslmdjflqsdjfmlqsdfmkqjsdfmjqsdfmokjqsdofj
+      - MQTTACO_REFRESH_URL=http://mqttaco:4000/refresh-ttn-clients
     networks:
       - proxy
       - backend

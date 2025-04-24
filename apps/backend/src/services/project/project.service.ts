@@ -11,6 +11,8 @@ export class ProjectService {
     private readonly minioClient: MinioClientService,
   ) {}
 
+  
+
   async create(createProjectDto: CreateProjectDto) {
     const image = await this.minioClient.uploadBase64Image(
       createProjectDto.base64Image,

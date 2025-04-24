@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// This model is used to store the dashboard information for a project.
+// Each project can have one dashboard, and the dashboard information is stored here.
 model Dashboard {
   id        Int           @id @default(autoincrement())
   projectId Int           @unique
@@ -15,11 +17,14 @@ model Dashboard {
   type      DashboardType
 }
 
+// This enum is used to store the type of the dashboard.
+// The dashboard can be a standard or a custom dashboard.
 enum DashboardType {
   STANDARD
   CUSTOM
 }
 
+// This model is used to store the project information.
 model Project {
   id               Int      @id @default(autoincrement())
   createdAt        DateTime @default(now())
@@ -39,10 +44,31 @@ model Project {
 
   Dashboard Dashboard[]
 
-  imgKey String   @db.VarChar(255)
-  ApiKey ApiKey[]
+  imgKey      String        @db.VarChar(255)
+  ApiKey      ApiKey[]
+  TtnProvider TtnProvider[]
 }
 
+// This model is used to store the TTN provider information for a project.
+// Each project can have one or more TTN provider, and the provider information is stored here.
+model TtnProvider {
+  id          Int      @id @default(autoincrement())
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   Int
+  appUrl      String   @db.VarChar(255)
+  appId       String   @db.VarChar(255)
+  apiKey      String   @db.VarChar(500)
+  addedAt     DateTime @default(now())
+  createdBy   User?    @relation(fields: [createdByid], references: [id])
+  createdByid Int?
+
+  TtnDeviceDetail TtnDeviceDetail[]
+}
+
+// This model is used to store the project user information.
+// Each project can have one or more users, and the user information is stored here.
+// The user can be an admin or a normal user.
+// The admin user has the ability to manage the project and its users.
 model ProjectUser {
   id Int @id @default(autoincrement())
 
@@ -57,6 +83,8 @@ model ProjectUser {
   @@unique([projectId, userId]) //User kan niet nog ééns worden toegevoegd aan een project
 }
 
+// This model is used to store the launchpad information for a project.
+// Each project can have one launchpad, and the launchpad information is stored here.
 model Launchpad {
   id     Int  @id @default(autoincrement())
   preset Json
@@ -67,6 +95,8 @@ model Launchpad {
   tiles Tile[] @relation("LaunchpadTiles")
 }
 
+// This model is used to store the tile information for a launchpad.
+// Each launchpad can have one or more tiles, and the tile information is stored here.
 model Tile {
   id          Int       @id @default(autoincrement())
   title       String    @db.VarChar(255)
@@ -76,6 +106,8 @@ model Tile {
   launchpad   Launchpad @relation("LaunchpadTiles", fields: [launchpadId], references: [id])
 }
 
+// This model is used to store the user information for a project.
+// Each user can have one or more projects, and the user information is stored here.
 model User {
   id           Int           @id @default(autoincrement())
   providerId   String        @unique
@@ -84,24 +116,59 @@ model User {
   admin        Boolean       @default(false)
   projects     Project[]
   projectUsers ProjectUser[]
+
+  Device Device[]
+
+  TtnProvider TtnProvider[]
 }
 
+// This model is used to store the base device information for a project.
+// Each project can have one or more devices, and the device information is stored here.
+// The device can be a sensor or a camera or something else and the device information is stored here.
 model Device {
   id         String  @id @unique @default(uuid())
   deviceType String
   project    Project @relation(fields: [projectId], references: [id])
   projectId  Int
 
-  name             String   @db.VarChar(255)
-  description      String   @db.VarChar(500)
+  name             String             @db.VarChar(255)
+  description      String             @db.VarChar(500)
   latitude         Decimal
   longitude        Decimal
-  imgKey           String   @db.VarChar(255)
-  createdAt        DateTime @default(now())
-  deviceParameters Json
+  imgKey           String             @db.VarChar(255)
+  createdBy        User?              @relation(fields: [createdByid], references: [id])
+  createdByid      Int?
+  createdAt        DateTime           @default(now())
+  deviceParameters deviceParameters[]
   videos           Video[]
+  TtnDeviceDetail  TtnDeviceDetail?
 }
 
+// This model is used to store the device parameters for a device.
+// Each device can have one or more parameters, and the parameter information is stored here.
+model deviceParameters {
+  id          Int    @id @default(autoincrement())
+  deviceId    String
+  device      Device @relation(fields: [deviceId], references: [id])
+  name        String @db.VarChar(255)
+  description String @db.VarChar(500)
+}
+
+// This model is used to store the ttn information for a device.
+model TtnDeviceDetail {
+  id       Int    @id @default(autoincrement())
+  device   Device @relation(fields: [deviceId], references: [id])
+  deviceId String @unique //Device ID
+
+  ttnDeviceId String @db.VarChar(255) //Device ID in TTN
+
+  // TTN provider that the device is linked to
+  ttnProvider   TtnProvider @relation(fields: [ttnProviderId], references: [id])
+  ttnProviderId Int
+}
+
+// This model is used to store the video information for a device.
+// Each device can have one or more videos, and the video information is stored here.
 model Video {
   id         Int      @id @default(autoincrement())
   device     Device   @relation(fields: [deviceId], references: [id])
@@ -110,10 +177,13 @@ model Video {
   recordedAt DateTime @default(now())
 }
 
+// This model is used to store the API key information for a project.
+// Each project can have one or more API keys, and the API key information is stored here.
 model ApiKey {
   id        Int     @id @default(autoincrement())
   name      String
   key       String  @unique
+  //Todo generatedby ==> accountability
   project   Project @relation(fields: [projectId], references: [id])
   projectId Int
 }

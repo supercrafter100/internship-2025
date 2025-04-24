@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {
+  CloudCog,
   LucideAngularModule,
   Globe,
   User,
@@ -75,6 +76,8 @@ import { DashboardDeviceComponent } from './pages/dashboard/devices/device/devic
 import { HighchartsChartModule } from 'highcharts-angular';
 import { InfluxVisualsComponent } from './components/dashboard/device/influx-visuals/influx-visuals.component';
 import { CameraVisualsComponent } from './components/dashboard/device/camera-visuals/camera-visuals.component';
+import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
+import { TtnCredentialsTableComponent } from './components/settings/ttn/ttn-credentials-table/ttn-credentials-table.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +120,8 @@ import { CameraVisualsComponent } from './components/dashboard/device/camera-vis
     DashboardDeviceComponent,
     InfluxVisualsComponent,
     CameraVisualsComponent,
+    TtnComponent,
+    TtnCredentialsTableComponent,
   ],
   imports: [
     DragDropModule,
@@ -126,6 +131,7 @@ import { CameraVisualsComponent } from './components/dashboard/device/camera-vis
     QuillModule.forRoot(),
     FormsModule,
     LucideAngularModule.pick({
+      CloudCog,
       Globe,
       User,
       CircleDot,

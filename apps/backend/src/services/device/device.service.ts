@@ -11,6 +11,7 @@ import { InfluxdbService } from 'src/influxdb/influxdb.service';
 import { WimMeasurement } from '@bsaffer/api/device/parser/wim-measurement';
 import { parse } from 'json2csv'; //CSV
 import { MinioClientService } from 'src/minio-client/minio-client.service';
+import { SetupTTNParametersDTO } from '@bsaffer/api/device/dto/setupTTNParameters.dto';
 
 @Injectable()
 export class DeviceService {
@@ -27,7 +28,7 @@ export class DeviceService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { deviceImage, ...createDeviceDBData } = createDeviceDto;
 
-    return this.prisma.device.create({
+    const createdDevice = await this.prisma.device.create({
       data: {
         deviceType: createDeviceDBData.deviceType.toString(),
         imgKey: image,
@@ -36,9 +37,22 @@ export class DeviceService {
         latitude: createDeviceDBData.latitude.toString(),
         longitude: createDeviceDBData.longitude.toString(),
         projectId: createDeviceDBData.projectId,
-        deviceParameters: createDeviceDBData.deviceParameters,
+        deviceParameters: {
+          create: createDeviceDBData.deviceParameters,
+        },
       },
     });
+
+    // Create device parameters in the database
+    await this.prisma.deviceParameters.createMany({
+      data: createDeviceDBData.deviceParameters.map((param) => ({
+        deviceId: createdDevice.id,
+        name: param.name,
+        description: param.description,
+      })),
+    });
+
+    return createdDevice;
   }
   findAll() {
     return this.prisma.device.findMany();
@@ -54,6 +68,19 @@ export class DeviceService {
 
   remove(id: number) {
     return `This action removes a #${id} device`;
+  }
+
+  async setTTNParameters(
+    id: string,
+    setupTTNParameters: SetupTTNParametersDTO,
+  ) {
+    return await this.prisma.ttnDeviceDetail.create({
+      data: {
+        ttnDeviceId: setupTTNParameters.ttnDeviceId,
+        ttnProviderId: setupTTNParameters.ttnProviderId,
+        deviceId: id,
+      },
+    });
   }
 
   //Requesting all data for one sensor from influx
