@@ -158,7 +158,9 @@ model deviceParameters {
 model TtnDeviceDetail {
   id       Int    @id @default(autoincrement())
   device   Device @relation(fields: [deviceId], references: [id])
-  deviceId String @unique //Device ID that a device has in TTN
+  deviceId String @unique //Device ID
+
+  ttnDeviceId String @db.VarChar(255) //Device ID in TTN
 
   // TTN provider that the device is linked to
   ttnProvider   TtnProvider @relation(fields: [ttnProviderId], references: [id])

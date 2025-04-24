@@ -104,31 +104,37 @@ export class MqttTtnService {
     });
   }
 
-  private async getDeviceParameters(deviceId: string) {
+  private async getDeviceParameters(ttnDeviceId: string) {
     if (
-      this.deviceCache[deviceId] &&
-      Date.now() < this.deviceCache[deviceId].expiresAt
+      this.deviceCache[ttnDeviceId] &&
+      Date.now() < this.deviceCache[ttnDeviceId].expiresAt
     ) {
-      logger.info(`📦 Parameters uit cache voor ${deviceId}`);
-      return this.deviceCache[deviceId].parameters;
+      logger.info(`📦 Parameters uit cache voor ${ttnDeviceId}`);
+      return this.deviceCache[ttnDeviceId].parameters;
     }
 
     try {
       const result = await Query(
-        `SELECT name FROM "deviceParameters" WHERE "deviceId" = $1`,
-        [deviceId]
+        `
+        SELECT dp.name
+        FROM "deviceParameters" dp
+        INNER JOIN "Device" d ON dp."deviceId" = d.id
+        INNER JOIN "TtnDeviceDetail" tdd ON d.id = tdd."deviceId"
+        WHERE tdd."ttnDeviceId" = $1
+        `,
+        [ttnDeviceId]
       );
 
       if (!result.length) {
         return [];
       }
 
-      this.deviceCache[deviceId] = {
+      this.deviceCache[ttnDeviceId] = {
         parameters: result,
         expiresAt: Date.now() + this.cacheExpiry,
       };
 
-      logger.info(`📦 Parameters gecachet voor ${deviceId}`);
+      logger.info(`📦 Parameters gecachet voor ${ttnDeviceId}`);
       return result;
     } catch (error) {
       logger.error("❌ Fout bij ophalen van parameters uit database:", error);
