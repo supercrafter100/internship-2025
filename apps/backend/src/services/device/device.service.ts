@@ -11,6 +11,7 @@ import { InfluxdbService } from 'src/influxdb/influxdb.service';
 import { WimMeasurement } from '@bsaffer/api/device/parser/wim-measurement';
 import { parse } from 'json2csv'; //CSV
 import { MinioClientService } from 'src/minio-client/minio-client.service';
+import { SetupTTNParametersDTO } from '@bsaffer/api/device/dto/setupTTNParameters.dto';
 
 @Injectable()
 export class DeviceService {
@@ -67,6 +68,19 @@ export class DeviceService {
 
   remove(id: number) {
     return `This action removes a #${id} device`;
+  }
+
+  async setTTNParameters(
+    id: string,
+    setupTTNParameters: SetupTTNParametersDTO,
+  ) {
+    return await this.prisma.ttnDeviceDetail.create({
+      data: {
+        ttnDeviceId: setupTTNParameters.ttnDeviceId,
+        ttnProviderId: setupTTNParameters.ttnProviderId,
+        deviceId: id,
+      },
+    });
   }
 
   //Requesting all data for one sensor from influx

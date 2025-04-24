@@ -11,3 +11,12 @@ export enum DeviceType {
   CAMERA = 'Camera',
   GATEWAY = 'Gateway',
 }
+
+export type TTNProvider = {
+  id: number;
+  projectId: number;
+  appUrl: string;
+  appId: string;
+  apiKey: string;
+  addedAt: Date;
+};

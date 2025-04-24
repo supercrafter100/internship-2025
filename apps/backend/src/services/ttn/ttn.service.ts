@@ -54,4 +54,12 @@ export class TtnService {
       },
     });
   }
+
+  async getTtnProviders(projectId: number) {
+    return this.prismaService.ttnProvider.findMany({
+      where: {
+        projectId,
+      },
+    });
+  }
 }

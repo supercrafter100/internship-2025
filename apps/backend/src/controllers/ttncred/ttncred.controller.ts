@@ -80,4 +80,16 @@ export class TtncredController {
     }
     await this.ttnService.removeTtnCredentialsFromProject(+id, ttnId);
   }
+
+  @Get('project/:id/providers')
+  public async getTtnProviders(
+    @Param('id') id: string,
+    @Req() request: SessionRequest,
+  ) {
+    if (!canEditProject(request, +id)) {
+      throw new UnauthorizedException();
+    }
+
+    return await this.ttnService.getTtnProviders(+id);
+  }
 }

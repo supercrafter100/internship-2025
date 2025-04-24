@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { TtnProvider } from '@bsaffer/common/entity/ttnCred.entity';
+import { TTNProvider } from '../../types/types';
 
 @Injectable({
   providedIn: 'root',
@@ -73,5 +74,13 @@ export class TtnService {
     }
 
     return response;
+  }
+
+  public async getTTNProviders(projectId: number) {
+    const response = await fetch(
+      this._apiUrl + '/ttncred/project/' + projectId + '/providers',
+    ).then((res) => res.json());
+
+    return response as TTNProvider[];
   }
 }

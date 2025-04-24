@@ -63,10 +63,12 @@ export class MqttTtnService {
         const payload = JSON.parse(message.toString());
         const deviceId = payload.end_device_ids.device_id;
         const encodedMessage = payload.uplink_message.frm_payload;
-        let decodedMessage = Buffer.from(encodedMessage, "base64").toString(
-          "utf-8"
-        );
-        logger.info(`📥 Bericht ontvangen van ${deviceId}: ${decodedMessage}`);
+
+        const buf = Buffer.from(encodedMessage, "base64");
+        const rawValues: number[] = [];
+        for (let i = 0; i < buf.length; i += 2) {
+          rawValues.push(buf.readInt16BE(i));
+        }
 
         const parameters = await this.getDeviceParameters(deviceId);
         if (!parameters.length) {
@@ -74,19 +76,12 @@ export class MqttTtnService {
           return;
         }
 
-        // Decoded message dividing by 100 because TTN gives values in centi-units
-        const decodedMessageParts = decodedMessage.split(",");
-        const decodedMessagePartsFloat = decodedMessageParts.map((part) => {
-          const floatValue = parseFloat(part);
-          return isNaN(floatValue) ? part : (floatValue / 100).toString();
-        });
-        decodedMessage = decodedMessagePartsFloat.join(",");
+        const scaledValues = rawValues.map((v) => v / 100);
+        logger.info(
+          `📥 Gedecodeerd bericht van ${deviceId}: ${scaledValues.join(", ")}`
+        );
 
-        // Logging decoded message
-        logger.info(`📥 Gedecodeerd bericht: ${decodedMessage}`);
-
-        // Try to save decoded message to InfluxDB
-        const parsedData = this.mapPayloadToParams(decodedMessage, parameters);
+        const parsedData = this.mapPayloadToParams(scaledValues, parameters);
         await this.storeInInflux(deviceId, parsedData);
       } catch (err) {
         logger.error("❌ Fout bij verwerken TTN bericht:", err);
@@ -142,14 +137,11 @@ export class MqttTtnService {
     }
   }
 
-  private mapPayloadToParams(payload: string, parameters: any[]) {
-    const values = payload.split(",");
+  private mapPayloadToParams(values: number[], parameters: any[]) {
     const mappedData: Record<string, any> = {};
-
     parameters.forEach((param, index) => {
-      mappedData[param.name] = values[index] || null;
+      mappedData[param.name] = values[index] ?? null;
     });
-
     return mappedData;
   }
 

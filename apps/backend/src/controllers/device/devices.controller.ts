@@ -15,6 +15,7 @@ import { Response } from 'express';
 import { DeviceService } from '../../services/device/device.service';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
+import { SetupTTNParametersDTO } from '@bsaffer/api/device/dto/setupTTNParameters.dto';
 import { canViewProject } from 'src/auth/methods/canViewProject';
 import { SessionRequest } from 'src/auth/sessionData';
 
@@ -62,6 +63,15 @@ export class DevicesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.devicesService.remove(+id);
+  }
+
+  @Post(':id/ttnParameters')
+  async setupTTNParameters(
+    @Param('id') id: string,
+    @Body() body: SetupTTNParametersDTO,
+  ) {
+    await this.devicesService.setTTNParameters(id, body);
+    await this.refreshMQTTaco();
   }
 
   @Get(':id/measurements')
@@ -129,5 +139,9 @@ export class DevicesController {
 
     // Stuur de CSV-gegevens terug als een bestand
     res.send(csvData);
+  }
+
+  private async refreshMQTTaco() {
+    await fetch(process.env.MQTTACO_REFRESH_URL!);
   }
 }
