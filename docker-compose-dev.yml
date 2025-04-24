@@ -106,8 +106,8 @@ services:
     networks:
       - backend
     environment:
-      - MQTT_BROKER_URL="mqtt://mqtt.iot-ap.be"
-      - INFLUX_DB_URL="http://influxdb:8086"
+      - MQTT_BROKER_URL=mqtt://mqtt.iot-ap.be
+      - INFLUX_DB_URL=http://influxdb:8086/
       - INFLUX_DB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUX_DB_BUCKET=${INFLUXDB_BUCKET}
       - INFLUX_DB_ORG=${INFLUXDB_ORGANISATION}
