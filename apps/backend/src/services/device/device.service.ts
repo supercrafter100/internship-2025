@@ -108,6 +108,11 @@ export class DeviceService {
     return csv;
   }
 
+  async getCameraFiles(id: string) {
+    const files = await this.minioClient.listFiles(`videos/${id}`);
+    return files;
+  }
+
   public findAllForProject(projectId: number) {
     return this.prisma.device.findMany({
       where: {

@@ -30,6 +30,7 @@ import {
   MonitorSmartphone,
   PencilRuler,
   AlertTriangle,
+  Download,
 } from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -145,6 +146,7 @@ import { CameraVisualsComponent } from './components/dashboard/device/camera-vis
       MonitorSmartphone,
       PencilRuler,
       AlertTriangle,
+      Download,
     }),
     NgxDomConfettiModule,
     HighchartsChartModule,

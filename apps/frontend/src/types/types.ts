@@ -11,3 +11,8 @@ export enum DeviceType {
   CAMERA = 'Camera',
   GATEWAY = 'Gateway',
 }
+
+export type MinioFile = {
+  name: string;
+  size: number;
+};
