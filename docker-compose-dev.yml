@@ -98,6 +98,40 @@ services:
       - traefik.http.routers.minio-ui-staging.middlewares=minio-staging-stripprefix
       - traefik.http.middlewares.minio-staging-stripprefix.stripprefix.prefixes=/minio/ui
 
+  mqttaco:
+    build:
+      context: .
+      dockerfile: ./apps/mqttaco/Dockerfile
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      - MQTT_BROKER_URL= "mqtt://mqtt.iot-ap.be"
+      - INFLUX_DB_URL= "http://influxdb:8086"
+      - INFLUX_DB_TOKEN=${INFLUXDB_TOKEN}
+      - INFLUX_DB_BUCKET=${INFLUXDB_BUCKET}
+      - INFLUX_DB_ORG=${INFLUXDB_ORGANISATION}
+      - PG_DB_URL=postgres://bsaffer:EqhvLbsPhrkkZjcaGWcV7qT@postgres:5432/bsaffer
+
+  influxdb:
+    build:
+      context: .
+      dockerfile: ./influxdb/Dockerfile
+    networks:
+      - backend
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    environment:
+      - TZ=${TIMEZONE}
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminadmin
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORGANISATION}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
+      - DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME=BSAFFER
+    restart: unless-stopped
+
 networks:
   proxy:
     external: true
@@ -106,3 +140,4 @@ networks:
 
 volumes:
   data:
+  influxdb_data:
