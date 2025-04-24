@@ -55,7 +55,11 @@ services:
       - traefik.http.routers.backend-staging.middlewares=backend-stripprefix
       - traefik.http.services.backend-staging.loadbalancer.server.port=3000
       - traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api
-
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 8
   postgres:
     image: postgres:16
     restart: unless-stopped
@@ -102,7 +106,6 @@ services:
       - traefik.http.middlewares.minio-prod-stripprefix.stripprefix.prefixes=/minio/ui
 
   mqttaco:
-  
     build:
       context: .
       dockerfile: ./apps/mqttaco/Dockerfile
@@ -122,7 +125,7 @@ services:
       influxdb:
         condition: service_started
       backend:
-        condition: service_started
+        condition: service_healthy
 
   influxdb:
     build:
