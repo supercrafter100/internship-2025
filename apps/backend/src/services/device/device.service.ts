@@ -27,7 +27,7 @@ export class DeviceService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { deviceImage, ...createDeviceDBData } = createDeviceDto;
 
-    return this.prisma.device.create({
+    const createdDevice = await this.prisma.device.create({
       data: {
         deviceType: createDeviceDBData.deviceType.toString(),
         imgKey: image,
@@ -41,6 +41,17 @@ export class DeviceService {
         },
       },
     });
+
+    // Create device parameters in the database
+    await this.prisma.deviceParameters.createMany({
+      data: createDeviceDBData.deviceParameters.map((param) => ({
+        deviceId: createdDevice.id,
+        name: param.name,
+        description: param.description,
+      })),
+    });
+
+    return createdDevice;
   }
   findAll() {
     return this.prisma.device.findMany();
