@@ -85,7 +85,7 @@ services:
       - proxy
     command: server /data --console-address ":9001"
     volumes:
-      - data:/data
+      - minioData:/data
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=adminadmin
@@ -156,3 +156,4 @@ networks:
 volumes:
   data:
   influxdb_data:
+  minioData:
