@@ -66,10 +66,7 @@ export class MqttService {
         return;
       }
 
-      // Parse inkomende data en map deze correct
       const parsedData = this.mapPayloadToParams(payload, parameters);
-
-      // Sla op in InfluxDB
       await this.storeInInflux(deviceId, parsedData);
     } catch (error) {
       logger.error("🚨 Fout bij verwerken van bericht:", error);
@@ -77,7 +74,6 @@ export class MqttService {
   }
 
   private async getDeviceParameters(deviceId: string) {
-    // Controleer of parameters al gecachet zijn en niet verlopen
     if (
       this.deviceCache[deviceId] &&
       Date.now() < this.deviceCache[deviceId].expiresAt
@@ -86,27 +82,25 @@ export class MqttService {
       return this.deviceCache[deviceId].parameters;
     }
 
-    // Haal parameters uit database als ze niet in cache staan of cache verlopen is
     try {
       const result = await this.retryQuery(
-        `SELECT "deviceParameters" FROM "Device" WHERE id = $1`,
+        `SELECT name, description FROM "deviceParameters" WHERE "deviceId" = $1`,
         [deviceId]
       );
 
-      if (!result.length || !result[0].deviceParameters) {
+      if (!result.length) {
         return [];
       }
 
-      // Sla parameters op in cache met nieuwe vervaldatum
       this.deviceCache[deviceId] = {
-        parameters: result[0].deviceParameters,
+        parameters: result,
         expiresAt: Date.now() + this.cacheExpiry,
       };
 
       logger.info(
         `📦 Device parameters opgeslagen in cache voor device ${deviceId}`
       );
-      return result[0].deviceParameters;
+      return result;
     } catch (error) {
       logger.error(
         "🚨 Fout bij ophalen device parameters uit database:",
@@ -117,7 +111,7 @@ export class MqttService {
   }
 
   private mapPayloadToParams(payload: string, parameters: any[]) {
-    const values = payload.split(","); // Aannemend dat de payload CSV is
+    const values = payload.split(",");
     const mappedData: Record<string, any> = {};
 
     parameters.forEach((param, index) => {
