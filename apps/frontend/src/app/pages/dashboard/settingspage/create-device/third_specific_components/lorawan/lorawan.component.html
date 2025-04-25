@@ -1,0 +1,81 @@
+<!-- TTN Configuration Section -->
+<div class="mt-6">
+  <h2 class="text-xl font-semibold text-gray-900">TTN Configuration</h2>
+  <p class="text-gray-600 text-sm mt-1">
+    Configure your LoRaWAN connectivity by selecting your TTN (The Things
+    Network) provider and linking the corresponding Device ID.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+    <!-- TTN Provider Dropdown -->
+    <div>
+      <label for="ttnProvider" class="block text-gray-700 font-medium mb-2">
+        TTN Provider
+      </label>
+      <select
+        id="ttnProvider"
+        name="ttnProvider"
+        class="border border-gray-400 rounded-lg w-full p-4 focus:ring-2 focus:ring-primary outline-none"
+        [(ngModel)]="ttnProvider"
+        required
+        (change)="onProviderChange()"
+      >
+        <option value="" disabled selected>Select a provider</option>
+        <option
+          *ngFor="let provider of ttnProviders"
+          value="{{ provider.appId }}"
+        >
+          {{ provider.appId }}
+        </option>
+      </select>
+      <p class="text-gray-500 text-xs italic mt-1">* Required</p>
+    </div>
+
+    <!-- TTN Device ID Input with Tooltip -->
+    <div>
+      <label
+        for="ttnDeviceId"
+        class="text-gray-700 font-medium mb-2 flex items-center gap-2"
+      >
+        TTN Device ID
+        <span
+          class="group relative flex items-center justify-center w-5 h-5 rounded-full bg-gray-200 text-gray-600 text-xs font-bold cursor-pointer"
+        >
+          ?
+          <div
+            class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 bg-white text-gray-800 text-xs rounded-md shadow-md p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+          >
+            This is the unique ID of your device as configured in the TTN
+            console. Go to Applications → Devices and copy the Device ID
+            exactly.
+          </div>
+        </span>
+      </label>
+      <input
+        id="ttnDeviceId"
+        name="ttnDeviceId"
+        type="text"
+        maxlength="50"
+        class="border border-gray-400 rounded-lg w-full p-4 focus:ring-2 focus:ring-primary outline-none"
+        placeholder="e.g. wim-ap-xander-roof"
+        [(ngModel)]="ttnDeviceId"
+        required
+      />
+      <p class="text-gray-500 text-xs italic mt-1">
+        * Required | Match the Device ID from TTN exactly
+      </p>
+    </div>
+  </div>
+  <div class="flex justify-center mt-8">
+    <button
+      class="w-full max-w-md bg-primary text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-200 active:scale-95 flex items-center justify-center gap-2"
+      (click)="next()"
+    >
+      Next
+      <lucide-angular
+        name="arrow-right"
+        class="text-white transition-all duration-100"
+      ></lucide-angular>
+    </button>
+  </div>
+</div>

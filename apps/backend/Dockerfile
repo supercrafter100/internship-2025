@@ -21,8 +21,8 @@ RUN npm install --frozen-lockfile
 RUN npm install tslib
 
 COPY --from=builder /app/out/full/ .
-RUN npx turbo run build
 RUN npx turbo run db:generate
+RUN npx turbo run build
 
 # For some reason this isn't getting installed??
 
@@ -31,5 +31,7 @@ WORKDIR /app
 COPY --from=installer /app .
 
 WORKDIR /app/apps/backend
+
+RUN apk add curl
 
 CMD ["node", "backend/dist/src/main.js"]

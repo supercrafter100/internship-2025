@@ -1,0 +1,44 @@
+<div
+  *ngIf="videos.length > 0 || !loaded"
+  class="grid grid-cols-2 w-full bg-gray-100 rounded-lg shadow"
+>
+  <div
+    class="flex flex-col border-r border-gray-300 h-full max-h-148 overflow-y-scroll"
+  >
+    <div
+      *ngFor="let file of videos"
+      class="flex flex-row gap-2 items-center justify-between hover:bg-gray-200 transition-colors duration-100 py-2 px-5"
+      (click)="video = getVideoUrl(file)"
+    >
+      <!-- Date -->
+      <div>
+        <span>{{ formatName(file.name) }}</span>
+        <span class="text-sm text-gray-400 italic ml-1"
+          >({{ bytesToSize(file.size) }})</span
+        >
+      </div>
+      <a class="flex flex-row gap-2" target="_blank" [href]="getVideoUrl(file)">
+        <lucide-angular
+          name="download"
+          class="text-white bg-primary-light text-xl p-1 rounded-lg cursor-pointer hover:opacity-70 transition-opacity duration-100"
+        ></lucide-angular>
+      </a>
+    </div>
+  </div>
+  <div class="w-full h-full flex items-center justify-center">
+    <video class="rounded-lg shadow" controls [src]="video"></video>
+  </div>
+</div>
+<div
+  *ngIf="videos.length === 0 && loaded"
+  class="mt-10 bg-yellow-200 flex items-center justify-center py-8 px-5 rounded-lg"
+>
+  <div class="flex flex-col items-center">
+    <lucide-angular name="alert-triangle" class="text-yellow-600 w-10 h-10" />
+    <h1 class="text-xl font-bold text-yellow-600">No data available</h1>
+    <p class="text-gray-700">
+      No videos available for this device. This likely indicates the video send
+      service is not working
+    </p>
+  </div>
+</div>

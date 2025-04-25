@@ -4,10 +4,12 @@
             "previewLimit": 50,
             "server": "94.130.168.9",
             "port": 5432,
+            "askForPassword": true,
             "driver": "PostgreSQL",
             "name": "Uganda",
             "database": "ap_environment",
             "username": "ellerman"
         }
-    ]
+    ],
+    "codetogether.virtualCursorJoin": "ownVirtualCursor"
 }

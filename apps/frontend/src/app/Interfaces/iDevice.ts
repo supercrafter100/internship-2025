@@ -1,11 +1,13 @@
+import { DeviceType } from '../../types/types';
+
 export enum Transfer_protocol {
-  Wifi,
+  WIFI,
   LoraWan,
   LTE,
 }
 
 export enum Device_Type {
-  WIM,
+  WIMV1,
   ROB,
   GATE,
 }
@@ -13,12 +15,13 @@ export enum Device_Type {
 export interface Device {
   id: string;
   name: string;
-  img_id: string;
-  creation_date: string;
+  description: string;
+  imgKey: string;
+  createdAt: string;
   latitude: string;
   longitude: string;
-  transfer_protocol: Transfer_protocol;
-  device_type: Device_Type;
+  protocol: Transfer_protocol;
+  deviceType: string;
 }
 
 export interface WimReading {

@@ -12,18 +12,26 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.1.0",
+    "@angular/cdk": "^19.2.5",
     "@angular/common": "^19.1.0",
     "@angular/compiler": "^19.1.0",
     "@angular/core": "^19.1.0",
     "@angular/forms": "^19.1.0",
+    "@angular/material": "^19.2.5",
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
     "@bsaffer/common": "*",
+    "@ngneat/hot-toast": "^7.0.0",
     "@tailwindcss/postcss": "^4.0.6",
-    "keycloak-angular": "^19.0.2",
-    "keycloak-js": "^26.2.0",
+    "ajv-formats": "^3.0.1",
+    "flowbite": "^3.1.2",
+    "highcharts": "^12.2.0",
+    "highcharts-angular": "^4.0.1",
     "lucide-angular": "^0.475.0",
+    "ngx-dom-confetti": "^0.5.1",
+    "ngx-quill": "^27.0.1",
+    "ol": "^10.4.0",
     "postcss": "^8.5.2",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.0.6",
@@ -42,5 +50,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.7.2"
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-linux-arm64-musl": "^4.0.9",
+    "lightningcss-linux-arm64-musl": "^1.29.1"
   }
 }

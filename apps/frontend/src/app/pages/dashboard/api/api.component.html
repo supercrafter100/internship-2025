@@ -1,0 +1,91 @@
+<app-layout>
+  <div class="p-16 w-full">
+    <!-- Top add button -->
+    <div class="flex w-full justify-end">
+      <div class="text-right">
+        <button
+          class="bg-primary-light text-white p-2 rounded-lg flex items-center justify-center cursor-pointer"
+          (click)="openModal()"
+        >
+          <lucide-angular name="plus" class="text-white"></lucide-angular>
+          Add
+        </button>
+      </div>
+    </div>
+    <!-- Table with ID, Name, Key (obscured) and then a view and delete button -->
+    <h1
+      *ngIf="apiKeys.length == 0"
+      class="font-bold text-center text-xl w-full"
+    >
+      You don't have any api keys configured yet!
+    </h1>
+    <div class="overflow-x-auto" *ngIf="apiKeys.length > 0">
+      <table class="w-full border-collapse rounded-lg overflow-hidden">
+        <thead>
+          <tr class="text-gray-400 font-extralight">
+            <th class="py-2 px-4 text-left">ID</th>
+            <th class="py-2 px-4 text-left">Name</th>
+            <th class="py-2 px-4 text-left">Key</th>
+            <th class="py-2 px-4 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t-2 border-gray-200" *ngFor="let key of apiKeys">
+            <td class="py-1 px-4">{{ key.id }}</td>
+            <td class="py-1 px-4">{{ key.name }}</td>
+            <td class="py-1 px-4">
+              {{ isHidden(key.id) ? "************************" : key.key }}
+            </td>
+            <td class="py-1 px-4 flex justify-end space-x-1">
+              <button
+                class="bg-primary-light text-white p-1 rounded hover:opacity-80 transition-opacity duration-100 cursor-pointer"
+                (click)="toggleShowKey(key.id)"
+              >
+                <lucide-angular name="eye" class="text-white"></lucide-angular>
+              </button>
+              <button
+                class="bg-red-500 text-white p-1 rounded hover:opacity-80 transition-opacity duration-100"
+                (click)="deleteKey(key.id)"
+              >
+                <lucide-angular
+                  name="trash-2"
+                  class="text-white"
+                ></lucide-angular>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-modal
+      [isModalOpen]="modalOpen"
+      (onClose)="closeModal()"
+      title="Add API key"
+    >
+      <p>Enter the API key name and click "add" to create the new API key</p>
+      <label for="name" class="block mt-6">Name</label>
+      <div class="grid grid-cols-4 gap-3">
+        <div class="col-span-3">
+          <input
+            type="text"
+            id="name"
+            class="w-full border border-gray-200 rounded-lg p-2"
+            [(ngModel)]="newKeyName"
+          />
+          <p class="text-gray-500 text-sm italic font-light">
+            * Max 50 characters
+          </p>
+        </div>
+        <div class="col-span-1 w-full">
+          <button
+            class="bg-primary-light text-white p-2 rounded-lg flex items-center justify-center w-full cursor-pointer hover:opacity-80 transition-opacity duration-100"
+            (click)="addKey()"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </app-modal>
+  </div>
+</app-layout>

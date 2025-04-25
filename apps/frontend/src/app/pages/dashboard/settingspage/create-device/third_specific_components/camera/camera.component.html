@@ -1,0 +1,118 @@
+<div class="mt-10">
+  <h2 class="text-xl font-semibold text-gray-900">Camera configuration</h2>
+  <p class="text-gray-600 text-sm mt-2">
+    Configure your camera to automatically upload video footage to the BSaffer
+    platform using the credentials below.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+    <!-- Username -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">Username</label>
+      <div class="relative">
+        <input
+          type="text"
+          readonly
+          class="border border-gray-400 bg-gray-100 rounded-lg w-full p-4 cursor-text select-all pr-12"
+          [value]="cameraUsername"
+        />
+      </div>
+      <p class="text-gray-500 text-xs italic mt-1">
+        Use this as the username for your camera storage config.
+      </p>
+    </div>
+
+    <!-- Password -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">Password</label>
+      <div class="relative">
+        <input
+          type="text"
+          readonly
+          class="border border-gray-400 bg-gray-100 rounded-lg w-full p-4 cursor-text select-all pr-12"
+          [value]="cameraPassword"
+        />
+      </div>
+      <p class="text-gray-500 text-xs italic mt-1">
+        This password allows the camera to write to the storage.
+      </p>
+    </div>
+
+    <!-- Bucket -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">Bucket</label>
+      <div class="relative">
+        <input
+          type="text"
+          readonly
+          class="border border-gray-400 bg-gray-100 rounded-lg w-full p-4 cursor-text select-all pr-12"
+          [value]="cameraBucket"
+        />
+      </div>
+      <p class="text-gray-500 text-xs italic mt-1">
+        This is the folder your camera should write to in the cloud.
+      </p>
+    </div>
+
+    <!-- Directory -->
+    <div>
+      <label
+        class="block text-gray-700 font-medium mb-2 flex items-center gap-2"
+      >
+        Directory
+        <span
+          class="group relative w-5 h-5 bg-gray-200 text-gray-600 rounded-full text-center text-xs font-bold cursor-pointer"
+        >
+          ?
+          <span
+            class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 bg-white text-gray-800 text-xs rounded-md shadow-md p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+          >
+            Replace &lt;datum&gt; with the current date in
+            <strong>YYYY-MM-DD</strong> format.<br />
+            Example: <code>videos/ugandatest/2025-04-24.mp4</code>
+          </span>
+        </span>
+      </label>
+      <div class="relative">
+        <input
+          type="text"
+          readonly
+          class="border border-gray-400 bg-gray-100 rounded-lg w-full p-4 cursor-text select-all pr-12"
+          [value]="cameraDirectory"
+        />
+      </div>
+      <p class="text-gray-500 text-xs italic mt-1">
+        Path where the video will be stored. Make sure to include today's date.
+      </p>
+    </div>
+  </div>
+
+  <!-- Endpoint URL -->
+  <div class="mt-6">
+    <label class="block text-gray-700 font-medium mb-2"
+      >MinIO Endpoint URL</label
+    >
+    <div class="relative">
+      <input
+        type="text"
+        readonly
+        class="border border-gray-400 bg-gray-100 rounded-lg w-full p-4 cursor-text select-all pr-12"
+        [value]="cameraEndpoint"
+      />
+    </div>
+    <p class="text-gray-500 text-xs italic mt-1">
+      This is the storage server your camera must connect to.
+    </p>
+  </div>
+
+  <button
+    class="w-full max-w-md bg-primary text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-200 active:scale-95 flex items-center justify-center gap-2"
+    (click)="next()"
+  >
+    Next
+    <lucide-angular
+      name="arrow-right"
+      class="text-white transition-all duration-100"
+    ></lucide-angular>
+  </button>
+</div>
