@@ -15,6 +15,8 @@ import { UserService } from './services/user/user.service';
 import { UserController } from './controllers/user/user.controller';
 import { ApikeyController } from './controllers/apikey/apikey.controller';
 import { ApikeyService } from './services/apikey/apikey.service';
+import { ApikeyController } from './controllers/apikey/apikey.controller';
+import { ApikeyService } from './services/apikey/apikey.service';
 import { TtncredController } from './controllers/ttncred/ttncred.controller';
 import { TtnService } from './services/ttn/ttn.service';
 import { HealthController } from './controllers/health/health.controller';
