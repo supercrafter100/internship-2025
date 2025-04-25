@@ -88,7 +88,7 @@ export class DeviceService {
     return await this.influx.queryData(
       `from(bucket: "${process.env.INFLUXDB_BUCKET}")
         |> range(start: 0)
-        |> filter(fn: (r) => r._measurement == "tpm" and r.device_id == "${id}")
+        |> filter(fn: (r) => r._measurement == "mqtt_data" and r.device_id == "${id}")
         |> aggregateWindow(every: 1m, fn: last, createEmpty: false) 
         |> pivot(rowKey:["device_id","_time"], columnKey:["_field"], valueColumn:"_value")
         |> drop(columns: ["_start", "_stop", "_measurement", "result", "table", "device"])
@@ -104,7 +104,7 @@ export class DeviceService {
     return this.influx.queryData(
       `from(bucket: "${process.env.INFLUXDB_BUCKET}")
         |> range(start: ${start}, stop: ${end})  // Gebruik start en end als parameters
-        |> filter(fn: (r) => r._measurement == "tpm" and r.device_id == "${id}")
+        |> filter(fn: (r) => r._measurement == "mqtt_data" and r.device_id == "${id}")
         |> aggregateWindow(every: 1m, fn: last, createEmpty: false) 
         |> pivot(rowKey:["device_id","_time"], columnKey:["_field"], valueColumn:"_value")
         |> drop(columns: ["_start", "_stop", "_measurement", "device_id"])
