@@ -121,9 +121,19 @@ export class MqttService {
         console.log(values);
         const mappedData: Record<string, any> = {};
 
-        parameters.forEach((param, index) => {
-            mappedData[param.name] = values[index] || null;
-        });
+        let i = 0;
+        for (const param of parameters) {
+            if (i < values.length) {
+                mappedData[param.name] = values[i] || null;
+            } else {
+                mappedData[param.name] = null; // Vul met null als er geen waarde is
+            }
+            i++;
+        }
+
+        // parameters.forEach((param, index) => {
+        //     mappedData[param.name] = values[index] || null;
+        // });
 
         logger.info(
             `📦 Geparsed data voor device: ${JSON.stringify(mappedData)}`
