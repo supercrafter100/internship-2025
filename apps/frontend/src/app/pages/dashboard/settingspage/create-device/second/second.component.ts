@@ -66,6 +66,10 @@ export class SecondComponent {
 
     switch (existingSettings.deviceType) {
       case DeviceType.MQTT:
+        this.router.navigate([
+          [document.location.pathname.slice(0, -2)] + '/2.1',
+        ]);
+        break;
       case DeviceType.TTN:
         this.router.navigate([
           [document.location.pathname.slice(0, -2)] + '/2.1',
