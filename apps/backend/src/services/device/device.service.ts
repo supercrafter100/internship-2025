@@ -86,7 +86,7 @@ export class DeviceService {
   //Requesting all data for one sensor from influx
   async getAllMeasurementsForDevice(id: string) {
     return await this.influx.queryData(
-      `from(bucket: "${INFLUXDB_BUCKET}")
+      `from(bucket: "${process.env.INFLUXDB_BUCKET}")
         |> range(start: 0)
         |> filter(fn: (r) => r._measurement == "tpm" and r.device == "${id}")
         |> aggregateWindow(every: 1m, fn: last, createEmpty: false) 
@@ -102,7 +102,7 @@ export class DeviceService {
     end: string,
   ) {
     return this.influx.queryData(
-      `from(bucket: "${INFLUXDB_BUCKET}")
+      `from(bucket: "${process.env.INFLUXDB_BUCKET}")
         |> range(start: ${start}, stop: ${end})  // Gebruik start en end als parameters
         |> filter(fn: (r) => r._measurement == "tpm" and r.device == "${id}")
         |> aggregateWindow(every: 1m, fn: last, createEmpty: false) 
