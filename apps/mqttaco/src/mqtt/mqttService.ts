@@ -123,6 +123,9 @@ export class MqttService {
 
         let i = 0;
         for (const param of parameters) {
+            if (i >= values.length) {
+                break; // Stop als er geen waarden meer zijn
+            }
             mappedData[param.name] = parseFloat(values[i]);
             i++;
         }
