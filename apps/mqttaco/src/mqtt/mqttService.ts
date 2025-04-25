@@ -117,13 +117,12 @@ export class MqttService {
     }
 
     private mapPayloadToParams(payload: string, parameters: any[]) {
+        console.log(parameters);
         const values = payload.split(';');
-        console.log(values);
         const mappedData: Record<string, any> = {};
 
         let i = 0;
         for (const param of parameters) {
-            console.log(values[i]);
             mappedData[param.name] = parseFloat(values[i]);
             i++;
         }
