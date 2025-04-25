@@ -24,6 +24,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:dev": "npx prisma db push --force-reset",
     "db:seed": "prisma db seed",
+    "start:deploy": "npm run db:deploy && npm run start:prod",
     "ci:dev": "npm run db:dev && npm run db:seed && npm run start:prod"
   },
   "dependencies": {

@@ -15,7 +15,7 @@ services:
       - traefik.http.routers.frontend-prod.tls.certresolver=letsencrypt
 
   backend:
-    command: npm run ci:dev
+    command: npm run start:deploy
     container_name: b-saffer-backend-prod
     depends_on:
       postgres:
