@@ -32,4 +32,6 @@ COPY --from=installer /app .
 
 WORKDIR /app/apps/backend
 
+RUN apk add curl
+
 CMD ["node", "backend/dist/src/main.js"]
