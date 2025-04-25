@@ -111,7 +111,7 @@ export class MqttService {
   }
 
   private mapPayloadToParams(payload: string, parameters: any[]) {
-    const values = payload.split(",");
+    const values = payload.split(";");
     const mappedData: Record<string, any> = {};
 
     parameters.forEach((param, index) => {
