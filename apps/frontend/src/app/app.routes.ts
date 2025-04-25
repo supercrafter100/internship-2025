@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { CreateProjectComponent } from './pages/create-project/create-project.component';
-import { canActivateAuthRole } from './guards/app-auth.guard';
+import { HomeComponent } from './pages/project/home/home.component';
+import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
 import { ProjectInfoComponent } from './pages/project/project-info/project-info.component';
