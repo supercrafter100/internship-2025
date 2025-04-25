@@ -26,9 +26,10 @@ services:
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgres://bsaffer:EqhvLbsPhrkkZjcaGWcV7qT@postgres:5432/bsaffer
-      - MINIO_USER=bsaffer
-      - MINIO_PASS=adminadmin
-      - MINIO_BUCKET=b-saffer
+      - MINIO_ENDPOINT=minio-prod.bsaffer.iot-ap.be
+      - MINIO_ACCESSKEY=bsaffer
+      - MINIO_SECRETKEY=XvketrRmsyw6fHj5U4GZxq
+      - MINIO_BUCKET=bsaffer
 
       - OAUTH_CLIENT_ID=${OAUTH_CLIENT_ID}
       - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
