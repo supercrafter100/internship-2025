@@ -172,7 +172,7 @@ model TtnDeviceDetail {
 model Video {
   id         Int      @id @default(autoincrement())
   device     Device   @relation(fields: [deviceId], references: [id])
-  deviceId   Int
+  deviceId   String
   videoUrl   String   @db.VarChar(500)
   recordedAt DateTime @default(now())
 }

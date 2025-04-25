@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import { randomBytes } from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -186,10 +185,6 @@ async function main() {
   );
 
   console.log('Seeding completed.');
-}
-
-function generateKey() {
-  return randomBytes(32).toString('hex').substring(0, 16);
 }
 
 main()
