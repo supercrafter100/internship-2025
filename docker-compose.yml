@@ -10,9 +10,9 @@ services:
     volumes:
       - ./apps/frontend/frontend.conf:/etc/nginx/conf.d/default.conf
     labels:
-      - traefik.http.routers.frontend-staging.rule=Host(`${SERVER_DOMAIN}`)
-      - traefik.http.routers.frontend-staging.tls=true
-      - traefik.http.routers.frontend-staging.tls.certresolver=letsencrypt
+      - traefik.http.routers.frontend-prod.rule=Host(`${SERVER_DOMAIN}`)
+      - traefik.http.routers.frontend-prod.tls=true
+      - traefik.http.routers.frontend-prod.tls.certresolver=letsencrypt
 
   backend:
     command: npm run ci:dev
@@ -49,11 +49,11 @@ services:
       - backend
     labels:
       - traefik.docker.network=traefik
-      - traefik.http.routers.backend-staging.rule=Host(`${SERVER_DOMAIN}`) && PathPrefix(`/api`)
-      - traefik.http.routers.backend-staging.tls=true
-      - traefik.http.routers.backend-staging.tls.certresolver=letsencrypt
-      - traefik.http.routers.backend-staging.middlewares=backend-stripprefix
-      - traefik.http.services.backend-staging.loadbalancer.server.port=3000
+      - traefik.http.routers.backend-prod.rule=Host(`${SERVER_DOMAIN}`) && PathPrefix(`/api`)
+      - traefik.http.routers.backend-prod.tls=true
+      - traefik.http.routers.backend-prod.tls.certresolver=letsencrypt
+      - traefik.http.routers.backend-prod.middlewares=backend-stripprefix
+      - traefik.http.services.backend-prod.loadbalancer.server.port=3000
       - traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
