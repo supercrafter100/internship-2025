@@ -18,10 +18,14 @@ import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
 import { SetupTTNParametersDTO } from '@bsaffer/api/device/dto/setupTTNParameters.dto';
 import { canViewProject } from 'src/auth/methods/canViewProject';
 import { SessionRequest } from 'src/auth/sessionData';
+import { ApikeyService } from 'src/services/apikey/apikey.service';
 
 @Controller('devices')
 export class DevicesController {
-  constructor(private readonly devicesService: DeviceService) {}
+  constructor(
+    private readonly devicesService: DeviceService,
+    private readonly apiKeyService: ApikeyService,
+  ) {}
 
   @Post()
   create(@Body() createDeviceDto: CreateDeviceDto) {
@@ -75,7 +79,22 @@ export class DevicesController {
   }
 
   @Get(':id/measurements')
-  async getAllMeasurementsForDevice(@Param('id') id: string) {
+  async getAllMeasurementsForDevice(
+    @Param('id') id: string,
+    @Req() request: SessionRequest,
+  ) {
+    const device = await this.devicesService.findOne(id);
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    if (
+      !canViewProject(request, device.projectId) &&
+      !(await this.isValidAPIKey(request, device.projectId))
+    ) {
+      throw new UnauthorizedException();
+    }
+
     return await this.devicesService.getAllMeasurementsForDevice(id);
   }
 
@@ -93,7 +112,10 @@ export class DevicesController {
       throw new NotFoundException();
     }
 
-    if (!canViewProject(request, device.projectId)) {
+    if (
+      !canViewProject(request, device.projectId) &&
+      !(await this.isValidAPIKey(request, device.projectId))
+    ) {
       throw new UnauthorizedException();
     }
 
@@ -119,7 +141,10 @@ export class DevicesController {
       throw new NotFoundException();
     }
 
-    if (!canViewProject(request, device.projectId)) {
+    if (
+      !canViewProject(request, device.projectId) &&
+      !(await this.isValidAPIKey(request, device.projectId))
+    ) {
       throw new UnauthorizedException();
     }
 
@@ -155,7 +180,10 @@ export class DevicesController {
       throw new NotFoundException();
     }
 
-    if (!canViewProject(request, device.projectId)) {
+    if (
+      !canViewProject(request, device.projectId) &&
+      !(await this.isValidAPIKey(request, device.projectId))
+    ) {
       throw new UnauthorizedException();
     }
 
@@ -164,5 +192,27 @@ export class DevicesController {
 
   private async refreshMQTTaco() {
     await fetch(process.env.MQTTACO_REFRESH_URL!);
+  }
+
+  private async isValidAPIKey(request: SessionRequest, projectId: number) {
+    if (
+      !request.headers.authorization ||
+      !request.headers.authorization.startsWith('Bearer')
+    ) {
+      throw new UnauthorizedException();
+    }
+
+    const key = request.headers.authorization.split(' ')[1];
+    const matchingKey = await this.apiKeyService.getApiKey(key);
+
+    if (!matchingKey) {
+      throw new UnauthorizedException();
+    }
+
+    if (matchingKey.projectId !== projectId) {
+      throw new UnauthorizedException();
+    }
+
+    return true;
   }
 }
