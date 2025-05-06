@@ -30,8 +30,6 @@ export const routes: Routes = [
   {
     path: 'create-project',
     component: CreateProjectComponent,
-    // canActivate: [canActivateAuthRole],
-    // data: { roles: ['PlatformOwner'] },
   },
   {
     path: 'create-project/:step',

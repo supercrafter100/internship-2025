@@ -46,8 +46,8 @@ export class UserService {
   public async canAccessProject(projectId: number): Promise<boolean> {
     const user = await this.getUserInfo();
     if (!user) return false;
-
     if (user.internalUser.admin) return true;
+
     return user.projects.some((project) => project.projectId === projectId);
   }
 
