@@ -10,9 +10,9 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
-import { TtnService } from 'src/services/ttn/ttn.service';
-import { canEditProject } from 'src/auth/methods/canEditProject';
-import { SessionRequest } from 'src/auth/sessionData';
+import { TtnService } from '../../services/ttn/ttn.service';
+import { canEditProject } from '../../auth/methods/canEditProject';
+import { SessionRequest } from '../../auth/sessionData';
 import { TtnProvider } from '@prisma/client';
 import { CreateTtnCredDto } from '@bsaffer/api/ttncred/dto/create-ttncred.dto';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
@@ -52,7 +52,7 @@ export class TtncredController {
 
   // Update TTN credentials for a project
   @Patch('project/:id')
-  public async updateTtnCreds(
+  public updateTtnCreds(
     @Param('id') id: string,
     @Body() body: UpdateDeviceDto,
     @Req() request: SessionRequest,
@@ -61,7 +61,7 @@ export class TtncredController {
     if (!canEditProject(request, +id)) {
       throw new UnauthorizedException();
     }
-    return res.status(200).json({ message: 'Update successful' });
+    return void res.status(200).json({ message: 'Update successful' });
   }
 
   // Delete TTN credentials from a project

@@ -9,10 +9,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ApiKey } from '@prisma/client';
-import { ApikeyService } from 'src/services/apikey/apikey.service';
+import { ApikeyService } from '../../services/apikey/apikey.service';
 import { CreateApiKeyDto } from '@bsaffer/api/api/dto/create-apiKey.dto';
-import { SessionRequest } from 'src/auth/sessionData';
-import { canEditProject } from 'src/auth/methods/canEditProject';
+import { SessionRequest } from '../../auth/sessionData';
+import { canEditProject } from '../../auth/methods/canEditProject';
 
 @Controller('apikey')
 export class ApikeyController {

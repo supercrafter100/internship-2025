@@ -16,9 +16,9 @@ import { DeviceService } from '../../services/device/device.service';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
 import { SetupTTNParametersDTO } from '@bsaffer/api/device/dto/setupTTNParameters.dto';
-import { canViewProject } from 'src/auth/methods/canViewProject';
-import { SessionRequest } from 'src/auth/sessionData';
-import { ApikeyService } from 'src/services/apikey/apikey.service';
+import { canViewProject } from '../../auth/methods/canViewProject';
+import { SessionRequest } from '../../auth/sessionData';
+import { ApikeyService } from '../../services/apikey/apikey.service';
 
 @Controller('devices')
 export class DevicesController {
