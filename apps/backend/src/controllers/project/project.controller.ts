@@ -10,11 +10,11 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ProjectService } from 'src/services/project/project.service';
+import { ProjectService } from '../../services/project/project.service';
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
-import { SessionRequest } from 'src/auth/sessionData';
-import { isAdmin } from 'src/auth/methods/isAdmin';
+import { SessionRequest } from '../../auth/sessionData';
+import { isAdmin } from '../../auth/methods/isAdmin';
 
 @Controller('project')
 export class ProjectController {

@@ -7,8 +7,8 @@ import {
   Put,
   Req,
 } from '@nestjs/common';
-import { SessionRequest } from 'src/auth/sessionData';
-import { UserService } from 'src/services/user/user.service';
+import { SessionRequest } from '../../auth/sessionData';
+import { UserService } from '../../services/user/user.service';
 
 @Controller('user')
 export class UserController {
@@ -35,7 +35,6 @@ export class UserController {
   // This endpoint is used to retrieve all users associated with a specific project. It requires the project ID in the request parameters.
   @Get('projects/:projectId/users')
   async getProjectUsers(@Req() req: SessionRequest) {
-    const internalUser = req.session.internalUser;
     const projectId = req.params.projectId;
     let users = await this.userService.getAllProjectUsers(Number(projectId));
     return users;
@@ -44,12 +43,11 @@ export class UserController {
   // This endpoint is used to update the admin status of a user in a project. It requires the project ID, user ID, and admin status in the request body.
   @Put('projects/:projectId/users/:userId/admin')
   async updateAdminStatus(@Req() req: SessionRequest) {
-    const internalUser = req.body;
     const projectId = req.params.projectId;
     const userId = req.params.userId;
     const admin = req.body.admin;
 
-    this.userService.updateAdminStatus(Number(projectId), userId, admin);
+    await this.userService.updateAdminStatus(Number(projectId), userId, admin);
   }
 
   // This endpoint is used to add a user to a project. It requires the project ID and the user's email in the request body.

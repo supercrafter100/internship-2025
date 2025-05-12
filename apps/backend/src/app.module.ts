@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 
@@ -22,7 +20,6 @@ import { HealthController } from './controllers/health/health.controller';
 @Module({
   imports: [PrismaModule, InfluxdbModule, MinioClientModule, AuthModule],
   controllers: [
-    AppController,
     ProjectController,
     DevicesController,
     UserController,
@@ -31,7 +28,6 @@ import { HealthController } from './controllers/health/health.controller';
     HealthController,
   ],
   providers: [
-    AppService,
     PrismaService,
     ProjectService,
     DeviceService,

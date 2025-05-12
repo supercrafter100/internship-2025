@@ -1,6 +1,6 @@
 import { UserProfile } from '@bsaffer/common/entity/user.entity';
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UserService {
@@ -23,7 +23,6 @@ export class UserService {
       },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return createdUser;
   }
 

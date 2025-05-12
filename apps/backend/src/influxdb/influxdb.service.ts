@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InfluxDB, WriteApi, Point } from '@influxdata/influxdb-client';
+import { InfluxDB } from '@influxdata/influxdb-client';
 
 @Injectable()
 export class InfluxdbService {
@@ -9,7 +9,7 @@ export class InfluxdbService {
   private org = process.env.INFLUXDB_ORGANISATION!;
   private client: InfluxDB;
 
-  public async queryData(fluxQuery: string): Promise<string[]> {
+  public async queryData<T>(fluxQuery: string): Promise<T[]> {
     let client = new InfluxDB({ url: this.url, token: this.token });
     let result: any[] = [];
 
@@ -19,6 +19,6 @@ export class InfluxdbService {
       result.push(tableMeta.toObject(values));
     }
 
-    return result;
+    return result as T[];
   }
 }

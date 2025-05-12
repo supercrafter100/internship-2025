@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  ActivatedRoute,
   ActivatedRouteSnapshot,
   CanActivate,
-  CanActivateFn,
   GuardResult,
-  MaybeAsync,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
@@ -37,7 +34,6 @@ export class ProjectGuard implements CanActivate {
     const params = route.params;
     if (params['id']) {
       const canAccess = await this.userService.canAccessProject(+params['id']);
-      console.log(canAccess);
       if (!canAccess) {
         if (route.queryParams['fromLogin']) {
           this.router.navigateByUrl('/home?failedLogin=true');
