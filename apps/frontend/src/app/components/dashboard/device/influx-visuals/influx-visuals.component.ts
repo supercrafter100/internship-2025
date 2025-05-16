@@ -129,20 +129,21 @@ export class InfluxVisualsComponent implements VisualComponent, OnInit {
       legend: {
         enabled: false,
       },
-
       series: [
         {
-          type: 'line',
+          type: 'spline',
           data: this.data.map((item) => [
             new Date(item['_time']).getTime(),
             item[measurementKey],
           ]),
-          lineWidth: 0.5,
-          boostThreshold: 1,
+          lineWidth: 1,
+          marker: {
+            enabled: false,
+          },
         },
       ],
       time: {
-        timezone: 'Europe/Brussels',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       },
       credits: {
         enabled: false,
