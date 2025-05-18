@@ -171,4 +171,25 @@ describe('ProjectService', () => {
       data: updatedProject,
     });
   });
+
+  it('should delete a project', async () => {
+    const deletedProject = {
+      title: 'Deleted Project',
+      shortDescription: 'Deleted Description',
+      userId: 0,
+      public: false,
+      id: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      imgKey: 'base64Image',
+    };
+
+    mockPrismaService.project.delete.mockResolvedValue(deletedProject);
+    const result = await service.remove(1);
+
+    expect(result).toEqual(deletedProject);
+    expect(mockPrismaService.project.delete).toHaveBeenCalledWith({
+      where: { id: 1 },
+    });
+  });
 });
