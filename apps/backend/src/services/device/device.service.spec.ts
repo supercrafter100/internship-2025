@@ -160,4 +160,27 @@ describe('DeviceService', () => {
     expect(result).toEqual(expectedResult);
     expect(mockPrismaService.device.findMany).toHaveBeenCalled();
   });
+
+  it('should find a device by id', async () => {
+    const expectedResult = {
+      id: 'abc123',
+      deviceType: 'sensor',
+      projectId: 1,
+      name: 'Test Device',
+      description: 'Test Description',
+      latitude: '52.3702' as unknown as Decimal,
+      longitude: '4.8952' as unknown as Decimal,
+      imgKey: 'base64ImageString',
+      createdByid: null,
+      createdAt: new Date(),
+    };
+
+    mockPrismaService.device.findUnique.mockResolvedValue(expectedResult);
+
+    const result = await service.findOne('abc123');
+    expect(result).toEqual(expectedResult);
+    expect(mockPrismaService.device.findUnique).toHaveBeenCalledWith({
+      where: { id: 'abc123' },
+    });
+  });
 });
