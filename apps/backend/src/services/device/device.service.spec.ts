@@ -183,4 +183,70 @@ describe('DeviceService', () => {
       where: { id: 'abc123' },
     });
   });
+
+  it('getAllMeasurementsForDevice should call influx queryData', async () => {
+    const expectedResult = [
+      {
+        time: '2023-10-01T00:00:00Z',
+        value: 25,
+      },
+      {
+        time: '2023-10-01T00:05:00Z',
+        value: 26,
+      },
+      {
+        time: '2023-10-01T00:10:00Z',
+        value: 27,
+      },
+    ];
+
+    mockInfluxService.queryData.mockResolvedValue(expectedResult);
+
+    const result = await service.getAllMeasurementsForDevice('abc123');
+    expect(result).toEqual(expectedResult);
+    expect(mockInfluxService.queryData).toHaveBeenCalledWith(
+      `from(bucket: "${process.env.INFLUXDB_BUCKET}")
+        |> range(start: 0)
+        |> filter(fn: (r) => r._measurement == "mqtt_data" and r.device_id == "abc123")
+        |> aggregateWindow(every: 5s, fn: last, createEmpty: false) 
+        |> pivot(rowKey:["device_id","_time"], columnKey:["_field"], valueColumn:"_value")
+        |> drop(columns: ["_start", "_stop", "_measurement", "result", "table", "device"])
+        |> sort(columns:["_time"])`,
+    );
+  });
+
+  it('getspecificMeasurementsForDevice should call influx queryData', async () => {
+    const expectedResult = [
+      {
+        time: '2023-10-01T00:00:00Z',
+        value: 25,
+      },
+      {
+        time: '2023-10-01T00:05:00Z',
+        value: 26,
+      },
+      {
+        time: '2023-10-01T00:10:00Z',
+        value: 27,
+      },
+    ];
+
+    mockInfluxService.queryData.mockResolvedValue(expectedResult);
+
+    const result = await service.getSpecificMeasurementsForDevice(
+      '1',
+      '2023-7-01T00:00:00Z',
+      '2023-10-01T00:10:00Z',
+    );
+    expect(result).toEqual(expectedResult);
+    expect(mockInfluxService.queryData).toHaveBeenCalledWith(
+      `from(bucket: "${process.env.INFLUXDB_BUCKET}")
+        |> range(start: 2023-7-01T00:00:00Z, stop: 2023-10-01T00:10:00Z)  // Gebruik start en end als parameters
+        |> filter(fn: (r) => r._measurement == "mqtt_data" and r.device_id == "1")
+        |> aggregateWindow(every: 5s, fn: last, createEmpty: false) 
+        |> pivot(rowKey:["device_id","_time"], columnKey:["_field"], valueColumn:"_value")
+        |> drop(columns: ["_start", "_stop", "_measurement", "device_id"])
+        |> sort(columns:["_time"])`,
+    );
+  });
 });
