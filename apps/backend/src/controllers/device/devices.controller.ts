@@ -203,7 +203,7 @@ export class DevicesController {
     }
 
     const key = request.headers.authorization.split(' ')[1];
-    const matchingKey = await this.apiKeyService.getApiKey(key);
+    const matchingKey = await this.apiKeyService.getApiKeyByKey(key);
 
     if (!matchingKey) {
       throw new UnauthorizedException();
