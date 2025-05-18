@@ -2,10 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectService } from './project.service';
 import { MinioClientService } from '../../minio-client/minio-client.service';
 import { PrismaService } from '../../prisma/prisma.service';
-import { title } from 'process';
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
-import { create } from 'domain';
-import { console } from 'inspector';
 
 describe('ProjectService', () => {
   let service: ProjectService;
@@ -59,6 +56,7 @@ describe('ProjectService', () => {
       ...demoProject,
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { base64Image, ...rest } = demoProject;
     const expectedPrismaCall = { ...rest, imgKey: 'base64Image' };
 
@@ -124,6 +122,40 @@ describe('ProjectService', () => {
 
     mockPrismaService.project.findMany.mockResolvedValue(mockPrismaResult);
     const result = await service.findAll(true);
+
+    expect(result).toEqual(expectedProjects);
+    expect(mockPrismaService.project.findMany).toHaveBeenCalled();
+  });
+
+  it('should find all projects but not hidden', async () => {
+    const expectedProjects = [
+      {
+        title: 'Test Project 1',
+        shortDescription: 'Test Description 1',
+        userId: 0,
+        public: false,
+        id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        imgKey: 'base64Image1',
+      },
+    ];
+
+    const mockPrismaResult = [
+      {
+        title: 'Test Project 1',
+        shortDescription: 'Test Description 1',
+        userId: 0,
+        public: false,
+        id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        imgKey: 'base64Image1',
+      },
+    ];
+
+    mockPrismaService.project.findMany.mockResolvedValue(mockPrismaResult);
+    const result = await service.findAll(false);
 
     expect(result).toEqual(expectedProjects);
     expect(mockPrismaService.project.findMany).toHaveBeenCalled();

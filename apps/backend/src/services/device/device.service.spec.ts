@@ -5,9 +5,9 @@ import { InfluxdbService } from '../../influxdb/influxdb.service';
 import { MinioClientService } from '../../minio-client/minio-client.service';
 import { Decimal } from '@prisma/client/runtime/library';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
-import { de } from '@faker-js/faker/.';
-import { mock } from 'node:test';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
+import { SetupTTNParametersDTO } from '@bsaffer/api/device/dto/setupTTNParameters.dto';
+import { expect } from '@jest/globals';
 
 describe('DeviceService', () => {
   let service: DeviceService;
@@ -185,6 +185,32 @@ describe('DeviceService', () => {
     });
   });
 
+  it('should set TTN parameters for a device', async () => {
+    const setupTTNParameters: SetupTTNParametersDTO = {
+      ttnDeviceId: 'device123',
+      ttnProviderId: 5,
+    };
+
+    const expectedResult = {
+      id: 1,
+      ttnDeviceId: 'device123',
+      ttnProviderId: 5,
+      deviceId: 'abc',
+    };
+
+    mockPrismaService.ttnDeviceDetail.create.mockResolvedValue(expectedResult);
+
+    const result = await service.setTTNParameters('abc123', setupTTNParameters);
+    expect(result).toEqual(expectedResult);
+    expect(mockPrismaService.ttnDeviceDetail.create).toHaveBeenCalledWith({
+      data: {
+        ttnDeviceId: setupTTNParameters.ttnDeviceId,
+        ttnProviderId: setupTTNParameters.ttnProviderId,
+        deviceId: 'abc123',
+      },
+    });
+  });
+
   it('getAllMeasurementsForDevice should call influx queryData', async () => {
     const expectedResult = [
       {
@@ -277,7 +303,7 @@ describe('DeviceService', () => {
   });
 
   // Todo change to real test
-  it('should update a device', async () => {
+  it('should update a device', () => {
     const updateDeviceDto: UpdateDeviceDto = {
       deviceType: 'sensor',
       projectId: 1,
@@ -289,7 +315,7 @@ describe('DeviceService', () => {
     expect(result).toEqual(`This action updates a #${1} device`);
   });
   // Todo change to real test
-  it('should remove a device', async () => {
+  it('should remove a device', () => {
     const result = service.remove(1);
     expect(result).toEqual(`This action removes a #${1} device`);
   });
@@ -313,5 +339,39 @@ describe('DeviceService', () => {
     expect(mockMinioClientService.listFiles).toHaveBeenCalledWith(
       'videos/abc123',
     );
+  });
+
+  it('should generate a CSV file for a device', async () => {
+    const mockMeasurements = [
+      {
+        time: '2023-10-01T00:00:00Z',
+        value: 25,
+      },
+      {
+        time: '2023-10-01T00:05:00Z',
+        value: 26,
+      },
+    ];
+
+    mockInfluxService.queryData.mockResolvedValue(mockMeasurements);
+    const result = await service.generateCsvFromMeasurements(
+      'abc123',
+      '2023-10-01T00:00:00Z',
+      '2023-10-01T00:10:00Z',
+    );
+    expect(result).not.toBeNull();
+  });
+
+  it('should fail if no measurements are found for csv', async () => {
+    const mockMeasurements = [];
+
+    mockInfluxService.queryData.mockResolvedValue(mockMeasurements);
+    await expect(
+      service.generateCsvFromMeasurements(
+        'abc123',
+        '2023-10-01T00:00:00Z',
+        '2023-10-01T00:10:00Z',
+      ),
+    ).rejects.toThrow('Geen meetgegevens gevonden voor dit apparaat.');
   });
 });
