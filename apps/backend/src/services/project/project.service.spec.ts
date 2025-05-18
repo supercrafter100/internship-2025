@@ -38,7 +38,7 @@ describe('ProjectService', () => {
     expect(service).toBeDefined();
   });
 
-  //BACKEND TEST 01_1
+  //BACKEND TESTS 01_1
   //Unit test die de service waarmee een project wordt aangemaakt in de backend zal verifiëren
   it('should create a project', async () => {
     // Demo project
@@ -73,5 +73,59 @@ describe('ProjectService', () => {
     expect(mockMinioClientService.uploadBase64Image).toHaveBeenCalledWith(
       demoProject.base64Image,
     );
+  });
+
+  it('should find all projects', async () => {
+    const expectedProjects = [
+      {
+        title: 'Test Project 1',
+        shortDescription: 'Test Description 1',
+        userId: 0,
+        public: false,
+        id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        imgKey: 'base64Image1',
+      },
+      {
+        title: 'Test Project 2',
+        shortDescription: 'Test Description 2',
+        userId: 0,
+        public: false,
+        id: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        imgKey: 'base64Image2',
+      },
+    ];
+
+    const mockPrismaResult = [
+      {
+        title: 'Test Project 1',
+        shortDescription: 'Test Description 1',
+        userId: 0,
+        public: false,
+        id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        imgKey: 'base64Image1',
+      },
+      {
+        title: 'Test Project 2',
+        shortDescription: 'Test Description 2',
+        userId: 0,
+        public: false,
+        id: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        imgKey: 'base64Image2',
+      },
+    ];
+
+    mockPrismaService.project.findMany.mockResolvedValue(mockPrismaResult);
+    const result = await service.findAll(true);
+
+    expect(result).toEqual(expectedProjects);
+    expect(mockPrismaService.project.findMany).toHaveBeenCalled();
   });
 });
