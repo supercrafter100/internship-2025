@@ -149,4 +149,26 @@ describe('ProjectService', () => {
       where: { id: 1 },
     });
   });
+
+  it('should update a project', async () => {
+    const updatedProject = {
+      title: 'Updated Project',
+      shortDescription: 'Updated Description',
+      userId: 0,
+      public: false,
+      id: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      imgKey: 'base64Image',
+    };
+
+    mockPrismaService.project.update.mockResolvedValue(updatedProject);
+    const result = await service.update(1, updatedProject);
+
+    expect(result).toEqual(updatedProject);
+    expect(mockPrismaService.project.update).toHaveBeenCalledWith({
+      where: { id: 1 },
+      data: updatedProject,
+    });
+  });
 });
