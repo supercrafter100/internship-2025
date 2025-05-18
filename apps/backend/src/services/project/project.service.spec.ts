@@ -128,4 +128,25 @@ describe('ProjectService', () => {
     expect(result).toEqual(expectedProjects);
     expect(mockPrismaService.project.findMany).toHaveBeenCalled();
   });
+
+  it('should find a project by id', async () => {
+    const expectedProject = {
+      title: 'Test Project',
+      shortDescription: 'Test Description',
+      userId: 0,
+      public: false,
+      id: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      imgKey: 'base64Image',
+    };
+
+    mockPrismaService.project.findUnique.mockResolvedValue(expectedProject);
+    const result = await service.findOne(1);
+
+    expect(result).toEqual(expectedProject);
+    expect(mockPrismaService.project.findUnique).toHaveBeenCalledWith({
+      where: { id: 1 },
+    });
+  });
 });
