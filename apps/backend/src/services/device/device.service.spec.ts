@@ -7,6 +7,7 @@ import { Decimal } from '@prisma/client/runtime/library';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
 import { de } from '@faker-js/faker/.';
 import { mock } from 'node:test';
+import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
 
 describe('DeviceService', () => {
   let service: DeviceService;
@@ -273,5 +274,44 @@ describe('DeviceService', () => {
     expect(mockPrismaService.device.findMany).toHaveBeenCalledWith({
       where: { projectId: 1 },
     });
+  });
+
+  // Todo change to real test
+  it('should update a device', async () => {
+    const updateDeviceDto: UpdateDeviceDto = {
+      deviceType: 'sensor',
+      projectId: 1,
+      latitude: 52.3702,
+      longitude: 4.8952,
+    };
+
+    const result = service.update(1, updateDeviceDto);
+    expect(result).toEqual(`This action updates a #${1} device`);
+  });
+  // Todo change to real test
+  it('should remove a device', async () => {
+    const result = service.remove(1);
+    expect(result).toEqual(`This action removes a #${1} device`);
+  });
+
+  it('should retrieve camera files from a device', async () => {
+    const expectedResult = [
+      {
+        name: 'image1.mp4',
+        size: 12345,
+      },
+      {
+        name: 'image2.mp4',
+        size: 67890,
+      },
+    ];
+
+    mockMinioClientService.listFiles.mockResolvedValue(expectedResult);
+
+    const result = await service.getCameraFiles('abc123');
+    expect(result).toEqual(expectedResult);
+    expect(mockMinioClientService.listFiles).toHaveBeenCalledWith(
+      'videos/abc123',
+    );
   });
 });
