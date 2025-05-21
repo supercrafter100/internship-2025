@@ -17,6 +17,7 @@ import { FinishComponent } from './pages/dashboard/settingspage/create-device/fi
 import { ManageusersComponent } from './pages/dashboard/settingspage/manageusers/manageusers/manageusers.component';
 import { DashboardDeviceComponent } from './pages/dashboard/devices/device/device.component';
 import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
+import { PlatformAdminGuard } from './guards/auth-platformadmin.guard';
 
 export const routes: Routes = [
   {
@@ -30,10 +31,12 @@ export const routes: Routes = [
   {
     path: 'create-project',
     component: CreateProjectComponent,
+    canActivate: [PlatformAdminGuard],
   },
   {
     path: 'create-project/:step',
     component: CreateProjectStepsComponent,
+    canActivate: [PlatformAdminGuard],
   },
   {
     path: 'project/:id',

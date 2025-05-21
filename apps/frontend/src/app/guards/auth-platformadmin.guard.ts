@@ -9,7 +9,7 @@ import {
 import { UserService } from '../services/user.service';
 
 @Injectable()
-export class ProjectGuard implements CanActivate {
+export class PlatformAdminGuard implements CanActivate {
   constructor(
     private userService: UserService,
     private router: Router,
@@ -31,26 +31,7 @@ export class ProjectGuard implements CanActivate {
       return false;
     }
 
-    const params = route.params;
-    if (params['id']) {
-      const canAccess = await this.userService.canAccessProject(+params['id']);
-      if (!canAccess) {
-        if (route.queryParams['fromLogin']) {
-          this.router.navigateByUrl('/home?failedLogin=true');
-          return false;
-        }
-
-        window.location.href =
-          '/api/auth/oauth/login?redirectUrl=' + encodeURIComponent(state.url);
-      }
-
-      if (route.queryParams['fromLogin']) {
-        // Redirect to same page without query params
-        this.router.navigateByUrl(state.url.split('?')[0]);
-      }
-      return canAccess;
-    }
-
-    return false;
+    const isPlatformAdmin = await this.userService.isPlatformAdmin();
+    return isPlatformAdmin;
   }
 }

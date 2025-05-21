@@ -25,11 +25,11 @@ services:
       dockerfile: ./apps/backend/Dockerfile
     restart: unless-stopped
     environment:
-      - DATABASE_URL=postgres://bsaffer:EqhvLbsPhrkkZjcaGWcV7qT@postgres:5432/bsaffer
-      - MINIO_ENDPOINT=minio-prod.bsaffer.iot-ap.be
-      - MINIO_ACCESSKEY=bsaffer
-      - MINIO_SECRETKEY=XvketrRmsyw6fHj5U4GZxq
-      - MINIO_BUCKET=bsaffer
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      - MINIO_ENDPOINT=${MINIO_DOMAIN}
+      - MINIO_ACCESSKEY=${MINIO_ACCESSKEY}
+      - MINIO_SECRETKEY=${MINIO_SECRET_KEY}
+      - MINIO_BUCKET=${MINIO_BUCKET}
 
       - OAUTH_CLIENT_ID=${OAUTH_CLIENT_ID}
       - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
@@ -43,7 +43,7 @@ services:
       - INFLUXDB_ORGANISATION=${INFLUXDB_ORGANISATION}
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
 
-      - SESSION_SECRET=kmqlsdfsqmfjsqmlfqsfkjqsmlkfjqsdlfqslmdjflqsdjfmlqsdfmkqjsdfmjqsdfmokjqsdofj
+      - SESSION_SECRET=${SESSION_SECRET}
       - MQTTACO_REFRESH_URL=http://mqttaco:4000/refresh-ttn-clients
     networks:
       - proxy
@@ -65,9 +65,9 @@ services:
     image: postgres:16
     restart: unless-stopped
     environment:
-      POSTGRES_DB: bsaffer
-      POSTGRES_USER: bsaffer
-      POSTGRES_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - data:/var/lib/postgresql/data
     healthcheck:
@@ -87,18 +87,18 @@ services:
     volumes:
       - minioData:/data
     environment:
-      - MINIO_ROOT_USER=admin
-      - MINIO_ROOT_PASSWORD=adminadmin
-      - MINIO_BROWSER_REDIRECT_URL=https://minio-prod.bsaffer.iot-ap.be/minio/ui/
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - MINIO_BROWSER_REDIRECT_URL=https://${MINIO_DOMAIN}/minio/ui/
     labels:
       - traefik.docker.network=traefik
-      - traefik.http.routers.minio-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`)
+      - traefik.http.routers.minio-prod.rule=Host(`${MINIO_DOMAIN}`)
       - traefik.http.routers.minio-prod.tls=true
       - traefik.http.routers.minio-prod.service=minio-prod
       - traefik.http.routers.minio-prod.tls.certresolver=letsencrypt
       - traefik.http.services.minio-prod.loadbalancer.server.port=9000
 
-      - traefik.http.routers.minio-ui-prod.rule=Host(`minio-prod.bsaffer.iot-ap.be`) && PathPrefix(`/minio/ui`)
+      - traefik.http.routers.minio-ui-prod.rule=Host(`${MINIO_DOMAIN}`) && PathPrefix(`/minio/ui`)
       - traefik.http.routers.minio-ui-prod.tls=true
       - traefik.http.routers.minio-ui-prod.service=minio-ui-prod
       - traefik.http.routers.minio-ui-prod.tls.certresolver=letsencrypt
@@ -114,12 +114,12 @@ services:
     networks:
       - backend
     environment:
-      - MQTT_BROKER_URL=mqtt://mqtt.iot-ap.be
+      - MQTT_BROKER_URL=mqtt://mosquitto
       - INFLUX_DB_URL=http://influxdb:8086/
       - INFLUX_DB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUX_DB_BUCKET=${INFLUXDB_BUCKET}
       - INFLUX_DB_ORG=${INFLUXDB_ORGANISATION}
-      - PG_DB_URL=postgres://bsaffer:EqhvLbsPhrkkZjcaGWcV7qT@postgres:5432/bsaffer
+      - PG_DB_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     depends_on:
       postgres:
         condition: service_healthy
@@ -141,14 +141,22 @@ services:
     environment:
       - TZ=${TIMEZONE}
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=adminadmin
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_INIT_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_INIT_PASSWORD}
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORGANISATION}
       - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
       - DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME=BSAFFER
     restart: unless-stopped
 
+  mosquitto:
+    image: eclipse-mosquitto:2.0.20
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    ports:
+      - 1883:1883
 networks:
   proxy:
     external: true

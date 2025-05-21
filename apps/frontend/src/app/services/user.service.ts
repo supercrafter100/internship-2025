@@ -61,6 +61,13 @@ export class UserService {
     );
   }
 
+  public async isPlatformAdmin(): Promise<boolean> {
+    const user = await this.getUserInfo();
+    if (!user) return false;
+
+    return user.internalUser.admin;
+  }
+
   public async getAllUsers(): Promise<User[]> {
     const response: User[] = await fetch(this._apiUrl + '/user/all')
       .then((res) => res.json())

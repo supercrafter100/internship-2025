@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { randomBytes } from 'crypto';
 
 @Injectable()
@@ -14,7 +14,15 @@ export class ApikeyService {
     });
   }
 
-  public getApiKey(key: string) {
+  public getApiKey(key: number) {
+    return this.prismaService.apiKey.findUnique({
+      where: {
+        id: key,
+      },
+    });
+  }
+
+  public getApiKeyByKey(key: string) {
     return this.prismaService.apiKey.findUnique({
       where: {
         key,

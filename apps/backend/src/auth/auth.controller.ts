@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UserService } from 'src/services/user/user.service';
+import { UserService } from '../services/user/user.service';
 import { SessionRequest } from './sessionData';
 
 @Controller('auth')

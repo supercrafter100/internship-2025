@@ -1,6 +1,6 @@
 import { UserProfile } from '@bsaffer/common/entity/user.entity';
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UserService {
@@ -23,7 +23,6 @@ export class UserService {
       },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return createdUser;
   }
 
@@ -70,15 +69,12 @@ export class UserService {
 
   // Dit is een helper functie die je kan gebruiken om een user toe te voegen aan een project
   public async addUserToProject(projectId: number, userEmail: string) {
-    console.log(userEmail);
     // Zoek de user op met de gegeven email
     const user = await this.prisma.user.findUnique({
       where: {
         email: userEmail,
       },
     });
-
-    console.log('User:', user);
 
     if (!user) {
       throw new Error('User not found');

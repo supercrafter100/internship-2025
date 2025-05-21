@@ -2,7 +2,7 @@ import { CreateTtnCredDto } from '@bsaffer/api/ttncred/dto/create-ttncred.dto';
 import { UpdateTtnCredDto } from '@bsaffer/api/ttncred/dto/update-ttncred.dto';
 
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class TtnService {

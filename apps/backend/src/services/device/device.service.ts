@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateDeviceDto } from '@bsaffer/api/device/dto/create-device.dto';
 import { UpdateDeviceDto } from '@bsaffer/api/device/dto/update-device.dto';
-import { InfluxdbService } from 'src/influxdb/influxdb.service';
-import { WimMeasurement } from '@bsaffer/api/device/parser/wim-measurement';
+import { InfluxdbService } from '../../influxdb/influxdb.service';
 import { parse } from 'json2csv'; //CSV
-import { MinioClientService } from 'src/minio-client/minio-client.service';
+import { MinioClientService } from '../../minio-client/minio-client.service';
 import { SetupTTNParametersDTO } from '@bsaffer/api/device/dto/setupTTNParameters.dto';
 
 @Injectable()
@@ -63,6 +58,7 @@ export class DeviceService {
   }
 
   update(id: number, updateDeviceDto: UpdateDeviceDto) {
+    console.log(updateDeviceDto);
     return `This action updates a #${id} device`;
   }
 
