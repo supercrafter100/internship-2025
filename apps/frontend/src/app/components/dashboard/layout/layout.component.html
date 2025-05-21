@@ -4,7 +4,7 @@
     <hr class="text-gray-300 mx-5 -mt-3 mb-8" />
     <div class="mx-5 flex flex-col gap-5">
       <a
-        *ngFor="let element of navButtons"
+        *ngFor="let element of getViewableNavItems()"
         [routerLink]="getParsedLink(element.href)"
         class="text-white flex flex-row items-center rounded-xl p-2"
         [style.background-color]="getBgColor(element.href, element.exact)"
