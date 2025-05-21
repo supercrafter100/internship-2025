@@ -30,18 +30,21 @@ export class LayoutComponent implements OnInit {
       title: 'API',
       href: '/dashboard/{id}/api',
       exact: false,
+      requiresAdmin: true,
     },
     {
       icon: 'bell',
       title: 'Notifications',
       href: '/dashboard/{id}/notifications',
       exact: false,
+      requiresAdmin: true,
     },
     {
       icon: 'cog',
       title: 'Settings',
       href: '/dashboard/{id}/settings',
       exact: false,
+      requiresAdmin: true,
     },
   ];
 
@@ -64,6 +67,12 @@ export class LayoutComponent implements OnInit {
 
   public getParsedLink(link: string): string {
     return link.replace('{id}', this.route.snapshot.params['id']);
+  }
+
+  public getViewableNavItems() {
+    if (!this.user) return [];
+    if (this.user.internalUser.admin) return this.navButtons;
+    return this.navButtons.filter((button) => button.requiresAdmin !== true);
   }
 
   public async ngOnInit(): Promise<void> {
