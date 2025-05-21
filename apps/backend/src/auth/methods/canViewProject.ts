@@ -6,5 +6,7 @@ export function canViewProject(request: SessionRequest, projectId: number) {
   }
   if (request.session.internalUser.admin) return true;
   console.log(request.session.projects);
-  return request.session.projects.some((project) => project.id === projectId);
+  return request.session.projects.some(
+    (project) => project.projectId === projectId,
+  );
 }
