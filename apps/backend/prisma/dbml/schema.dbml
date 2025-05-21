@@ -1,0 +1,170 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Dashboard {
+  id Int [pk, increment]
+  projectId Int [unique, not null]
+  project Project [not null]
+  preset Json
+  type DashboardType [not null]
+}
+
+Table Project {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  title String [not null]
+  shortDescription String [not null]
+  launchpad Launchpad
+  userId Int [not null]
+  author User [not null]
+  projectUsers ProjectUser [not null]
+  devices Device [not null]
+  public Boolean [not null]
+  Dashboard Dashboard [not null]
+  imgKey String [not null]
+  ApiKey ApiKey [not null]
+  TtnProvider TtnProvider [not null]
+}
+
+Table TtnProvider {
+  id Int [pk, increment]
+  project Project [not null]
+  projectId Int [not null]
+  appUrl String [not null]
+  appId String [not null]
+  apiKey String [not null]
+  addedAt DateTime [default: `now()`, not null]
+  createdBy User
+  createdByid Int
+  TtnDeviceDetail TtnDeviceDetail [not null]
+}
+
+Table ProjectUser {
+  id Int [pk, increment]
+  project Project [not null]
+  projectId Int [not null]
+  user User [not null]
+  userId Int [not null]
+  admin Boolean [not null]
+
+  indexes {
+    (projectId, userId) [unique]
+  }
+}
+
+Table Launchpad {
+  id Int [pk, increment]
+  preset Json [not null]
+  projectId Int [unique, not null]
+  project Project [not null]
+  tiles Tile [not null]
+}
+
+Table Tile {
+  id Int [pk, increment]
+  title String [not null]
+  description String [not null]
+  imgKey String [not null]
+  launchpadId Int [not null]
+  launchpad Launchpad [not null]
+}
+
+Table User {
+  id Int [pk, increment]
+  providerId String [unique, not null]
+  email String [unique, not null]
+  name String [not null]
+  admin Boolean [not null, default: false]
+  projects Project [not null]
+  projectUsers ProjectUser [not null]
+  Device Device [not null]
+  TtnProvider TtnProvider [not null]
+}
+
+Table Device {
+  id String [pk]
+  deviceType String [not null]
+  project Project [not null]
+  projectId Int [not null]
+  name String [not null]
+  description String [not null]
+  latitude Decimal [not null]
+  longitude Decimal [not null]
+  imgKey String [not null]
+  createdBy User
+  createdByid Int
+  createdAt DateTime [default: `now()`, not null]
+  deviceParameters deviceParameters [not null]
+  videos Video [not null]
+  TtnDeviceDetail TtnDeviceDetail
+}
+
+Table deviceParameters {
+  id Int [pk, increment]
+  deviceId String [not null]
+  device Device [not null]
+  name String [not null]
+  description String [not null]
+}
+
+Table TtnDeviceDetail {
+  id Int [pk, increment]
+  device Device [not null]
+  deviceId String [unique, not null]
+  ttnDeviceId String [not null]
+  ttnProvider TtnProvider [not null]
+  ttnProviderId Int [not null]
+}
+
+Table Video {
+  id Int [pk, increment]
+  device Device [not null]
+  deviceId String [not null]
+  videoUrl String [not null]
+  recordedAt DateTime [default: `now()`, not null]
+}
+
+Table ApiKey {
+  id Int [pk, increment]
+  name String [not null]
+  key String [unique, not null]
+  project Project [not null]
+  projectId Int [not null]
+}
+
+Enum DashboardType {
+  STANDARD
+  CUSTOM
+}
+
+Ref: Dashboard.projectId > Project.id [delete: Cascade]
+
+Ref: Project.userId > User.id
+
+Ref: TtnProvider.projectId > Project.id [delete: Cascade]
+
+Ref: TtnProvider.createdByid > User.id
+
+Ref: ProjectUser.projectId > Project.id
+
+Ref: ProjectUser.userId > User.id
+
+Ref: Launchpad.projectId - Project.id [delete: Cascade]
+
+Ref: Tile.launchpadId > Launchpad.id
+
+Ref: Device.projectId > Project.id
+
+Ref: Device.createdByid > User.id
+
+Ref: deviceParameters.deviceId > Device.id
+
+Ref: TtnDeviceDetail.deviceId - Device.id
+
+Ref: TtnDeviceDetail.ttnProviderId > TtnProvider.id
+
+Ref: Video.deviceId > Device.id
+
+Ref: ApiKey.projectId > Project.id
