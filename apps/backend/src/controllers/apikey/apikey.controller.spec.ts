@@ -45,7 +45,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: true },
-        projects: [{ id: 1, admin: true }],
+        projects: [{ projectId: 1, admin: true }],
       } as any;
 
       const response = await controller.getProjectKeys('5', request as any);
@@ -73,7 +73,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: false },
-        projects: [{ id: 5, admin: true }],
+        projects: [{ projectId: 5, admin: true }],
       } as any;
 
       const response = await controller.getProjectKeys('5', request as any);
@@ -86,7 +86,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: false },
-        projects: [{ id: 1, admin: false }],
+        projects: [{ projectId: 1, admin: false }],
       } as any;
 
       await expect(
@@ -106,7 +106,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: false },
-        projects: [{ id: 5, admin: true }],
+        projects: [{ projectId: 5, admin: true }],
       } as any;
 
       const response = await controller.getProjectKeys('5', request as any);
@@ -122,7 +122,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: false },
-        projects: [{ id: 5, admin: true }],
+        projects: [{ projectId: 5, admin: true }],
       } as any;
 
       const response = await controller.createApiKey(
@@ -144,7 +144,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: true },
-        projects: [{ id: 1, admin: true }],
+        projects: [{ projectId: 1, admin: true }],
       } as any;
 
       const response = await controller.createApiKey(
@@ -161,7 +161,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: false },
-        projects: [{ id: 1, admin: false }],
+        projects: [{ projectId: 1, admin: false }],
       } as any;
 
       await expect(
@@ -180,7 +180,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: true },
-        projects: [{ id: 1, admin: true }],
+        projects: [{ projectId: 1, admin: true }],
       } as any;
 
       const response = await controller.deleteApiKey('1', request as any);
@@ -196,7 +196,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: true },
-        projects: [{ id: 1, admin: true }],
+        projects: [{ projectId: 1, admin: true }],
       } as any;
 
       await expect(
@@ -210,7 +210,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: false },
-        projects: [{ id: 1, admin: false }],
+        projects: [{ projectId: 1, admin: false }],
       } as any;
 
       await expect(
@@ -227,7 +227,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: false },
-        projects: [{ id: 1, admin: false }],
+        projects: [{ projectId: 1, admin: false }],
       } as any;
       await expect(
         controller.deleteApiKey('1', request as any),
@@ -244,7 +244,7 @@ describe('ApikeyController', () => {
       const request = mocks.createRequest();
       request.session = {
         internalUser: { admin: false },
-        projects: [{ id: 5, admin: true }],
+        projects: [{ projectId: 5, admin: true }],
       } as any;
 
       const response = await controller.deleteApiKey('1', request as any);

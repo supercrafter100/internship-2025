@@ -20,7 +20,7 @@ describe('canEditProject', () => {
     const request = {
       session: {
         internalUser: { admin: false },
-        projects: [{ id: 5, admin: true }],
+        projects: [{ projectId: 5, admin: true }],
       },
     } as any;
     expect(canEditProject(request, 5)).toBe(true);
@@ -30,7 +30,7 @@ describe('canEditProject', () => {
     const request = {
       session: {
         internalUser: { admin: false },
-        projects: [{ id: 5, admin: false }],
+        projects: [{ projectId: 5, admin: false }],
       },
     } as any;
     expect(canEditProject(request, 5)).toBe(false);

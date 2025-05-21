@@ -6,6 +6,6 @@ export function canEditProject(request: SessionRequest, projectId: number) {
   }
   if (request.session.internalUser.admin) return true;
   return request.session.projects.some(
-    (project) => project.id === projectId && project.admin === true,
+    (project) => project.projectId === projectId && project.admin === true,
   );
 }
