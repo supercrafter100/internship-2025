@@ -70,8 +70,12 @@ export class LayoutComponent implements OnInit {
   }
 
   public getViewableNavItems() {
-    if (!this.user) return [];
+    if (!this.user) return this.getPublicButtons();
     if (this.user.internalUser.admin) return this.navButtons;
+    return this.getPublicButtons();
+  }
+
+  public getPublicButtons() {
     return this.navButtons.filter((button) => button.requiresAdmin !== true);
   }
 
