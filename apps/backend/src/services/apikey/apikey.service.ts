@@ -14,7 +14,15 @@ export class ApikeyService {
     });
   }
 
-  public getApiKey(key: string) {
+  public getApiKey(key: number) {
+    return this.prismaService.apiKey.findUnique({
+      where: {
+        id: key,
+      },
+    });
+  }
+
+  public getApiKeyByKey(key: string) {
     return this.prismaService.apiKey.findUnique({
       where: {
         key,

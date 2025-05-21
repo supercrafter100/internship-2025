@@ -15,5 +15,6 @@
 
   "jest.jestCommandLine": "node_modules/.bin/jest --config ./apps/backend/jest.config.ts",
   "jest.rootPath": "apps/backend",
-  "jest.runAllTestsFirst": false
+  "jest.runAllTestsFirst": false,
+  "dbmlERDPreviewer.preferredTheme": "light"
 }

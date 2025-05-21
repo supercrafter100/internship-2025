@@ -19,6 +19,7 @@ import { SetupTTNParametersDTO } from '@bsaffer/api/device/dto/setupTTNParameter
 import { canViewProject } from '../../auth/methods/canViewProject';
 import { SessionRequest } from '../../auth/sessionData';
 import { ApikeyService } from '../../services/apikey/apikey.service';
+import { canEditProject } from 'src/auth/methods/canEditProject';
 
 @Controller('devices')
 export class DevicesController {
@@ -38,8 +39,14 @@ export class DevicesController {
   }
 
   @Get('project/:id')
-  findAllForProject(@Param('id') id: string, @Req() request: SessionRequest) {
-    if (!canViewProject(request, +id)) {
+  async findAllForProject(
+    @Param('id') id: string,
+    @Req() request: SessionRequest,
+  ) {
+    if (
+      !canViewProject(request, +id) &&
+      !(await this.isValidAPIKey(request, +id))
+    ) {
       throw new UnauthorizedException();
     }
     return this.devicesService.findAllForProject(+id);
@@ -52,7 +59,10 @@ export class DevicesController {
       throw new NotFoundException();
     }
 
-    if (!canViewProject(request, device.projectId)) {
+    if (
+      !canViewProject(request, device.projectId) &&
+      !(await this.isValidAPIKey(request, device.projectId))
+    ) {
       throw new UnauthorizedException();
     }
 
@@ -60,12 +70,39 @@ export class DevicesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeviceDto: UpdateDeviceDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateDeviceDto: UpdateDeviceDto,
+    @Req() request: SessionRequest,
+  ) {
+    const device = await this.devicesService.findOne(id);
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    if (
+      !canEditProject(request, device.projectId) &&
+      !(await this.isValidAPIKey(request, device.projectId))
+    ) {
+      throw new UnauthorizedException();
+    }
     return this.devicesService.update(+id, updateDeviceDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Req() request: SessionRequest) {
+    const device = await this.devicesService.findOne(id);
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    if (
+      !canEditProject(request, device.projectId) &&
+      !(await this.isValidAPIKey(request, device.projectId))
+    ) {
+      throw new UnauthorizedException();
+    }
+
     return this.devicesService.remove(+id);
   }
 
@@ -73,7 +110,20 @@ export class DevicesController {
   async setupTTNParameters(
     @Param('id') id: string,
     @Body() body: SetupTTNParametersDTO,
+    @Req() request: SessionRequest,
   ) {
+    const device = await this.devicesService.findOne(id);
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    if (
+      !canEditProject(request, device.projectId) &&
+      !(await this.isValidAPIKey(request, device.projectId))
+    ) {
+      throw new UnauthorizedException();
+    }
+
     await this.devicesService.setTTNParameters(id, body);
     await this.refreshMQTTaco();
   }
@@ -203,7 +253,7 @@ export class DevicesController {
     }
 
     const key = request.headers.authorization.split(' ')[1];
-    const matchingKey = await this.apiKeyService.getApiKey(key);
+    const matchingKey = await this.apiKeyService.getApiKeyByKey(key);
 
     if (!matchingKey) {
       throw new UnauthorizedException();

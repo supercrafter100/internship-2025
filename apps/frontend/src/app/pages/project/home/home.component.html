@@ -13,6 +13,7 @@
     ></app-project>
   </main>
   <a
+    *ngIf="isAdmin"
     class="fixed bottom-10 right-10 rounded-full bg-white h-15 w-15 md:flex justify-center items-center hover:scale-120 transition-all duration-200 hidden"
     routerLink="/create-project"
   >

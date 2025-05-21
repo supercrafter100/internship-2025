@@ -78,6 +78,7 @@ import { InfluxVisualsComponent } from './components/dashboard/device/influx-vis
 import { CameraVisualsComponent } from './components/dashboard/device/camera-visuals/camera-visuals.component';
 import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
 import { TtnCredentialsTableComponent } from './components/settings/ttn/ttn-credentials-table/ttn-credentials-table.component';
+import { PlatformAdminGuard } from './guards/auth-platformadmin.guard';
 
 @NgModule({
   declarations: [
@@ -157,7 +158,12 @@ import { TtnCredentialsTableComponent } from './components/settings/ttn/ttn-cred
     NgxDomConfettiModule,
     HighchartsChartModule,
   ],
-  providers: [provideHotToastConfig(), ProjectAdminGuard, ProjectGuard],
+  providers: [
+    provideHotToastConfig(),
+    ProjectAdminGuard,
+    ProjectGuard,
+    PlatformAdminGuard,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

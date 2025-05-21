@@ -49,7 +49,7 @@ export class ApikeyController {
     @Req() request: SessionRequest,
   ): Promise<void> {
     // Get the project associated to this key
-    const apiKey = await this.apiKeyService.getApiKey(key);
+    const apiKey = await this.apiKeyService.getApiKey(+key);
     if (!apiKey) {
       throw new UnauthorizedException();
     }
@@ -59,6 +59,6 @@ export class ApikeyController {
       throw new UnauthorizedException();
     }
 
-    await this.apiKeyService.deleteApiKey(+key);
+    await this.apiKeyService.deleteApiKey(apiKey.id);
   }
 }

@@ -69,15 +69,12 @@ export class UserService {
 
   // Dit is een helper functie die je kan gebruiken om een user toe te voegen aan een project
   public async addUserToProject(projectId: number, userEmail: string) {
-    console.log(userEmail);
     // Zoek de user op met de gegeven email
     const user = await this.prisma.user.findUnique({
       where: {
         email: userEmail,
       },
     });
-
-    console.log('User:', user);
 
     if (!user) {
       throw new Error('User not found');

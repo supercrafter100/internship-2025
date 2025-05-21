@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../services/project.service';
 import { Project } from '@bsaffer/common/entity/project.entity';
 import { HotToastService } from '@ngneat/hot-toast';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +12,11 @@ import { HotToastService } from '@ngneat/hot-toast';
 })
 export class HomeComponent implements OnInit {
   public projects: Project[] = [];
+  public isAdmin = false;
 
   constructor(
     private readonly _projectService: ProjectService,
+    private readonly _userService: UserService,
     private readonly toast: HotToastService,
   ) {}
 
@@ -25,5 +28,8 @@ export class HomeComponent implements OnInit {
     if (searchParams.has('failedLogin')) {
       this.toast.error('You do not have access to the requested project.');
     }
+
+    const user = await this._userService.getUserInfo().catch(() => undefined);
+    this.isAdmin = user?.internalUser.admin || false;
   }
 }
