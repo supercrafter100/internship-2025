@@ -73,7 +73,9 @@ export class UserProjects {
     userProjects.projectId = json.projectId;
     userProjects.userId = json.userId;
     userProjects.admin = json.admin;
-    userProjects.project = Project.fromJson(json.project);
+    if (json.project !== undefined) {
+      userProjects.project = Project.fromJson(json.project);
+    }
     return userProjects;
   }
 }
