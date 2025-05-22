@@ -108,6 +108,7 @@ export class DashboardDevicesComponent implements OnInit {
         const link = feature.get('link'); // Getting feature's name
 
         // Dynamically setting popup content
+        document.getElementById('popup')!.style.display = 'block';
         document.getElementById('popup-title')!.textContent = name;
         document.getElementById('popup-description')!.textContent =
           `Coordinates: ${coordinates}`;
