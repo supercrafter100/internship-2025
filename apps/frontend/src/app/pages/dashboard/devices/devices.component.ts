@@ -36,6 +36,7 @@ export class DashboardDevicesComponent implements OnInit {
   public _points: MapPoint[] = [];
   public url: string[] | undefined;
   public popupOverlay!: Overlay;
+  public loadingMap = true;
 
   public devices: Device[] = [];
 
@@ -150,6 +151,7 @@ export class DashboardDevicesComponent implements OnInit {
         link: '/dashboard/' + projectId + '/devices/' + device.id,
       }));
       this.updateMapPoints();
+      this.loadingMap = false;
     });
   }
 
