@@ -11,6 +11,7 @@ import { ProjectService } from '../../../services/project.service';
 })
 export class ProjectInfoComponent implements OnInit {
   public project: Project | undefined;
+  public projectId: number | null = null;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -21,6 +22,7 @@ export class ProjectInfoComponent implements OnInit {
   public ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
       const projectId = params['id'];
+      this.projectId = Number(projectId);
       const project = await this.projectService.getProject(projectId);
 
       if (!project) {
