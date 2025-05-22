@@ -18,6 +18,8 @@ export class DeviceFrameSmallComponent {
   @Input() Lat: string = '';
   @Input() Long: string = '';
   @Input() Creator: string = 'Xander Van Raemdonck';
-  @Input() CreatorImgUrl: string =
-    'https://images.unsplash.com/photo-1500522144261-ea64433bbe27?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80';
+
+  public getCreatorUrl(): string {
+    return `https://api.dicebear.com/5.x/initials/png?seed=${this.Creator.replaceAll(' ', '+')}`;
+  }
 }
