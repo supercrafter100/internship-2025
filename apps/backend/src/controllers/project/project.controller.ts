@@ -53,6 +53,24 @@ export class ProjectController {
     return projects;
   }
 
+  @Get('own')
+  async findOwn(@Req() request: SessionRequest) {
+    if (!request.session.internalUser) {
+      throw new UnauthorizedException();
+    }
+
+    if (request.session.internalUser.admin) {
+      // just return everything
+      return this.projectService.findAll(true);
+    }
+
+    return this.projectService
+      .findOwn(request.session.internalUser.id)
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const project = await this.projectService.findOne(+id).catch((error) => {

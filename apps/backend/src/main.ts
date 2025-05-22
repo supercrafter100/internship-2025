@@ -4,7 +4,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { json } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { PrismaClient } from '@prisma/client';
 import * as pg from 'pg';
 import * as session from 'express-session';
 import * as pgSessionConnect from 'connect-pg-simple';
@@ -12,18 +11,6 @@ const pgSession = pgSessionConnect(session);
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
-  const prisma = new PrismaClient();
-
-  await prisma.$executeRawUnsafe(`
-  CREATE TABLE IF NOT EXISTS "session" (
-  "sid" varchar NOT NULL COLLATE "default",
-  "sess" json NOT NULL,
-  "expire" timestamp(6) NOT NULL,
-  PRIMARY KEY ("sid"))
-`);
-
-  await prisma.$disconnect();
 
   const pgPool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
