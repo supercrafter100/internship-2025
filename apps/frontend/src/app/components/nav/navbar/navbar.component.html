@@ -15,13 +15,20 @@
       class="text-white cursor-pointer"
     ></lucide-angular>
   </a>
-  <a class="text-white underline" routerLink="/home?own" *ngIf="user"
+  <a
+    class="text-white underline"
+    routerLink="/home"
+    [queryParams]="{ own: true }"
+    *ngIf="user"
     >My projects</a
   >
   <a class="text-white underline cursor-pointer" routerLink="/home"
     >All projects</a
   >
-  <a class="text-white underline cursor-pointer" routerLink="/story"
+  <a
+    class="text-white underline cursor-pointer"
+    href="https://apterra.iot-ap.be/"
+    target="_blank"
     >Our story</a
   >
   <span

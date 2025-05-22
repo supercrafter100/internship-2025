@@ -3,6 +3,7 @@ import { ProjectService } from '../../../services/project.service';
 import { Project } from '@bsaffer/common/entity/project.entity';
 import { HotToastService } from '@ngneat/hot-toast';
 import { UserService } from '../../../services/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -19,16 +20,26 @@ export class HomeComponent implements OnInit {
     private readonly _projectService: ProjectService,
     private readonly _userService: UserService,
     private readonly toast: HotToastService,
+    private readonly route: ActivatedRoute,
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.projects = await this._projectService.getProjects(true);
-    this.isLoading = false;
-    // get search params
-    const searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.has('failedLogin')) {
-      this.toast.error('You do not have access to the requested project.');
-    }
+    this.route.queryParams.subscribe(async (params) => {
+      this.isLoading = true;
+
+      const own = params['own'] === 'true';
+      const failedLogin = params['failedLogin'] === 'true';
+
+      // check if own query param is present and true
+      if (failedLogin) {
+        this.toast.error('You do not have access to the requested project.');
+      }
+
+      this.projects = own
+        ? await this._projectService.getOwnProjects()
+        : await this._projectService.getProjects(true);
+      this.isLoading = false;
+    });
 
     const user = await this._userService.getUserInfo().catch(() => undefined);
     this.isAdmin = user?.internalUser.admin || false;

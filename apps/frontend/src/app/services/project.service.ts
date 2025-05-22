@@ -57,6 +57,23 @@ export class ProjectService {
     return Project.fromJson(response);
   }
 
+  public async getOwnProjects() {
+    const response = await fetch(this._apiUrl + '/project/own')
+      .then((res) => res.json())
+      .catch(() => undefined);
+
+    if (!response)
+      throw new InvalidResponseException(
+        'Received invalid response from server for /project/own',
+      );
+
+    const projects: Project[] = response.map((project: any) =>
+      Project.fromJson(project),
+    );
+
+    return projects;
+  }
+
   public async createProject(project: CreateProjectStorage) {
     if (project.projectImage instanceof File) {
       project.projectImage = await toBase64(project.projectImage);
