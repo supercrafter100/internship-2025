@@ -79,6 +79,7 @@ import { CameraVisualsComponent } from './components/dashboard/device/camera-vis
 import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
 import { TtnCredentialsTableComponent } from './components/settings/ttn/ttn-credentials-table/ttn-credentials-table.component';
 import { PlatformAdminGuard } from './guards/auth-platformadmin.guard';
+import { StatusBadgeComponent } from './components/general/status-badge/status-badge.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { PlatformAdminGuard } from './guards/auth-platformadmin.guard';
     CameraVisualsComponent,
     TtnComponent,
     TtnCredentialsTableComponent,
+    StatusBadgeComponent,
   ],
   imports: [
     DragDropModule,

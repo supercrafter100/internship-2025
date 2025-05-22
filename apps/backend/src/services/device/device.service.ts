@@ -143,4 +143,44 @@ export class DeviceService {
       },
     });
   }
+
+  public async findAllForProjectDashboard(projectId: number) {
+    const devices = await this.findAllForProject(projectId);
+    const deviceIds = devices.map((device) => device.id);
+
+    const conditions = deviceIds
+      .map((id) => `r.device_id == "${id}"`)
+      .join(' or ');
+
+    const query = `from(bucket: "${process.env.INFLUXDB_BUCKET}")
+      |> range(start: 0)
+      |> filter(fn: (r) => r._measurement == "mqtt_data" and (${conditions}))
+      |> last()`;
+
+    // Fetch the latest measurement for each device
+    const latestMeasurements = await this.influx.queryData(query);
+    const latestMeasurementsMap = latestMeasurements.map(
+      (row: { _time: Date; device_id: string }) => ({
+        time: row._time,
+        id: row.device_id,
+      }),
+    );
+
+    const returnValue = devices.map((device) => {
+      const latestMeasurement = latestMeasurementsMap.find(
+        (measurement) => measurement.id === device.id,
+      );
+
+      const time = latestMeasurement?.time || null;
+      const online = time ? time.getTime() > Date.now() - 600000 : false; // 10 minutes
+
+      return {
+        ...device,
+        status: online,
+        lastMeasurement: time,
+      };
+    });
+
+    return returnValue;
+  }
 }

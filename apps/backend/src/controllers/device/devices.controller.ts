@@ -52,6 +52,21 @@ export class DevicesController {
     return this.devicesService.findAllForProject(+id);
   }
 
+  @Get('project/:id/dashboard')
+  async findAllForProjectDashboard(
+    @Param('id') id: string,
+    @Req() request: SessionRequest,
+  ) {
+    if (
+      !canViewProject(request, +id) &&
+      !(await this.isValidAPIKey(request, +id))
+    ) {
+      throw new UnauthorizedException();
+    }
+
+    return this.devicesService.findAllForProjectDashboard(+id);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string, @Req() request: SessionRequest) {
     const device = await this.devicesService.findOne(id);

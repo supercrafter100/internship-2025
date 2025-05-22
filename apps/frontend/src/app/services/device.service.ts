@@ -24,6 +24,17 @@ export class DeviceService {
     );
   }
 
+  public getDashboardDevices(projectId: number) {
+    return fetch(
+      this.apiUrl + '/devices/project/' + projectId + '/dashboard',
+    ).then(
+      (res) =>
+        res.json() as Promise<
+          (Device & { status: boolean; lastMeasurement: number })[]
+        >,
+    );
+  }
+
   public async getDevice(id: string) {
     const res = await fetch(this.apiUrl + '/devices/' + id);
     if (res.status === 200) {

@@ -1,3 +1,63 @@
 <app-layout>
-  <h1>Hello world!</h1>
+  <div class="p-10 w-full">
+    <!-- Table with device statuses -->
+    <div class="h-96 bg-gray-100 rounded-lg shadow-xl p-5">
+      <h1 class="text-lg font-bold">Live Sensor Status</h1>
+      <div class="overflow-x-auto h-full mt-5">
+        <table class="table w-full">
+          <thead>
+            <tr class="text-left">
+              <th class="text-sm sticky font-medium text-gray-400">Name</th>
+              <th class="text-sm sticky font-medium text-gray-400">Status</th>
+              <th class="text-sm sticky font-medium text-gray-400">
+                Last message
+              </th>
+              <th class="text-sm sticky font-medium text-gray-400"></th>
+            </tr>
+          </thead>
+          <tbody class="overflow-y-auto">
+            <tr class="text-lg h-10" *ngFor="let device of devices">
+              <td>
+                {{ device.name }}
+                <span
+                  class="py-0.5 px-2 border rounded-full text-xs"
+                  [style.border-color]="getBorderColor(device.deviceType)"
+                  >{{ device.deviceType }}</span
+                >
+              </td>
+              <td>
+                <div class="flex items-center">
+                  <app-status-badge
+                    [status]="device.status ? 'online' : 'offline'"
+                    class="w-6 h-6 inline-block"
+                  />
+
+                  <span class="ml-3 inline-block text-[#787886]">{{
+                    device.status ? "Running" : "Offline"
+                  }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="text-[#787886]">
+                  {{ getTimeAgoFromTimestamp(device.lastMeasurement) }}
+                </span>
+              </td>
+              <td class="text-right">
+                <a
+                  [routerLink]="[
+                    '/dashboard/',
+                    projectId,
+                    'devices',
+                    device.id,
+                  ]"
+                  class="bg-primary-light text-white box-content text-sm px-5 font-normal py-1 rounded-md"
+                  >Details</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </app-layout>
