@@ -11,7 +11,7 @@
       <a
         *ngFor="let element of getViewableNavItems()"
         [routerLink]="getParsedLink(element.href)"
-        class="text-white flex flex-row items-center rounded-xl p-2"
+        class="text-white flex flex-row items-center rounded-xl p-2 hover:scale-105 transition-all duration-200"
         [style.background-color]="getBgColor(element.href, element.exact)"
       >
         <lucide-angular
