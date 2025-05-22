@@ -13,6 +13,7 @@ import { UserService } from '../../../services/user.service';
 export class HomeComponent implements OnInit {
   public projects: Project[] = [];
   public isAdmin = false;
+  public isLoading = true;
 
   constructor(
     private readonly _projectService: ProjectService,
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.projects = await this._projectService.getProjects(true);
-
+    this.isLoading = false;
     // get search params
     const searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('failedLogin')) {
@@ -31,5 +32,9 @@ export class HomeComponent implements OnInit {
 
     const user = await this._userService.getUserInfo().catch(() => undefined);
     this.isAdmin = user?.internalUser.admin || false;
+  }
+
+  public numSequence(n: number): Array<number> {
+    return Array(n);
   }
 }

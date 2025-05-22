@@ -80,6 +80,7 @@ import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
 import { TtnCredentialsTableComponent } from './components/settings/ttn/ttn-credentials-table/ttn-credentials-table.component';
 import { PlatformAdminGuard } from './guards/auth-platformadmin.guard';
 import { StatusBadgeComponent } from './components/general/status-badge/status-badge.component';
+import { SkeletonComponent } from './components/project/skeleton/skeleton.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { StatusBadgeComponent } from './components/general/status-badge/status-b
     TtnComponent,
     TtnCredentialsTableComponent,
     StatusBadgeComponent,
+    SkeletonComponent,
   ],
   imports: [
     DragDropModule,
