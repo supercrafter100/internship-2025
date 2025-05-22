@@ -15,6 +15,7 @@ export class DashboardIndexComponent implements OnInit {
   public devices: (Device & { status: boolean; lastMeasurement: number })[] =
     [];
   public projectId: number | null = null;
+  public loading = true;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -22,12 +23,14 @@ export class DashboardIndexComponent implements OnInit {
   ) {}
   public ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
+      this.loading = true;
       this.projectId = Number(params['id']);
       if (this.projectId) {
         this.devices = await this.deviceService.getDashboardDevices(
           this.projectId,
         );
       }
+      this.loading = false;
     });
   }
 
@@ -72,5 +75,9 @@ export class DashboardIndexComponent implements OnInit {
 
   public getBorderColor(deviceType: string) {
     return stringToColour(deviceType);
+  }
+
+  public numSequence(n: number): Array<number> {
+    return Array(n);
   }
 }

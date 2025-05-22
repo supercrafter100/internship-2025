@@ -16,6 +16,27 @@
             </tr>
           </thead>
           <tbody class="overflow-y-auto">
+            <ng-container *ngIf="loading">
+              <tr *ngFor="let i of numSequence(5)">
+                <td>
+                  <div
+                    class="h-2.5 bg-gray-200 rounded-full w-48 inline-block"
+                  ></div>
+                </td>
+                <td>
+                  <div
+                    class="h-2.5 bg-gray-200 rounded-full w-24 inline-block"
+                  ></div>
+                </td>
+                <td>
+                  <div
+                    class="h-2.5 bg-gray-200 rounded-full w-36 inline-block"
+                  ></div>
+                </td>
+                <td></td>
+              </tr>
+            </ng-container>
+
             <tr class="text-lg h-10" *ngFor="let device of devices">
               <td>
                 {{ device.name }}
