@@ -136,7 +136,7 @@ export class MqttService {
 
     try {
       const result = await this.retryQuery(
-        `SELECT name, description FROM "Device" WHERE "id" = $1`,
+        `SELECT "sendsFirstArgumentAsTimestamp" FROM "Device" WHERE "id" = $1`,
         [deviceId]
       );
 
