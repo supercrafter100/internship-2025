@@ -174,7 +174,10 @@ export class DeviceService {
       );
 
       const time = latestMeasurement?.time || null;
-      const online = time ? time.getTime() > Date.now() - 600000 : false; // 10 minutes
+      console.log(time);
+      const online = time
+        ? new Date(time).getTime() > Date.now() - 600000
+        : false; // 10 minutes
 
       return {
         ...device,
