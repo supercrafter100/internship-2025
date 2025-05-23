@@ -149,14 +149,6 @@ services:
       - DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME=BSAFFER
     restart: unless-stopped
 
-  mosquitto:
-    image: eclipse-mosquitto:2.0.20
-    volumes:
-      - ./mosquitto/config:/mosquitto/config
-      - ./mosquitto/data:/mosquitto/data
-      - ./mosquitto/log:/mosquitto/log
-    ports:
-      - 1883:1883
 networks:
   proxy:
     external: true
