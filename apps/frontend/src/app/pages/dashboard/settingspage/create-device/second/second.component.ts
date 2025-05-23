@@ -17,11 +17,13 @@ export class SecondComponent {
   public deviceImage: File | string | undefined;
   public latitude!: Number;
   public longitude!: Number;
+  public sendsFirstArgumentAsTimestamp = false;
+
+  public isMqttORTTNDevice = false;
 
   constructor(
     private readonly toast: HotToastService,
     private readonly router: Router,
-    private deviceService: DeviceService,
   ) {}
 
   public async next() {
@@ -60,6 +62,8 @@ export class SecondComponent {
     existingSettings.deviceImage = this.deviceImage;
     existingSettings.latitude = this.latitude;
     existingSettings.longitude = this.longitude;
+    existingSettings.sendsFirstParamTimestamp =
+      this.sendsFirstArgumentAsTimestamp;
     await existingSettings.saveToLocalStorage();
 
     //Depending on the device type, we will navigate to the next page
@@ -105,5 +109,14 @@ export class SecondComponent {
     this.deviceImage = existingSettings.deviceImage;
     this.latitude = existingSettings.latitude;
     this.longitude = existingSettings.longitude;
+    this.sendsFirstArgumentAsTimestamp =
+      existingSettings.sendsFirstParamTimestamp;
+
+    if (
+      existingSettings.deviceType === DeviceType.MQTT ||
+      existingSettings.deviceType === DeviceType.TTN
+    ) {
+      this.isMqttORTTNDevice = true;
+    }
   }
 }

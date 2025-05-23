@@ -12,14 +12,10 @@ export class CreateDeviceStorage {
     switch (deviceType) {
       case DeviceType.MQTT:
         return MqttDeviceStorage.fromLocalstorage();
-        break;
-
       case DeviceType.TTN:
         return TtnDeviceStorage.fromLocalstorage();
-        break;
       case DeviceType.CAMERA:
         return CameraDeviceStorage.fromLocalstorage();
-        return;
       default:
         break;
     }

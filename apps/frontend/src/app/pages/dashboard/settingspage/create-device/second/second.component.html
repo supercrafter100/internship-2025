@@ -7,27 +7,46 @@
     <h1 class="font-raleway text-2xl text-gray-900 font-semibold">
       Device Identity
     </h1>
-    <hr class="border-gray-300 my-4" />
+    <hr class="border-gray-300 my-2" />
 
-    <div class="py-6 space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label for="deviceName" class="block text-gray-700 font-medium mb-2"
-            >Device Name</label
-          >
-          <input
-            id="deviceName"
-            class="border border-gray-400 rounded-lg w-full p-4 focus:ring-2 focus:ring-primary outline-none"
-            name="deviceName"
-            placeholder="For example 'WIM by Xander'"
-            type="text"
-            required
-            [(ngModel)]="deviceName"
-            maxlength="15"
-          />
-          <p class="text-gray-500 text-xs italic mt-1">
-            * Required | Max 15 characters
-          </p>
+    <div class="pb-6 space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <div class="flex flex-col gap-2">
+          <div>
+            <label for="deviceName" class="block text-gray-700 font-medium mb-2"
+              >Device Name</label
+            >
+            <input
+              id="deviceName"
+              class="border border-gray-400 rounded-lg w-full p-4 focus:ring-2 focus:ring-primary outline-none"
+              name="deviceName"
+              placeholder="For example 'WIM by Xander'"
+              type="text"
+              required
+              [(ngModel)]="deviceName"
+              maxlength="15"
+            />
+            <p class="text-gray-500 text-xs italic mt-1">
+              * Required | Max 15 characters
+            </p>
+          </div>
+          <div *ngIf="isMqttORTTNDevice">
+            <label
+              for="firstArgumentTimestamp"
+              class="block text-gray-700 font-medium mb-2"
+              >Sends first argument as timestamp</label
+            >
+            <input
+              id="firstArgumentTimestamp"
+              class="border rounded-lg h-5 w-5 p-4 block mx-auto outline-none"
+              name="firstArgumentTimestamp"
+              placeholder="For example 'WIM by Xander'"
+              type="checkbox"
+              required
+              [(ngModel)]="sendsFirstArgumentAsTimestamp"
+              maxlength="15"
+            />
+          </div>
         </div>
 
         <div>

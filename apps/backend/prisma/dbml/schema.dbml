@@ -78,6 +78,7 @@ Table Device {
   createdBy User
   createdByid Int
   createdAt DateTime [default: `now()`, not null]
+  sendsFirstArgumentAsTimestamp Boolean [not null, default: false]
   deviceParameters deviceParameters [not null]
   TtnDeviceDetail TtnDeviceDetail
 }

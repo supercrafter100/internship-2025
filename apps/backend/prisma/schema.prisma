@@ -110,14 +110,17 @@ model Device {
   project    Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   projectId  Int
 
-  name             String             @db.VarChar(255)
-  description      String             @db.VarChar(500)
-  latitude         Decimal
-  longitude        Decimal
-  imgKey           String             @db.VarChar(255)
-  createdBy        User?              @relation(fields: [createdByid], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  createdByid      Int?
-  createdAt        DateTime           @default(now())
+  name        String   @db.VarChar(255)
+  description String   @db.VarChar(500)
+  latitude    Decimal
+  longitude   Decimal
+  imgKey      String   @db.VarChar(255)
+  createdBy   User?    @relation(fields: [createdByid], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  createdByid Int?
+  createdAt   DateTime @default(now())
+
+  sendsFirstArgumentAsTimestamp Boolean @default(false)
+
   deviceParameters deviceParameters[]
   TtnDeviceDetail  TtnDeviceDetail?
 }

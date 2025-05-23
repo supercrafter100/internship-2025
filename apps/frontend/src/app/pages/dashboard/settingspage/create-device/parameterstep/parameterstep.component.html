@@ -93,6 +93,7 @@
       class="w-full max-w-md bg-primary text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-200 active:scale-95 flex items-center justify-center gap-2"
       (click)="next()"
       *ngIf="parameters.length > 0"
+      [disabled]="loading"
     >
       Next
       <lucide-angular

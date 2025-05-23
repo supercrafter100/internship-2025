@@ -20,6 +20,8 @@ export class ParameterstepComponent implements OnInit {
 
   private projectId: number | undefined;
 
+  public loading = false;
+
   constructor(
     private readonly toast: HotToastService,
     private readonly router: Router,
@@ -78,7 +80,9 @@ export class ParameterstepComponent implements OnInit {
 
     if (nextRoute) {
       // Save the device to the backend
+      this.loading = true;
       let res = await this.deviceService.postDevice(this.deviceStorage);
+      this.loading = false;
       if (res.status !== 201) {
         this.toast.error('Error saving device to backend');
         return;

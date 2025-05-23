@@ -24,4 +24,6 @@ export class CreateDeviceDto {
 
   @IsNotEmpty()
   deviceParameters: { name: string; description: string }[];
+
+  sendsFirstParamTimestamp: boolean;
 }

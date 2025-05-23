@@ -16,6 +16,7 @@ export class TtnDeviceStorage extends CreateDevice {
       deviceParameters: this.deviceParameters,
       ttnProviderId: this.ttnProviderId,
       ttnDeviceId: this.ttnDeviceId,
+      sendsFirstParamTimestamp: this.sendsFirstParamTimestamp,
     };
   }
 
@@ -47,6 +48,7 @@ export class TtnDeviceStorage extends CreateDevice {
       storage.deviceType = json.deviceType;
       storage.ttnDeviceId = json.ttnDeviceId;
       storage.ttnProviderId = json.ttnProviderId;
+      storage.sendsFirstParamTimestamp = json.sendsFirstParamTimestamp;
       return storage;
     }
 
@@ -71,6 +73,7 @@ export class TtnDeviceStorage extends CreateDevice {
       deviceType: this.deviceType,
       ttnDeviceId: this.ttnDeviceId,
       ttnProviderId: this.ttnProviderId,
+      sendsFirstParamTimestamp: this.sendsFirstParamTimestamp,
     };
     localStorage.setItem('ttn-device-storage', JSON.stringify(json));
   }

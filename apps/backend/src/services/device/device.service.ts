@@ -35,6 +35,8 @@ export class DeviceService {
         deviceParameters: {
           create: createDeviceDBData.deviceParameters,
         },
+        sendsFirstArgumentAsTimestamp:
+          createDeviceDBData.sendsFirstParamTimestamp,
       },
     });
 
