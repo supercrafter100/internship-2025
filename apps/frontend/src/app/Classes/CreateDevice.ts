@@ -11,6 +11,7 @@ export abstract class CreateDevice {
   public deviceDescription = '';
   public latitude!: Number;
   public longitude!: Number;
+  public sendsFirstParamTimestamp = false;
 
   // Abstracte methode voor het opslaan naar localStorage
   public abstract saveToLocalStorage(): Promise<void>;

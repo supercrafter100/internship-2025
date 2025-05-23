@@ -115,7 +115,7 @@ services:
       - backend
       - proxy
     environment:
-      - MQTT_BROKER_URL=mqtt://mosquitto
+      - MQTT_BROKER_URL=mqtt://bsaffer.iot-ap.be
       - INFLUX_DB_URL=http://influxdb:8086/
       - INFLUX_DB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUX_DB_BUCKET=${INFLUXDB_BUCKET}

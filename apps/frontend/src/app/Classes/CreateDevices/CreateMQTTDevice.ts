@@ -14,6 +14,7 @@ export class MqttDeviceStorage extends CreateDevice {
       latitude: this.latitude,
       longitude: this.longitude,
       deviceParameters: this.deviceParameters,
+      sendsFirstParamTimestamp: this.sendsFirstParamTimestamp,
     };
   }
 
@@ -41,6 +42,7 @@ export class MqttDeviceStorage extends CreateDevice {
       storage.longitude = json.longitude;
       storage.projectId = json.projectId;
       storage.deviceType = json.deviceType;
+      storage.sendsFirstParamTimestamp = json.sendsFirstParamTimestamp;
 
       return storage;
     }
@@ -64,6 +66,7 @@ export class MqttDeviceStorage extends CreateDevice {
       deviceParameters: this.deviceParameters,
       projectId: this.projectId,
       deviceType: this.deviceType,
+      sendsFirstParamTimestamp: this.sendsFirstParamTimestamp,
     };
     localStorage.setItem('mqtt-device-storage', JSON.stringify(json));
   }
