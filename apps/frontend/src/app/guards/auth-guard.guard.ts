@@ -33,6 +33,11 @@ export class ProjectGuard implements CanActivate {
 
     const params = route.params;
     if (params['id']) {
+      if (Number.isNaN(+params['id'])) {
+        this.router.navigateByUrl('/home');
+        return false;
+      }
+
       const canAccess = await this.userService.canAccessProject(+params['id']);
       if (!canAccess) {
         if (route.queryParams['fromLogin']) {

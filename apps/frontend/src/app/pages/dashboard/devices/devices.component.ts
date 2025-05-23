@@ -36,6 +36,7 @@ export class DashboardDevicesComponent implements OnInit {
   public _points: MapPoint[] = [];
   public url: string[] | undefined;
   public popupOverlay!: Overlay;
+  public loadingMap = true;
 
   public devices: Device[] = [];
 
@@ -108,6 +109,7 @@ export class DashboardDevicesComponent implements OnInit {
         const link = feature.get('link'); // Getting feature's name
 
         // Dynamically setting popup content
+        document.getElementById('popup')!.style.display = 'block';
         document.getElementById('popup-title')!.textContent = name;
         document.getElementById('popup-description')!.textContent =
           `Coordinates: ${coordinates}`;
@@ -149,6 +151,7 @@ export class DashboardDevicesComponent implements OnInit {
         link: '/dashboard/' + projectId + '/devices/' + device.id,
       }));
       this.updateMapPoints();
+      this.loadingMap = false;
     });
   }
 

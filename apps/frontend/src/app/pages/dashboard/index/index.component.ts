@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DeviceService } from '../../../services/device.service';
+import { Device } from '../../../Interfaces/iDevice';
+import { OnInit } from '@angular/core';
+import { stringToColour } from '../../../../util/utils';
 
 @Component({
   selector: 'app-index',
@@ -6,4 +11,73 @@ import { Component } from '@angular/core';
   templateUrl: './index.component.html',
   styleUrl: './index.component.css',
 })
-export class DashboardIndexComponent {}
+export class DashboardIndexComponent implements OnInit {
+  public devices: (Device & { status: boolean; lastMeasurement: number })[] =
+    [];
+  public projectId: number | null = null;
+  public loading = true;
+
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly deviceService: DeviceService,
+  ) {}
+  public ngOnInit(): void {
+    this.route.params.subscribe(async (params) => {
+      this.loading = true;
+      this.projectId = Number(params['id']);
+      if (this.projectId) {
+        this.devices = await this.deviceService.getDashboardDevices(
+          this.projectId,
+        );
+      }
+      this.loading = false;
+    });
+  }
+
+  public getTimeAgoFromTimestamp(timestamp: number): string {
+    if (timestamp == null) {
+      return 'never';
+    }
+
+    const now = Date.now();
+    const diffMs = now - timestamp;
+
+    const SECOND = 1000;
+    const MINUTE = 60 * SECOND;
+    const HOUR = 60 * MINUTE;
+    const DAY = 24 * HOUR;
+    const MONTH = 30 * DAY; // Approximation
+    const YEAR = 365 * DAY; // Approximation
+
+    const years = Math.floor(diffMs / YEAR);
+    const months = Math.floor((diffMs % YEAR) / MONTH);
+    const days = Math.floor((diffMs % MONTH) / DAY);
+
+    if (diffMs >= DAY) {
+      const parts = [];
+      if (years) parts.push(`${years} year${years !== 1 ? 's' : ''}`);
+      if (months) parts.push(`${months} month${months !== 1 ? 's' : ''}`);
+      if (days) parts.push(`${days} day${days !== 1 ? 's' : ''}`);
+      return parts.join(', ') + ' ago';
+    } else {
+      const hours = Math.floor(diffMs / HOUR);
+      const minutes = Math.floor((diffMs % HOUR) / MINUTE);
+      const seconds = Math.floor((diffMs % MINUTE) / SECOND);
+
+      const parts = [];
+      if (hours) parts.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
+      if (minutes) parts.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
+      if (seconds || parts.length === 0)
+        parts.push(`${seconds} second${seconds !== 1 ? 's' : ''}`);
+      return parts.join(', ') + ' ago';
+    }
+  }
+
+  public getBorderColor(deviceType: string) {
+    return stringToColour(deviceType);
+  }
+
+  public numSequence(n: number): Array<number> {
+    return Array(n);
+  }
+}

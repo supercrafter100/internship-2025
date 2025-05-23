@@ -29,7 +29,7 @@
       <div class="flex items-center pt-1">
         <div
           class="bg-cover bg-center w-8 h-8 rounded-full mr-2"
-          [ngStyle]="{ 'background-image': 'url(' + CreatorImgUrl + ')' }"
+          [ngStyle]="{ 'background-image': 'url(' + getCreatorUrl() + ')' }"
         ></div>
         <!-- Hover effect on creator name -->
         <div>
@@ -50,7 +50,7 @@
           </p>
         </div>
         <button
-          class="ml-auto rounded-xl w-25 bg-primary-light text-white cursor-pointer"
+          class="ml-auto rounded-xl w-25 bg-primary-light text-white cursor-pointer hover:scale-105 transition-all duration-200"
           [routerLink]="Id"
         >
           Details

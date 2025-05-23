@@ -1,8 +1,13 @@
 <app-layout>
   <div class="p-16">
+    <!-- Map skeleton -->
+    <div
+      class="h-64 bg-gray-200 rounded-lg shadow-xl p-5 animate-pulse"
+      *ngIf="loadingMap"
+    ></div>
     <!-- Map -->
     <div id="map" class="w-full h-64 rounded-lg overflow-hidden"></div>
-    <div id="popup" class="ol-popup">
+    <div id="popup" class="ol-popup" style="display: none">
       <div
         id="pop"
         class="rounded-xl w-60 h-40 shadow-xl image-full border-4 border-neutral-50 border-opacity-100 relative overflow-hidden"

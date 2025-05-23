@@ -6,6 +6,9 @@
   <main
     class="pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-7 px-7 pb-5"
   >
+    <div *ngFor="let number of numSequence(10)">
+      <app-skeleton *ngIf="isLoading"></app-skeleton>
+    </div>
     <app-project
       *ngFor="let project of projects"
       [project]="project"

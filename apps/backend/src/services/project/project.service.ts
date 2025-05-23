@@ -43,6 +43,27 @@ export class ProjectService {
     });
   }
 
+  async findOwn(userId: number) {
+    const ownProjects = await this.prismaService.project.findMany({
+      where: {
+        userId,
+      },
+    });
+
+    const partOfProjects = await this.prismaService.projectUser
+      .findMany({
+        where: {
+          userId: userId,
+        },
+        include: {
+          project: true,
+        },
+      })
+      .then((res) => res.map((proj) => proj.project));
+
+    return [...ownProjects, ...partOfProjects];
+  }
+
   async update(id: number, updateProjectDto: UpdateProjectDto) {
     return this.prismaService.project.update({
       where: {

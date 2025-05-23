@@ -54,8 +54,6 @@ async function main() {
     },
   });
 
-  const ttnProvider = project.TtnProvider[0];
-
   // ProjectUser koppeling
   await prisma.projectUser.create({
     data: {
@@ -82,23 +80,6 @@ async function main() {
     }),
   );
 
-  // Launchpad en tegel
-  const launchpad = await prisma.launchpad.create({
-    data: {
-      projectId: project.id,
-      preset: {},
-    },
-  });
-
-  await prisma.tile.create({
-    data: {
-      title: 'Eerste tegel',
-      description: 'Beschrijving van de eerste tegel',
-      imgKey: 'https://placehold.co/600x400',
-      launchpadId: launchpad.id,
-    },
-  });
-
   // Dashboard
   await prisma.dashboard.create({
     data: {
@@ -115,7 +96,7 @@ async function main() {
   });
 
   await Promise.all(
-    Array.from({ length: 150 }).map(async () => {
+    Array.from({ length: 100 }).map(async () => {
       const selectedProject = faker.helpers.arrayElement(allProjects);
       const user = faker.helpers.arrayElement(createdUsers);
 
@@ -149,20 +130,6 @@ async function main() {
               deviceId: device.id,
               name: faker.hacker.noun(),
               description: faker.lorem.sentence(),
-            },
-          }),
-        ),
-      );
-
-      // Video
-      const videoCount = faker.number.int({ min: 0, max: 3 });
-      await Promise.all(
-        Array.from({ length: videoCount }).map(() =>
-          prisma.video.create({
-            data: {
-              deviceId: device.id,
-              videoUrl: faker.internet.url(),
-              recordedAt: faker.date.recent(),
             },
           }),
         ),

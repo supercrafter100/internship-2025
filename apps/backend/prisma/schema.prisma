@@ -16,7 +16,7 @@ datasource db {
 model Dashboard {
   id        Int           @id @default(autoincrement())
   projectId Int           @unique
-  project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   preset    Json?
   type      DashboardType
 }
@@ -36,10 +36,8 @@ model Project {
   title            String   @db.VarChar(255)
   shortDescription String   @db.VarChar(255)
 
-  launchpad Launchpad?
-
   userId Int
-  author User @relation(fields: [userId], references: [id])
+  author User @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
 
   projectUsers ProjectUser[]
   devices      Device[]
@@ -57,13 +55,13 @@ model Project {
 // Each project can have one or more TTN provider, and the provider information is stored here.
 model TtnProvider {
   id          Int      @id @default(autoincrement())
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   projectId   Int
   appUrl      String   @db.VarChar(255)
   appId       String   @db.VarChar(255)
   apiKey      String   @db.VarChar(500)
   addedAt     DateTime @default(now())
-  createdBy   User?    @relation(fields: [createdByid], references: [id])
+  createdBy   User?    @relation(fields: [createdByid], references: [id], onDelete: SetNull, onUpdate: Cascade)
   createdByid Int?
 
   TtnDeviceDetail TtnDeviceDetail[]
@@ -76,38 +74,15 @@ model TtnProvider {
 model ProjectUser {
   id Int @id @default(autoincrement())
 
-  project   Project @relation(fields: [projectId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   projectId Int
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId Int
 
   admin Boolean
 
   @@unique([projectId, userId]) //User kan niet nog ééns worden toegevoegd aan een project
-}
-
-// This model is used to store the launchpad information for a project.
-// Each project can have one launchpad, and the launchpad information is stored here.
-model Launchpad {
-  id     Int  @id @default(autoincrement())
-  preset Json
-
-  projectId Int     @unique
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  tiles Tile[] @relation("LaunchpadTiles")
-}
-
-// This model is used to store the tile information for a launchpad.
-// Each launchpad can have one or more tiles, and the tile information is stored here.
-model Tile {
-  id          Int       @id @default(autoincrement())
-  title       String    @db.VarChar(255)
-  description String    @db.VarChar(500)
-  imgKey      String    @db.VarChar(255)
-  launchpadId Int
-  launchpad   Launchpad @relation("LaunchpadTiles", fields: [launchpadId], references: [id])
 }
 
 // This model is used to store the user information for a project.
@@ -132,7 +107,7 @@ model User {
 model Device {
   id         String  @id @unique @default(uuid())
   deviceType String
-  project    Project @relation(fields: [projectId], references: [id])
+  project    Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   projectId  Int
 
   name             String             @db.VarChar(255)
@@ -140,11 +115,10 @@ model Device {
   latitude         Decimal
   longitude        Decimal
   imgKey           String             @db.VarChar(255)
-  createdBy        User?              @relation(fields: [createdByid], references: [id])
+  createdBy        User?              @relation(fields: [createdByid], references: [id], onDelete: SetNull, onUpdate: Cascade)
   createdByid      Int?
   createdAt        DateTime           @default(now())
   deviceParameters deviceParameters[]
-  videos           Video[]
   TtnDeviceDetail  TtnDeviceDetail?
 }
 
@@ -153,7 +127,7 @@ model Device {
 model deviceParameters {
   id          Int    @id @default(autoincrement())
   deviceId    String
-  device      Device @relation(fields: [deviceId], references: [id])
+  device      Device @relation(fields: [deviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   name        String @db.VarChar(255)
   description String @db.VarChar(500)
 }
@@ -161,24 +135,14 @@ model deviceParameters {
 // This model is used to store the ttn information for a device.
 model TtnDeviceDetail {
   id       Int    @id @default(autoincrement())
-  device   Device @relation(fields: [deviceId], references: [id])
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   deviceId String @unique //Device ID
 
   ttnDeviceId String @db.VarChar(255) //Device ID in TTN
 
   // TTN provider that the device is linked to
-  ttnProvider   TtnProvider @relation(fields: [ttnProviderId], references: [id])
+  ttnProvider   TtnProvider @relation(fields: [ttnProviderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   ttnProviderId Int
-}
-
-// This model is used to store the video information for a device.
-// Each device can have one or more videos, and the video information is stored here.
-model Video {
-  id         Int      @id @default(autoincrement())
-  device     Device   @relation(fields: [deviceId], references: [id])
-  deviceId   String
-  videoUrl   String   @db.VarChar(500)
-  recordedAt DateTime @default(now())
 }
 
 // This model is used to store the API key information for a project.
@@ -188,6 +152,14 @@ model ApiKey {
   name      String
   key       String  @unique
   //Todo generatedby ==> accountability
-  project   Project @relation(fields: [projectId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   projectId Int
+}
+
+model Session {
+  sid    String   @id @db.VarChar
+  sess   Json
+  expire DateTime @db.Timestamp(6)
+
+  @@map("session") // map to the actual table name
 }

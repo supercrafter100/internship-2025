@@ -1,12 +1,17 @@
 <div class="relative">
   <div id="sidebar" class="w-56 bg-primary min-h-screen fixed">
-    <img src="assets/logo.png" alt="logo" class="w-40 mx-auto" />
+    <img
+      src="assets/logo.png"
+      alt="logo"
+      class="w-40 mx-auto cursor-pointer"
+      routerLink="/home"
+    />
     <hr class="text-gray-300 mx-5 -mt-3 mb-8" />
     <div class="mx-5 flex flex-col gap-5">
       <a
         *ngFor="let element of getViewableNavItems()"
         [routerLink]="getParsedLink(element.href)"
-        class="text-white flex flex-row items-center rounded-xl p-2"
+        class="text-white flex flex-row items-center rounded-xl p-2 hover:scale-105 transition-all duration-200"
         [style.background-color]="getBgColor(element.href, element.exact)"
       >
         <lucide-angular
