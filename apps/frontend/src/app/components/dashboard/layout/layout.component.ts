@@ -11,6 +11,7 @@ import { User } from '@bsaffer/common/entity/user.entity';
 })
 export class LayoutComponent implements OnInit {
   public user: User | undefined;
+  public projectId: number | undefined;
 
   public navButtons = [
     {
@@ -71,7 +72,13 @@ export class LayoutComponent implements OnInit {
 
   public getViewableNavItems() {
     if (!this.user) return this.getPublicButtons();
-    if (this.user.internalUser.admin) return this.navButtons;
+    if (
+      this.user.internalUser.admin ||
+      this.user.projects.some(
+        (proj) => proj.projectId === this.projectId && proj.admin,
+      )
+    )
+      return this.navButtons;
     return this.getPublicButtons();
   }
 
@@ -82,5 +89,9 @@ export class LayoutComponent implements OnInit {
   public async ngOnInit(): Promise<void> {
     const user = await this.userService.getUserInfo();
     this.user = user;
+
+    this.route.params.subscribe((params) => {
+      this.projectId = Number(params['id']);
+    });
   }
 }
