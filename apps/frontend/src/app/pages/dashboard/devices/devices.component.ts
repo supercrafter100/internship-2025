@@ -88,7 +88,7 @@ export class DashboardDevicesComponent implements OnInit {
       ],
       target: 'map',
       view: new View({
-        center: this._points[0].coordinates,
+        center: this._points.length > 0 ? this._points[0].coordinates : [0, 0],
         zoom: 1,
         maxZoom: 20,
       }),
