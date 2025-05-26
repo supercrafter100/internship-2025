@@ -75,7 +75,12 @@ export class MqttService {
 
       let timestamp = new Date();
       if (sendsFirstParamAsTimestamp) {
-        timestamp = new Date(parseInt(payload.split(";")[0]));
+        const payloadTimestamp = payload.split(";")[0];
+        console.log(`⏰ Payload timestamp: ${payloadTimestamp}`);
+
+        const intPayloadTimestamp = parseInt(payloadTimestamp);
+        timestamp = new Date(intPayloadTimestamp * 1000);
+
         payload = payload.substring(payload.indexOf(";") + 1);
       }
 
