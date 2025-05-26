@@ -79,6 +79,8 @@ export class MqttService {
         payload = payload.substring(payload.indexOf(";") + 1);
       }
 
+      console.log(timestamp);
+
       const parsedData = this.mapPayloadToParams(payload, parameters);
       await this.storeInInflux(deviceId, parsedData, timestamp);
     } catch (error) {
