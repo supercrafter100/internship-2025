@@ -155,9 +155,11 @@ export class DeviceService {
       .join(' or ');
 
     const query = `from(bucket: "${process.env.INFLUXDB_BUCKET}")
-      |> range(start: 0)
+      |> range(start: 0)  // adjust this window as needed
       |> filter(fn: (r) => r._measurement == "mqtt_data" and (${conditions}))
-      |> last()`;
+      |> group()
+      |> sort(columns: ["_time"], desc: true)
+      |> limit(n: 1)`;
 
     // Fetch the latest measurement for each device
     const latestMeasurements = await this.influx.queryData(query);
@@ -175,7 +177,6 @@ export class DeviceService {
       );
 
       const time = latestMeasurement?.time || null;
-      console.log(time);
       const online = time
         ? new Date(time).getTime() > Date.now() - 600000
         : false; // 10 minutes
