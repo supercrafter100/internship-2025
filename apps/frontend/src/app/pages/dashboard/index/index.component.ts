@@ -19,6 +19,7 @@ export class DashboardIndexComponent implements OnInit {
   })[] = [];
   public projectId: number | null = null;
   public loading = true;
+  public timeAgoStrings: Record<string, string> = {};
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -33,6 +34,7 @@ export class DashboardIndexComponent implements OnInit {
     });
 
     interval(5000).subscribe(() => this.refetch());
+    interval(1000).subscribe(() => this.intervalUpdater());
   }
 
   public async refetch() {
@@ -40,7 +42,22 @@ export class DashboardIndexComponent implements OnInit {
       this.devices = await this.deviceService.getDashboardDevices(
         this.projectId,
       );
+      this.intervalUpdater();
     }
+  }
+
+  public intervalUpdater() {
+    if (this.devices.length > 0) {
+      for (const device of this.devices) {
+        this.timeAgoStrings[device.id] = this.getTimeAgoFromTimestamp(
+          device.lastMeasurement,
+        );
+      }
+    }
+  }
+
+  public getTimeAgoFromDeviceId(id: string) {
+    return this.timeAgoStrings[id] || 'never';
   }
 
   public getTimeAgoFromTimestamp(time: string | undefined): string {
