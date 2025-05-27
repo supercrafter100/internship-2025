@@ -4,6 +4,7 @@ import { DeviceService } from '../../../services/device.service';
 import { Device } from '../../../Interfaces/iDevice';
 import { OnInit } from '@angular/core';
 import { stringToColour } from '../../../../util/utils';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-index',
@@ -27,13 +28,19 @@ export class DashboardIndexComponent implements OnInit {
     this.route.params.subscribe(async (params) => {
       this.loading = true;
       this.projectId = Number(params['id']);
-      if (this.projectId) {
-        this.devices = await this.deviceService.getDashboardDevices(
-          this.projectId,
-        );
-      }
+      await this.refetch();
       this.loading = false;
     });
+
+    interval(5000).subscribe(() => this.refetch());
+  }
+
+  public async refetch() {
+    if (this.projectId) {
+      this.devices = await this.deviceService.getDashboardDevices(
+        this.projectId,
+      );
+    }
   }
 
   public getTimeAgoFromTimestamp(time: string | undefined): string {

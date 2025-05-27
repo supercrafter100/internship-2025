@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Device } from '../Interfaces/iDevice';
-import { DeviceType, MinioFile } from '../../types/types';
+import { MinioFile } from '../../types/types';
 import { CreateDevice } from '../Classes/CreateDevice';
-import { MqttDeviceStorage } from '../Classes/CreateDevices/CreateMQTTDevice';
 
 @Injectable({
   providedIn: 'root',
