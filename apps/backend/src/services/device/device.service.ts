@@ -161,6 +161,7 @@ export class DeviceService {
 
     // Fetch the latest measurement for each device
     const latestMeasurements = await this.influx.queryData(query);
+    console.log(latestMeasurements);
     const latestMeasurementsMap = latestMeasurements.map(
       (row: { _time: Date; device_id: string }) => ({
         time: row._time,
