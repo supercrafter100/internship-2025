@@ -30,7 +30,7 @@ export class DeviceService {
     ).then(
       (res) =>
         res.json() as Promise<
-          (Device & { status: boolean; lastMeasurement: number })[]
+          (Device & { status: boolean; lastMeasurement: string | undefined })[]
         >,
     );
   }

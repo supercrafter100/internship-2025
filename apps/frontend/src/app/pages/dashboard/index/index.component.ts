@@ -12,8 +12,10 @@ import { stringToColour } from '../../../../util/utils';
   styleUrl: './index.component.css',
 })
 export class DashboardIndexComponent implements OnInit {
-  public devices: (Device & { status: boolean; lastMeasurement: number })[] =
-    [];
+  public devices: (Device & {
+    status: boolean;
+    lastMeasurement: string | undefined;
+  })[] = [];
   public projectId: number | null = null;
   public loading = true;
 
@@ -34,12 +36,13 @@ export class DashboardIndexComponent implements OnInit {
     });
   }
 
-  public getTimeAgoFromTimestamp(timestamp: number): string {
-    if (timestamp == null) {
+  public getTimeAgoFromTimestamp(time: string | undefined): string {
+    if (time === undefined) {
       return 'never';
     }
 
     const now = Date.now();
+    const timestamp = new Date(time).getTime();
     const diffMs = now - timestamp;
 
     const SECOND = 1000;
