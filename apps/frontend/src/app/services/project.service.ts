@@ -150,4 +150,21 @@ export class ProjectService {
 
     return true;
   }
+
+  public async getProjectOnlineDeviceCount(projectId: number): Promise<number> {
+    const response = await fetch(
+      this._apiUrl + '/project/' + projectId + '/onlineDevices',
+    )
+      .then((res) => res.json())
+      .catch(() => undefined);
+
+    if (!response)
+      throw new InvalidResponseException(
+        'Received invalid response from server for /project/' +
+          projectId +
+          '/onlineDevices',
+      );
+
+    return response.onlineDevices as number;
+  }
 }

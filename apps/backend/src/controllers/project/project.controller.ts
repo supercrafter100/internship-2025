@@ -15,10 +15,14 @@ import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
 import { SessionRequest } from '../../auth/sessionData';
 import { isAdmin } from '../../auth/methods/isAdmin';
+import { DeviceService } from 'src/services/device/device.service';
 
 @Controller('project')
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) {}
+  constructor(
+    private readonly projectService: ProjectService,
+    private readonly deviceService: DeviceService,
+  ) {}
 
   @Post()
   async create(
@@ -78,6 +82,20 @@ export class ProjectController {
     });
 
     return project;
+  }
+
+  @Get(':id/onlineDevices')
+  async findOnlineDevicesCount(@Param('id') id: string) {
+    const dashboardInfo =
+      await this.deviceService.findAllForProjectDashboard(+id);
+    if (!dashboardInfo) {
+      throw new UnauthorizedException();
+    }
+
+    const onlineDevices = dashboardInfo.filter(
+      (device) => device.status,
+    ).length;
+    return { onlineDevices };
   }
 
   @Patch(':id')
