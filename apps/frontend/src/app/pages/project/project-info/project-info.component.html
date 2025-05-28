@@ -33,8 +33,56 @@
         </a>
       </div>
     </div>
-    <div class="w-5/6 bg-blue-300 inline-block">
+    <div class="w-5/6 grid grid-cols-3 grid-rows-3 gap-5 rounded-lg">
       <!-- Launchpad goes here -->
+      <div
+        class="bg-white rounded-lg h-full w-full flex flex-col justify-center text-left p-5 relative"
+      >
+        <lucide-angular
+          name="circle-plus"
+          class="text-black absolute top-2 right-2 cursor-pointer hover:scale-105 transition-all duration-200"
+          (click)="openModal()"
+        ></lucide-angular>
+        <h1 class="text-5xl text-black font-bold font-raleway">Our Story.</h1>
+
+        <app-modal
+          [isModalOpen]="modalOpen"
+          (onClose)="closeModal()"
+          title="Our Story"
+        >
+          <div>
+            <quill-view [content]="project?.story"></quill-view>
+          </div>
+        </app-modal>
+      </div>
+      <div
+        class="bg-black rounded-lg h-full w-full flex flex-col justify-center text-left p-5"
+      >
+        <h2 class="text-white text-2xl font-bold font-raleway">Since</h2>
+        <h1 class="text-5xl text-white font-bold font-raleway">
+          {{ project?.createdAt | date: "yyyy" }}
+        </h1>
+      </div>
+      <div
+        class="bg-white rounded-lg h-full w-full flex flex-col justify-center text-left p-5"
+      >
+        <h1 class="text-7xl text-black font-bold font-raleway">
+          {{ totalDeviceCount }}
+        </h1>
+        <h2 class="text-black text-2xl font-bold font-raleway">
+          Total devices
+        </h2>
+      </div>
+      <div
+        class="bg-white rounded-lg h-full w-full flex flex-col justify-center text-left p-5"
+      >
+        <h1 class="text-7xl text-black font-bold font-raleway">
+          {{ onlineDeviceCount }}
+        </h1>
+        <h2 class="text-black text-2xl font-bold font-raleway">
+          Online devices
+        </h2>
+      </div>
     </div>
   </main>
 </div>

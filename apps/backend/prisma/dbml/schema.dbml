@@ -25,6 +25,7 @@ Table Project {
   imgKey String [not null]
   ApiKey ApiKey [not null]
   TtnProvider TtnProvider [not null]
+  story String [not null, default: 'No story yet']
 }
 
 Table TtnProvider {

@@ -31,6 +31,35 @@ export class ProjectInfoComponent implements OnInit {
       }
 
       this.project = project;
+
+      this.getProjectStatistics();
     });
+  }
+  //
+  // Our story
+  //
+  public modalOpen = false;
+  public openModal() {
+    this.modalOpen = true;
+  }
+
+  public closeModal() {
+    this.modalOpen = false;
+  }
+
+  //
+  // Stats
+  //
+  public onlineDeviceCount = 0;
+  public totalDeviceCount = 0;
+
+  public async getProjectStatistics() {
+    if (!this.projectId) return;
+    const stats = await this.projectService.getProjectStatistics(
+      this.projectId,
+    );
+
+    this.onlineDeviceCount = stats.online;
+    this.totalDeviceCount = stats.total;
   }
 }

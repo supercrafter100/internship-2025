@@ -98,6 +98,22 @@ export class ProjectController {
     return { onlineDevices };
   }
 
+  @Get(':id/statistics')
+  async findStatistics(@Param('id') id: string) {
+    const dashboardInfo =
+      await this.deviceService.findAllForProjectDashboard(+id);
+    if (!dashboardInfo) {
+      throw new UnauthorizedException();
+    }
+
+    const totalDevices = dashboardInfo.length;
+    const onlineDevices = dashboardInfo.filter(
+      (device) => device.status,
+    ).length;
+
+    return { totalDevices, onlineDevices };
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: string,

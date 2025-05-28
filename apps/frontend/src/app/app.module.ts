@@ -32,6 +32,7 @@ import {
   PencilRuler,
   AlertTriangle,
   Download,
+  CirclePlus,
 } from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -140,6 +141,7 @@ import { SkeletonComponent } from './components/project/skeleton/skeleton.compon
       Globe,
       User,
       CircleDot,
+      CirclePlus,
       Plus,
       ArrowLeft,
       ArrowRight,

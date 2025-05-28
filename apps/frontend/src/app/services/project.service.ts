@@ -90,6 +90,7 @@ export class ProjectService {
         userId: 1,
         public: project.public,
         base64Image: project.projectImage,
+        story: project.projectStory,
       }),
     });
 
@@ -166,5 +167,25 @@ export class ProjectService {
       );
 
     return response.onlineDevices as number;
+  }
+
+  public async getProjectStatistics(projectId: number) {
+    const response = await fetch(
+      this._apiUrl + '/project/' + projectId + '/statistics',
+    )
+      .then((res) => res.json())
+      .catch(() => undefined);
+
+    if (!response)
+      throw new InvalidResponseException(
+        'Received invalid response from server for /project/' +
+          projectId +
+          '/onlineDevices',
+      );
+
+    return {
+      online: response.onlineDevices as number,
+      total: response.totalDevices as number,
+    };
   }
 }

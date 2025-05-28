@@ -49,6 +49,8 @@ model Project {
   imgKey      String        @db.VarChar(255)
   ApiKey      ApiKey[]
   TtnProvider TtnProvider[]
+
+  story String @default("No story yet") @db.Text
 }
 
 // This model is used to store the TTN provider information for a project.

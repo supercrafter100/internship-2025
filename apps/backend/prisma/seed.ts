@@ -75,6 +75,7 @@ async function main() {
           public: faker.datatype.boolean(),
           imgKey: faker.image.urlPicsumPhotos(),
           shortDescription: faker.lorem.sentence(),
+          story: faker.lorem.paragraph(),
         },
       });
     }),
