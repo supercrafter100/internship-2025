@@ -18,4 +18,8 @@ export class CreateProjectDto {
   @IsNotEmpty()
   @IsString()
   base64Image: string;
+
+  @IsNotEmpty()
+  @IsString()
+  story: string;
 }

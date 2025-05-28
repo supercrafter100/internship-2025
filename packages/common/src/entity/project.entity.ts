@@ -7,6 +7,7 @@ export class Project {
   public public!: boolean;
   public imgKey!: string;
   public shortDescription!: string;
+  public story!: string;
 
   public static fromJson(json: any): Project {
     const project = new Project();
@@ -18,6 +19,7 @@ export class Project {
     project.public = json.public;
     project.imgKey = json.imgKey;
     project.shortDescription = json.shortDescription;
+    project.story = json.story;
     return project;
   }
 }
