@@ -146,48 +146,48 @@ export class DeviceService {
     });
   }
 
-  public async findAllForProjectDashboard(projectId: number) {
-    const devices = await this.findAllForProject(projectId);
-    const deviceIds = devices.map((device) => device.id);
-
-    const conditions = deviceIds
-      .map((id) => `r.device_id == "${id}"`)
-      .join(' or ');
-
+  public async getLastMeasurementForDevice(deviceId: string) {
     const query = `from(bucket: "${process.env.INFLUXDB_BUCKET}")
       |> range(start: 0)  // adjust this window as needed
-      |> filter(fn: (r) => r._measurement == "mqtt_data" and (${conditions}))
+      |> filter(fn: (r) => r._measurement == "mqtt_data" and r.device_id == "${deviceId}")
       |> group()
       |> sort(columns: ["_time"], desc: true)
       |> limit(n: 1)`;
 
-    // Fetch the latest measurement for each device
-    const latestMeasurements = await this.influx.queryData(query);
-    console.log(latestMeasurements);
-    const latestMeasurementsMap = latestMeasurements.map(
-      (row: { _time: Date; device_id: string }) => ({
-        time: row._time,
-        id: row.device_id,
+    return await this.influx.queryData(query);
+  }
+
+  public async findAllForProjectDashboard(projectId: number) {
+    const devices = await this.findAllForProject(projectId);
+    const deviceList = await Promise.all(
+      devices.map(async (device) => {
+        const lastMeasurement = await this.getLastMeasurementForDevice(
+          device.id,
+        );
+        const latestMeasurementsMap = lastMeasurement.map(
+          (row: { _time: Date; device_id: string }) => ({
+            time: row._time,
+            id: row.device_id,
+          }),
+        );
+
+        const latestMeasurement = latestMeasurementsMap.find(
+          (measurement) => measurement.id === device.id,
+        );
+
+        const time = latestMeasurement?.time || null;
+        const online = time
+          ? new Date(time).getTime() > Date.now() - 600000
+          : false; // 10 minutes
+
+        return {
+          ...device,
+          status: online,
+          lastMeasurement: time,
+        };
       }),
     );
 
-    const returnValue = devices.map((device) => {
-      const latestMeasurement = latestMeasurementsMap.find(
-        (measurement) => measurement.id === device.id,
-      );
-
-      const time = latestMeasurement?.time || null;
-      const online = time
-        ? new Date(time).getTime() > Date.now() - 600000
-        : false; // 10 minutes
-
-      return {
-        ...device,
-        status: online,
-        lastMeasurement: time,
-      };
-    });
-
-    return returnValue;
+    return deviceList;
   }
 }
