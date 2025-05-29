@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(async (params) => {
       this.isLoading = true;
+      this.projects = [];
 
       const own = params['own'] === 'true';
       const failedLogin = params['failedLogin'] === 'true';
