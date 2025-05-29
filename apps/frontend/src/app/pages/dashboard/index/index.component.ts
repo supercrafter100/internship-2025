@@ -49,9 +49,11 @@ export class DashboardIndexComponent implements OnInit, OnDestroy {
 
   public async refetch() {
     if (this.projectId) {
-      this.devices = await this.deviceService.getDashboardDevices(
-        this.projectId,
-      );
+      this.devices = await this.deviceService
+        .getDashboardDevices(this.projectId)
+        .then((devices) =>
+          devices.sort((a, b) => a.name.localeCompare(b.name)),
+        );
       this.intervalUpdater();
     }
   }
