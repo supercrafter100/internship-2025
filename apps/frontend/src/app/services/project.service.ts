@@ -188,4 +188,18 @@ export class ProjectService {
       total: response.totalDevices as number,
     };
   }
+
+  public async deleteProject(projectId: number) {
+    const response = await fetch(this._apiUrl + '/project/' + projectId, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new InvalidResponseException(
+        'Received invalid response from server for /project/' + projectId,
+      );
+    }
+
+    return true;
+  }
 }

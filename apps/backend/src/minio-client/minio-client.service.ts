@@ -56,4 +56,8 @@ export class MinioClientService {
       });
     });
   }
+
+  public async removeFile(key: string): Promise<void> {
+    await this.client.removeObject(config.MINIO_BUCKET, key);
+  }
 }

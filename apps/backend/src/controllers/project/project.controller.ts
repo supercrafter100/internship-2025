@@ -135,8 +135,6 @@ export class ProjectController {
       throw new UnauthorizedException();
     }
 
-    return this.projectService.remove(+id).catch((error) => {
-      console.error(error);
-    });
+    return this.projectService.remove(+id);
   }
 }

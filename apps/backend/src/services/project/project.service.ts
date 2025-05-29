@@ -1,6 +1,6 @@
 import { CreateProjectDto } from '@bsaffer/api/project/dto/create-project.dto';
 import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { MinioClientService } from '../../minio-client/minio-client.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
@@ -76,6 +76,34 @@ export class ProjectService {
   }
 
   async remove(id: number) {
+    // Check if there are any devices associated with the project
+    const devices = await this.prismaService.device.findMany({
+      where: {
+        projectId: id,
+      },
+    });
+
+    if (devices.length > 0) {
+      throw new BadRequestException(
+        'Cannot delete project with associated devices',
+      );
+    }
+
+    // Delete the project image from MinIO
+    const project = await this.prismaService.project.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        imgKey: true,
+      },
+    });
+
+    if (project && project.imgKey) {
+      await this.minioClient.removeFile(project.imgKey);
+    }
+
+    // Delete the project from the database
     return this.prismaService.project.delete({
       where: {
         id,
