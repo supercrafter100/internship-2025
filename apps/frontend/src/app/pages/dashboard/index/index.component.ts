@@ -62,7 +62,7 @@ export class DashboardIndexComponent implements OnInit, OnDestroy {
     if (this.devices.length > 0) {
       for (const device of this.devices) {
         this.timeAgoStrings[device.id] = this.getTimeAgoFromTimestamp(
-          device.lastMeasurement,
+          device.lastMeasurement as string | null,
         );
       }
     }
@@ -72,8 +72,8 @@ export class DashboardIndexComponent implements OnInit, OnDestroy {
     return this.timeAgoStrings[id] || 'never';
   }
 
-  public getTimeAgoFromTimestamp(time: string | undefined): string {
-    if (time === undefined) {
+  public getTimeAgoFromTimestamp(time: string | null): string {
+    if (time === null) {
       return 'never';
     }
 
