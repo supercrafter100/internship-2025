@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DeviceService } from '../../../services/device.service';
 import { Device } from '../../../Interfaces/iDevice';
 import { OnInit } from '@angular/core';
 import { stringToColour } from '../../../../util/utils';
-import { interval } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-index',
@@ -12,7 +12,7 @@ import { interval } from 'rxjs';
   templateUrl: './index.component.html',
   styleUrl: './index.component.css',
 })
-export class DashboardIndexComponent implements OnInit {
+export class DashboardIndexComponent implements OnInit, OnDestroy {
   public devices: (Device & {
     status: boolean;
     lastMeasurement: string | undefined;
@@ -20,6 +20,9 @@ export class DashboardIndexComponent implements OnInit {
   public projectId: number | null = null;
   public loading = true;
   public timeAgoStrings: Record<string, string> = {};
+
+  private refetchSubscrition: Subscription | null = null;
+  private intervalSubscription: Subscription | null = null;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -33,8 +36,15 @@ export class DashboardIndexComponent implements OnInit {
       this.loading = false;
     });
 
-    interval(5000).subscribe(() => this.refetch());
-    interval(1000).subscribe(() => this.intervalUpdater());
+    this.refetchSubscrition = interval(5000).subscribe(() => this.refetch());
+    this.intervalSubscription = interval(1000).subscribe(() =>
+      this.intervalUpdater(),
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.refetchSubscrition?.unsubscribe();
+    this.intervalSubscription?.unsubscribe();
   }
 
   public async refetch() {
