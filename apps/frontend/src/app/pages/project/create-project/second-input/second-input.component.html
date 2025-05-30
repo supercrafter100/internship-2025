@@ -3,10 +3,11 @@
 >
   <quill-editor class="h-48" [(ngModel)]="content"></quill-editor>
   <button
-    class="rounded-full w-1/2 bg-primary flex justify-center items-center mx-auto py-3 text-white hover:scale-105 transition-transform duration-200"
+    [disabled]="loading"
+    class="rounded-full w-1/2 disabled:opacity-50 bg-primary flex justify-center items-center mx-auto py-3 text-white hover:scale-105 transition-transform duration-200"
     (click)="submit()"
   >
-    Next
+    Finish
     <lucide-angular
       name="arrow-right"
       class="text-white cursor-pointer hover:text-gray-300 transition-colors duration-100 ml-2"

@@ -3,8 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CreateProjectFirstStep } from '../first/first.component';
 import { CreateProjectSecondStep } from '../second/second.component';
 import { CreateProjectSecondInputStep } from '../second-input/second-input.component';
-import { CreateProjectThirdStep } from '../third/third.component';
-import { CreateProjectThirdInputStep } from '../third-input/third-input.component';
 import { CreateProjectFinishStep } from '../finish/finish.component';
 
 @Component({
@@ -32,16 +30,6 @@ export class CreateProjectStepsComponent implements OnInit {
     },
     {
       step: 2,
-      path: '3.1',
-      component: CreateProjectThirdStep,
-    },
-    {
-      step: 2,
-      path: '3.2',
-      component: CreateProjectThirdInputStep,
-    },
-    {
-      step: 3,
       path: 'finish',
       component: CreateProjectFinishStep,
     },
@@ -55,10 +43,6 @@ export class CreateProjectStepsComponent implements OnInit {
     {
       title: 'Project story',
       description: 'Fill in the project story.',
-    },
-    {
-      title: 'Compose launchpad',
-      description: 'Form your launchpad as you wish.',
     },
     {
       title: 'Finish',

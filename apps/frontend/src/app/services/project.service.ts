@@ -5,6 +5,8 @@ import { ApiKey } from '@bsaffer/common/entity/apiKey.entity';
 import InvalidResponseException from '../../error/InvalidResponseException';
 import { CreateProjectStorage } from '../Classes/CreateProjectStorage';
 import { toBase64 } from '../../util/utils';
+import { UpdateProjectDto } from '@bsaffer/api/project/dto/update-project.dto';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -98,6 +100,27 @@ export class ProjectService {
       throw new InvalidResponseException(
         'Received invalid response from server for /project/',
       );
+
+    return response.json();
+  }
+
+  public async updateProject(
+    projectId: number,
+    updatedProject: UpdateProjectDto,
+  ) {
+    const response = await fetch(this._apiUrl + '/project/' + projectId, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedProject),
+    });
+
+    if (!response.ok) {
+      throw new InvalidResponseException(
+        'Received invalid response from server for /project/' + projectId,
+      );
+    }
 
     return response.json();
   }

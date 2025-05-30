@@ -65,12 +65,35 @@ export class ProjectService {
   }
 
   async update(id: number, updateProjectDto: UpdateProjectDto) {
+    if (updateProjectDto.base64Image) {
+      // Delete existing image from MinIO
+      const project = await this.findOne(id);
+      if (project && project.imgKey && !project.imgKey.startsWith('http')) {
+        await this.minioClient.removeFile(project.imgKey);
+      }
+
+      const image = await this.minioClient.uploadBase64Image(
+        updateProjectDto.base64Image,
+      );
+      await this.prismaService.project.update({
+        where: {
+          id,
+        },
+        data: {
+          imgKey: image,
+        },
+      });
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { base64Image, ...updateProjectDtoPartial } = updateProjectDto;
+
     return this.prismaService.project.update({
       where: {
         id,
       },
       data: {
-        ...updateProjectDto,
+        ...updateProjectDtoPartial,
       },
     });
   }

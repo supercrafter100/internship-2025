@@ -5,7 +5,6 @@ export class CreateProjectStorage {
   public projectDescription = '';
   public projectImage: File | string | undefined;
   public projectStory = '';
-  public launchpad: any = {};
   public public = false;
 
   public static fromLocalstorage(): CreateProjectStorage {
@@ -23,7 +22,6 @@ export class CreateProjectStorage {
 
       storage.projectImage = json.projectImage;
       storage.projectStory = json.projectStory;
-      storage.launchpad = json.launchpad;
       storage.public = json.public;
       return storage;
     }
@@ -41,7 +39,6 @@ export class CreateProjectStorage {
       projectDescription: this.projectDescription,
       projectImage,
       projectStory: this.projectStory,
-      launchpad: this.launchpad,
       public: this.public,
     };
     localStorage.setItem('create-project-storage', JSON.stringify(json));

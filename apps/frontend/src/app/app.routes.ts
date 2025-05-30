@@ -18,6 +18,7 @@ import { ManageusersComponent } from './pages/dashboard/settingspage/manageusers
 import { DashboardDeviceComponent } from './pages/dashboard/devices/device/device.component';
 import { TtnComponent } from './pages/dashboard/settingspage/ttn/ttn.component';
 import { PlatformAdminGuard } from './guards/auth-platformadmin.guard';
+import { EditProjectComponent } from './pages/dashboard/settingspage/edit-project/edit-project.component';
 
 export const routes: Routes = [
   {
@@ -85,13 +86,21 @@ export const routes: Routes = [
   {
     path: 'dashboard/:id/settings/create-device',
     component: CreateDeviceComponent,
+    canActivate: [ProjectAdminGuard],
   },
   {
     path: 'dashboard/:id/settings/create-device/:step',
     component: StepsComponent,
+    canActivate: [ProjectAdminGuard],
   },
   {
     path: 'dashboard/:id/settings/create-device/finish',
     component: FinishComponent,
+    canActivate: [ProjectAdminGuard],
+  },
+  {
+    path: 'dashboard/:id/settings/edit-project',
+    component: EditProjectComponent,
+    canActivate: [PlatformAdminGuard],
   },
 ];

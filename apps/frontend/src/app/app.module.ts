@@ -33,6 +33,7 @@ import {
   AlertTriangle,
   Download,
   CirclePlus,
+  Pencil,
 } from 'lucide-angular'; //Iconen
 import { CreateProjectComponent } from './pages/project/create-project/create-project.component';
 import { CreateProjectStepsComponent } from './pages/project/create-project/steps/steps.component';
@@ -41,8 +42,6 @@ import { CreateProjectFirstStep } from './pages/project/create-project/first/fir
 import { CreateProjectSecondStep } from './pages/project/create-project/second/second.component';
 import { CreateProjectSecondInputStep } from './pages/project/create-project/second-input/second-input.component';
 import { QuillModule } from 'ngx-quill';
-import { CreateProjectThirdStep } from './pages/project/create-project/third/third.component';
-import { CreateProjectThirdInputStep } from './pages/project/create-project/third-input/third-input.component';
 import { CreateProjectFinishStep } from './pages/project/create-project/finish/finish.component';
 import { DashboardDevicesComponent } from './pages/dashboard/devices/devices.component';
 import { FormsModule } from '@angular/forms';
@@ -82,6 +81,7 @@ import { TtnCredentialsTableComponent } from './components/settings/ttn/ttn-cred
 import { PlatformAdminGuard } from './guards/auth-platformadmin.guard';
 import { StatusBadgeComponent } from './components/general/status-badge/status-badge.component';
 import { SkeletonComponent } from './components/project/skeleton/skeleton.component';
+import { EditProjectComponent } from './pages/dashboard/settingspage/edit-project/edit-project.component';
 
 @NgModule({
   declarations: [
@@ -94,8 +94,6 @@ import { SkeletonComponent } from './components/project/skeleton/skeleton.compon
     CreateProjectFirstStep,
     CreateProjectSecondStep,
     CreateProjectSecondInputStep,
-    CreateProjectThirdStep,
-    CreateProjectThirdInputStep,
     CreateProjectFinishStep,
     DashboardDevicesComponent,
     ProjectInfoComponent,
@@ -128,6 +126,7 @@ import { SkeletonComponent } from './components/project/skeleton/skeleton.compon
     TtnCredentialsTableComponent,
     StatusBadgeComponent,
     SkeletonComponent,
+    EditProjectComponent,
   ],
   imports: [
     DragDropModule,
@@ -145,6 +144,7 @@ import { SkeletonComponent } from './components/project/skeleton/skeleton.compon
       Plus,
       ArrowLeft,
       ArrowRight,
+      Pencil,
       Upload,
       CircleArrowRight,
       House,
