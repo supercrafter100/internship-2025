@@ -25,8 +25,14 @@
     </div>
   </div>
   <div class="pl-56 min-h-screen">
-    <div class="h-16 bg-[#F3F3F3] shadow-xl flex items-center justify-end">
-      <div class="flex flex-row items-center justify-center mr-10">
+    <div
+      class="h-16 bg-[#F3F3F3] shadow-xl flex items-center justify-end relative"
+    >
+      <div
+        class="flex flex-row items-center justify-center mr-10 h-full"
+        (click)="toggleDropdown()"
+        #username
+      >
         <img
           [src]="
             'https://api.dicebear.com/5.x/initials/png?seed=' +
@@ -36,6 +42,25 @@
           class="w-10 h-10 rounded-full"
         />
         <span class="text-gray-800 ml-3">{{ user?.user?.profile?.name }}</span>
+      </div>
+      <div
+        #dropdown
+        *ngIf="dropdownOpen"
+        class="absolute top-16 right-0 bg-white shadow-lg rounded-lg p-3 w-96 z-20"
+      >
+        <ul class="space-y-2">
+          <li>
+            <p>{{ user?.user?.profile?.email }}</p>
+          </li>
+          <li>
+            <a
+              (click)="logout()"
+              class="text-gray-800 hover:text-primary transition-colors duration-200 cursor-pointer"
+            >
+              Logout
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
     <ng-content />

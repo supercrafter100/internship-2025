@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { User } from '@bsaffer/common/entity/user.entity';
@@ -10,8 +16,12 @@ import { User } from '@bsaffer/common/entity/user.entity';
   styleUrl: './layout.component.css',
 })
 export class LayoutComponent implements OnInit {
+  @ViewChild('username') usernameElement: ElementRef | undefined;
+  @ViewChild('dropdown') dropdownElement: ElementRef | undefined;
+
   public user: User | undefined;
   public projectId: number | undefined;
+  public dropdownOpen = false;
 
   public navButtons = [
     {
@@ -93,5 +103,37 @@ export class LayoutComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.projectId = Number(params['id']);
     });
+  }
+
+  public toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+    console.log(this.dropdownOpen);
+  }
+
+  @HostListener('window:mousemove', ['$event'])
+  mouseMove(event: MouseEvent) {
+    console.log('move');
+    if (
+      this.usernameElement?.nativeElement.contains(event.target) &&
+      !this.dropdownOpen
+    ) {
+      this.dropdownOpen = true;
+    }
+
+    if (
+      this.dropdownOpen &&
+      !this.dropdownElement?.nativeElement.contains(event.target) &&
+      !this.usernameElement?.nativeElement.contains(event.target)
+    ) {
+      this.dropdownOpen = false;
+    }
+  }
+
+  public logout() {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/api/auth/logout?redirectUrl=/home';
+    document.body.appendChild(form);
+    form.submit();
   }
 }
