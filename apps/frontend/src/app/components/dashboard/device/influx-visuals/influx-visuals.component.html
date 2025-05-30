@@ -106,7 +106,7 @@
     <h1 class="text-black font-bold text-6xl">{{ k.value }}</h1>
   </div>
 </div>
-<div class="grid grid-cols-2 gap-5 mt-10">
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mt-10">
   <highcharts-chart
     class="z-10"
     *ngFor="let k of keys; trackBy: trackByFn"
