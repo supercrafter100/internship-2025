@@ -173,7 +173,7 @@ export class InfluxVisualsComponent implements VisualComponent, OnInit {
       if (lastMeasurement !== undefined) {
         lastMeasurements.push({
           name: key,
-          value: lastMeasurement.toString(),
+          value: lastMeasurement.toFixed(3),
         });
       } else {
         console.warn(`No measurement found for key: ${key}`);
