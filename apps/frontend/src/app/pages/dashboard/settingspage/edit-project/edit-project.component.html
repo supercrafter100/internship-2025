@@ -1,0 +1,89 @@
+<app-layout>
+  <div class="mx-auto w-3/4 p-5">
+    <div class="flex flex-col gap-3">
+      <h1 class="text-3xl font-bold">Edit Project</h1>
+      <p class="text-gray-600">
+        Update your project details below. Make sure to save your changes.
+      </p>
+    </div>
+    <div class="flex flex-col gap-5 mt-5">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700"
+          >Project Name
+          <span class="text-xs text-gray-500">(max 15 characters)</span></label
+        >
+        <input
+          id="name"
+          type="text"
+          [(ngModel)]="projectName"
+          class="mt-1 p-3 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          placeholder="Enter project name"
+          maxlength="15"
+        />
+      </div>
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700"
+          >Project description
+          <span class="text-xs text-gray-500">(max 35 characters)</span></label
+        >
+        <input
+          id="description"
+          type="text"
+          [(ngModel)]="projectDescription"
+          class="mt-1 p-3 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          placeholder="Enter project description"
+          maxlength="35"
+        />
+      </div>
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700"
+          >Public project?</label
+        >
+        <input
+          type="checkbox"
+          name="publicProject"
+          [(ngModel)]="projectPublic"
+          class="w-5 h-5"
+        />
+      </div>
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700"
+          >Project Story</label
+        >
+        <quill-editor class="h-48" [(ngModel)]="projectStory"></quill-editor>
+      </div>
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700"
+          >Project image</label
+        >
+        <img [src]="imageSource" class="w-48 h-48 object-cover mb-3" />
+        <label
+          for="uploadAfbeelding"
+          class="flex items-center hover:bg-gray-100 transition-colors duration-200 justify-center border border-dashed text-sm rounded-xl border-gray-400 text-gray-700 px-5 py-2 outline-none w-max cursor-pointer font-raleway"
+        >
+          <lucide-angular
+            name="upload"
+            class="w-4 mr-2 inline"
+          ></lucide-angular>
+          Upload image
+          <input
+            type="file"
+            name="uploadAfbeelding"
+            id="uploadAfbeelding"
+            class="hidden"
+            accept=".png,.jpg,.jpeg,.webm,.gif"
+            (change)="onFileChange($event)"
+          />
+        </label>
+      </div>
+      <div>
+        <button
+          class="bg-primary-light text-white px-4 py-2 rounded-md hover:scale-105 transition-transform duration-200"
+          (click)="saveChanges()"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</app-layout>

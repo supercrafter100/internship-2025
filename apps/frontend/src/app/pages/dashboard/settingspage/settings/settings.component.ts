@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../../services/project.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -15,6 +16,7 @@ export class SettingsComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly toast: HotToastService,
+    private readonly userService: UserService,
   ) {}
 
   private arSettings = [
@@ -44,18 +46,35 @@ export class SettingsComponent implements OnInit {
         'Configure the Things Network MQTT integration for this project.',
       route: 'configure-ttn',
     },
+    {
+      icon: 'pencil',
+      title: 'Edit project',
+      description:
+        'Edit the project details, like the name, description and story.',
+      route: 'edit-project',
+      admin: true,
+    },
   ];
 
   public modalOpen = false;
   private projectId: number = -1;
+  public isAdmin = false;
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.route.params.subscribe((params) => {
       this.projectId = +params['id'];
       if (this.projectId < 0) {
         console.error('Invalid project ID');
       }
     });
+
+    const user = await this.userService.getUserInfo();
+    if (!user) {
+      this.toast.error('Failed to load user information.');
+      return;
+    }
+
+    this.isAdmin = user.internalUser.admin;
   }
 
   public get settings(): any[] {

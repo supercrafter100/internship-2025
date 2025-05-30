@@ -4,7 +4,7 @@ import {
   Get,
   Param,
   Post,
-  Patch,
+  Put,
   Query,
   Delete,
   Req,
@@ -114,7 +114,7 @@ export class ProjectController {
     return { totalDevices, onlineDevices };
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,

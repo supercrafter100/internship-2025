@@ -3,8 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CreateProjectFirstStep } from '../first/first.component';
 import { CreateProjectSecondStep } from '../second/second.component';
 import { CreateProjectSecondInputStep } from '../second-input/second-input.component';
-import { CreateProjectThirdStep } from '../third/third.component';
-import { CreateProjectThirdInputStep } from '../third-input/third-input.component';
 import { CreateProjectFinishStep } from '../finish/finish.component';
 
 @Component({
