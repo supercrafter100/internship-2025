@@ -77,4 +77,15 @@ export class DeviceService {
       }),
     });
   }
+
+  public async getDeviceParameters(deviceId: string) {
+    const res = await fetch(
+      this.apiUrl + '/devices/' + deviceId + '/parameters',
+    );
+    if (res.status === 200) {
+      return res.json() as Promise<{ name: string; description: string }[]>;
+    } else {
+      return [];
+    }
+  }
 }

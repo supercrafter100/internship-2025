@@ -7,6 +7,12 @@ import HighchartsBoost from 'highcharts/modules/boost';
 typeof HighchartsBoost === 'function' && HighchartsBoost(Highcharts);
 import 'highcharts/modules/boost';
 
+type DeviceParameter = Partial<{
+  deviceId: string;
+  name: string;
+  description: string;
+}>;
+
 @Component({
   selector: 'app-influx-visuals',
   standalone: false,
@@ -26,6 +32,8 @@ export class InfluxVisualsComponent implements VisualComponent, OnInit {
   public selectedTimeEnd: string = '';
   public data: Record<string, number>[] = [];
   public keys: string[] = [];
+  public deviceParameters: DeviceParameter[] = [];
+
   constructor(private readonly deviceService: DeviceService) {}
 
   public updateSelectedTimeRange() {
@@ -99,10 +107,15 @@ export class InfluxVisualsComponent implements VisualComponent, OnInit {
   async ngOnInit(): Promise<void> {
     this.updateSelectedTimeRange();
     this.updateGraps();
+
+    // Fetch device parameters
+    this.deviceParameters = await this.deviceService.getDeviceParameters(
+      this.device.id,
+    );
+    this.chartOptsMap.clear();
   }
 
   public getChartOptions(measurementKey: string): Highcharts.Options {
-    console.log('getting chart options for ' + measurementKey);
     const opt: Highcharts.Options = {
       chart: {
         zooming: {
@@ -116,7 +129,10 @@ export class InfluxVisualsComponent implements VisualComponent, OnInit {
       },
 
       title: {
-        text: this.capitalizeFirstLetter(measurementKey),
+        text: this.capitalizeFirstLetter(
+          this.deviceParameters.find((p) => p.name === measurementKey)
+            ?.description || measurementKey,
+        ),
       },
 
       tooltip: {
@@ -172,7 +188,9 @@ export class InfluxVisualsComponent implements VisualComponent, OnInit {
       const lastMeasurement = this.data[this.data.length - 1][key];
       if (lastMeasurement !== undefined) {
         lastMeasurements.push({
-          name: key,
+          name:
+            this.deviceParameters.find((p) => p.name === key)?.description ||
+            key,
           value: (Math.round(lastMeasurement * 1000) / 1000).toString(),
         });
       } else {

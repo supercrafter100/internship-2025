@@ -190,4 +190,12 @@ export class DeviceService {
 
     return deviceList;
   }
+
+  public async getDeviceParameters(id: string) {
+    return this.prisma.deviceParameters.findMany({
+      where: {
+        deviceId: id,
+      },
+    });
+  }
 }
