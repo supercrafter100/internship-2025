@@ -2,14 +2,6 @@
 //// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 //// ------------------------------------------------------
 
-Table Dashboard {
-  id Int [pk, increment]
-  projectId Int [unique, not null]
-  project Project [not null]
-  preset Json
-  type DashboardType [not null]
-}
-
 Table Project {
   id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
@@ -21,7 +13,6 @@ Table Project {
   projectUsers ProjectUser [not null]
   devices Device [not null]
   public Boolean [not null]
-  Dashboard Dashboard [not null]
   imgKey String [not null]
   ApiKey ApiKey [not null]
   TtnProvider TtnProvider [not null]
@@ -115,13 +106,6 @@ Table session {
   expire DateTime [not null]
 }
 
-Enum DashboardType {
-  STANDARD
-  CUSTOM
-}
-
-Ref: Dashboard.projectId > Project.id [delete: Cascade]
-
 Ref: Project.userId > User.id [delete: Restrict]
 
 Ref: TtnProvider.projectId > Project.id [delete: Cascade]
@@ -132,7 +116,7 @@ Ref: ProjectUser.projectId > Project.id [delete: Cascade]
 
 Ref: ProjectUser.userId > User.id [delete: Cascade]
 
-Ref: Device.projectId > Project.id [delete: Cascade]
+Ref: Device.projectId > Project.id [delete: Restrict]
 
 Ref: Device.createdByid > User.id [delete: Set Null]
 

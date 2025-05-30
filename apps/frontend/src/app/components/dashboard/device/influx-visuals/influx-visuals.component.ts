@@ -161,6 +161,28 @@ export class InfluxVisualsComponent implements VisualComponent, OnInit {
     );
   }
 
+  public getLastMeasurements() {
+    if (this.data.length === 0) {
+      return [];
+    }
+
+    // Get the last measurement for each key
+    const lastMeasurements: { name: string; value: string }[] = [];
+    for (const key of this.keys) {
+      const lastMeasurement = this.data[this.data.length - 1][key];
+      if (lastMeasurement !== undefined) {
+        lastMeasurements.push({
+          name: key,
+          value: lastMeasurement.toString(),
+        });
+      } else {
+        console.warn(`No measurement found for key: ${key}`);
+      }
+    }
+
+    return lastMeasurements;
+  }
+
   toISO8601(strDate: string): string {
     const date = new Date(strDate);
 

@@ -11,23 +11,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// This model is used to store the dashboard information for a project.
-// Each project can have one dashboard, and the dashboard information is stored here.
-model Dashboard {
-  id        Int           @id @default(autoincrement())
-  projectId Int           @unique
-  project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  preset    Json?
-  type      DashboardType
-}
-
-// This enum is used to store the type of the dashboard.
-// The dashboard can be a standard or a custom dashboard.
-enum DashboardType {
-  STANDARD
-  CUSTOM
-}
-
 // This model is used to store the project information.
 model Project {
   id               Int      @id @default(autoincrement())
@@ -43,8 +26,6 @@ model Project {
   devices      Device[]
 
   public Boolean
-
-  Dashboard Dashboard[]
 
   imgKey      String        @db.VarChar(255)
   ApiKey      ApiKey[]

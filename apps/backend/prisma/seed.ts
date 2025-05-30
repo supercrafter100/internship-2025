@@ -81,15 +81,6 @@ async function main() {
     }),
   );
 
-  // Dashboard
-  await prisma.dashboard.create({
-    data: {
-      projectId: project.id,
-      type: 'STANDARD',
-      preset: {},
-    },
-  });
-
   // Devices
   console.log('Adding devices...');
   const allProjects = await prisma.project.findMany({

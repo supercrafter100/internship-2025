@@ -7,7 +7,6 @@ export class InfluxdbService {
   private url = process.env.INFLUXDB_URL!;
   private token = process.env.INFLUXDB_TOKEN!;
   private org = process.env.INFLUXDB_ORGANISATION!;
-  private client: InfluxDB;
 
   public async queryData<T>(fluxQuery: string): Promise<T[]> {
     let client = new InfluxDB({ url: this.url, token: this.token });

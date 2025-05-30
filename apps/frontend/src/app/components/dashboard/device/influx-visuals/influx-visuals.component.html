@@ -97,6 +97,15 @@
     </p>
   </div>
 </div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
+  <div
+    class="border-gray-300 border rounded-lg bg-gray-100 shadow-lg flex flex-col gap-3 p-5"
+    *ngFor="let k of getLastMeasurements()"
+  >
+    <h3 class="text-gray-500 text-xl">{{ k.name }}</h3>
+    <h1 class="text-black font-bold text-6xl">{{ k.value }}</h1>
+  </div>
+</div>
 <div class="grid grid-cols-2 gap-5 mt-10">
   <highcharts-chart
     class="z-10"
