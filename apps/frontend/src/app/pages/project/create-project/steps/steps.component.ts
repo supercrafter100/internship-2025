@@ -32,16 +32,6 @@ export class CreateProjectStepsComponent implements OnInit {
     },
     {
       step: 2,
-      path: '3.1',
-      component: CreateProjectThirdStep,
-    },
-    {
-      step: 2,
-      path: '3.2',
-      component: CreateProjectThirdInputStep,
-    },
-    {
-      step: 3,
       path: 'finish',
       component: CreateProjectFinishStep,
     },
@@ -55,10 +45,6 @@ export class CreateProjectStepsComponent implements OnInit {
     {
       title: 'Project story',
       description: 'Fill in the project story.',
-    },
-    {
-      title: 'Compose launchpad',
-      description: 'Form your launchpad as you wish.',
     },
     {
       title: 'Finish',
