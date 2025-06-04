@@ -158,6 +158,31 @@ export class DeviceService {
     const devices = await this.findAllForProject(projectId);
     const deviceList = await Promise.all(
       devices.map(async (device) => {
+        // First fetch device info to see if it's a camera or influxdb device
+
+        if (device.deviceType === 'camera') {
+          // Fetch all camera files
+          const files = await this.getCameraFiles(deviceId);
+          const filesWithProperDates = files.map((f) => ({
+            ...f,
+            time: this.nameToDate(f.name),
+          }));
+
+          const latestVideoFile = filesWithProperDates.sort(
+            (a, b) => a.time.getTime() - b.time.getTime(),
+          )[0];
+
+          const online = latestVideoFile
+            ? latestVideoFile.time.getTime() > Date.now() - 60 * 1000 * 60 * 2
+            : false; // 2 hours
+
+          return {
+            ...device,
+            status: online,
+            lastMeasurement: latestVideoFile.time,
+          };
+        }
+
         const lastMeasurement = await this.getLastMeasurementForDevice(
           device.id,
         );
@@ -194,5 +219,27 @@ export class DeviceService {
         deviceId: id,
       },
     });
+  }
+
+  private nameToDate(name: string): Date {
+    const fileName = name.split('/').pop() || '';
+    const fileNameParts = fileName.split('_');
+    const datePart = fileNameParts[1] || '';
+    const timePart = fileNameParts[2] || '';
+
+    const date =
+      datePart.slice(0, 4) +
+      '-' +
+      datePart.slice(4, 6) +
+      '-' +
+      datePart.slice(6, 8) +
+      'T' +
+      timePart.slice(0, 2) +
+      ':' +
+      timePart.slice(2, 4) +
+      ':' +
+      timePart.slice(4, 6);
+
+    return new Date(date);
   }
 }
