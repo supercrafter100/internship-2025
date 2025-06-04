@@ -69,6 +69,7 @@ describe('DeviceService', () => {
       latitude: 52.3702,
       longitude: 4.8952,
       deviceParameters: [{ name: 'temperature', description: 'bme280' }],
+      sendsFirstParamTimestamp: false,
     };
 
     const expectedResult = {

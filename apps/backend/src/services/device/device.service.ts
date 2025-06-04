@@ -162,7 +162,7 @@ export class DeviceService {
 
         if (device.deviceType === 'camera') {
           // Fetch all camera files
-          const files = await this.getCameraFiles(deviceId);
+          const files = await this.getCameraFiles(device.id);
           const filesWithProperDates = files.map((f) => ({
             ...f,
             time: this.nameToDate(f.name),
@@ -173,7 +173,7 @@ export class DeviceService {
           )[0];
 
           const online = latestVideoFile
-            ? latestVideoFile.time.getTime() > Date.now() - 60 * 1000 * 60 * 2
+            ? latestVideoFile.time.getTime() > Date.now() - 60 * 1000 * 60 * 12
             : false; // 2 hours
 
           return {
