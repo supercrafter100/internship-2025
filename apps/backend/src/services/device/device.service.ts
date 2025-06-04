@@ -160,7 +160,7 @@ export class DeviceService {
       devices.map(async (device) => {
         // First fetch device info to see if it's a camera or influxdb device
 
-        if (device.deviceType === 'camera') {
+        if (device.deviceType === 'Camera') {
           // Fetch all camera files
           const files = await this.getCameraFiles(device.id);
           const filesWithProperDates = files.map((f) => ({
