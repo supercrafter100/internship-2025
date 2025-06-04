@@ -169,4 +169,10 @@ export class DashboardDevicesComponent implements OnInit {
     console.log('Image URL:', u); // Log the image URL to the console
     return u;
   }
+
+  public getSortedDevices() {
+    return this.devices.length
+      ? this.devices.sort((a, b) => a.name.localeCompare(b.name))
+      : [];
+  }
 }

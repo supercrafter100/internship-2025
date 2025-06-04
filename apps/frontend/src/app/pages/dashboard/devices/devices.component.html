@@ -43,7 +43,7 @@
         [Imgurl]="getImageUrl(device.imgKey)"
         [Date]="device.createdAt"
         [Type]="device.deviceType"
-        *ngFor="let device of devices"
+        *ngFor="let device of getSortedDevices()"
       ></app-device-frame-small>
     </div>
   </div>
