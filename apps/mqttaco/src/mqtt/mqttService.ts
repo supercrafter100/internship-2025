@@ -104,7 +104,7 @@ export class MqttService {
 
     try {
       const result = await this.retryQuery(
-        `SELECT name, description FROM "deviceParameters" WHERE "deviceId" = $1`,
+        `SELECT name, description FROM "deviceParameters" WHERE "deviceId" = $1 ORDER BY id`,
         [deviceId]
       );
 
