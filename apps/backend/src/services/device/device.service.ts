@@ -32,9 +32,6 @@ export class DeviceService {
         latitude: createDeviceDBData.latitude.toString(),
         longitude: createDeviceDBData.longitude.toString(),
         projectId: createDeviceDBData.projectId,
-        deviceParameters: {
-          create: createDeviceDBData.deviceParameters,
-        },
         sendsFirstArgumentAsTimestamp:
           createDeviceDBData.sendsFirstParamTimestamp,
       },
