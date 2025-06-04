@@ -169,7 +169,7 @@ export class DeviceService {
           }));
 
           const latestVideoFile = filesWithProperDates.sort(
-            (a, b) => a.time.getTime() - b.time.getTime(),
+            (a, b) => b.time.getTime() - a.time.getTime(),
           )[0];
 
           const online = latestVideoFile
