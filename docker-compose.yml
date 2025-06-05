@@ -14,6 +14,22 @@ services:
       - traefik.http.routers.frontend-prod.tls=true
       - traefik.http.routers.frontend-prod.tls.certresolver=letsencrypt
 
+      - traefik.http.routers.frontend-prod-apterra.rule=Host(`apterra.be`)
+      - traefik.http.routers.frontend-prod-apterra.tls=true
+      - traefik.http.routers.frontend-prod-apterra.tls.certresolver=letsencrypt
+
+      - traefik.http.routers.frontend-prod-apterra-www.rule=Host(`www.apterra.be`)
+      - traefik.http.routers.frontend-prod-apterra-www.tls=true
+      - traefik.http.routers.frontend-prod-apterra-www.tls.certresolver=letsencrypt
+
+      - traefik.http.routers.frontend-prod-terra-ap.rule=Host(`terra.ap.be`)
+      - traefik.http.routers.frontend-prod-terra-ap.tls=true
+      - traefik.http.routers.frontend-prod-terra-ap.tls.certresolver=letsencrypt
+
+      - traefik.http.routers.frontend-prod-terra-ap-www.rule=Host(`www.terra.ap.be`)
+      - traefik.http.routers.frontend-prod-terra-ap-www.tls=true
+      - traefik.http.routers.frontend-prod-terra-ap-www.tls.certresolver=letsencrypt
+
   backend:
     command: npm run start:deploy
     container_name: b-saffer-backend-prod
@@ -56,6 +72,26 @@ services:
       - traefik.http.routers.backend-prod.middlewares=backend-stripprefix
       - traefik.http.services.backend-prod.loadbalancer.server.port=3000
       - traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api
+
+      - traefik.http.routers.backend-prod-apterra.rule=Host(`apterra.be`) && PathPrefix(`/api`)
+      - traefik.http.routers.backend-prod-apterra.tls=true
+      - traefik.http.routers.backend-prod-apterra.tls.certresolver=letsencrypt
+      - traefik.http.routers.backend-prod-apterra.middlewares=backend-stripprefix
+
+      - traefik.http.routers.backend-prod-apterra-www.rule=Host(`www.apterra.be`) && PathPrefix(`/api`)
+      - traefik.http.routers.backend-prod-apterra-www.tls=true
+      - traefik.http.routers.backend-prod-apterra-www.tls.certresolver=letsencrypt
+      - traefik.http.routers.backend-prod-apterra-www.middlewares=backend-stripprefix
+
+      - traefik.http.routers.backend-prod-terra-ap.rule=Host(`terra.ap.be`) && PathPrefix(`/api`)
+      - traefik.http.routers.backend-prod-terra-ap.tls=true
+      - traefik.http.routers.backend-prod-terra-ap.tls.certresolver=letsencrypt
+      - traefik.http.routers.backend-prod-terra-ap.middlewares=backend-stripprefix
+
+      - traefik.http.routers.backend-prod-terra-ap-www.rule=Host(`www.terra.ap.be`) && PathPrefix(`/api`)
+      - traefik.http.routers.backend-prod-terra-ap-www.tls=true
+      - traefik.http.routers.backend-prod-terra-ap-www.tls.certresolver=letsencrypt
+      - traefik.http.routers.backend-prod-terra-ap-www.middlewares=backend-stripprefix
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 10s
