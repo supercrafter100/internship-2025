@@ -10,9 +10,13 @@ services:
     volumes:
       - ./apps/frontend/frontend.conf:/etc/nginx/conf.d/default.conf
     labels:
-      - traefik.http.routers.frontend-prod.rule=Host(`${SERVER_DOMAIN}`)
+      - traefik.http.routers.frontend-prod.rule=Host(`bsaffer.iot-ap.be`)
       - traefik.http.routers.frontend-prod.tls=true
       - traefik.http.routers.frontend-prod.tls.certresolver=letsencrypt
+      - traefik.http.routers.frontend-prod.middlewares=mywwwredirect
+
+      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^http://(.*)
+      - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://bsaffer.iot-ap.be$${1}
 
       - traefik.http.routers.frontend-prod-apterra.rule=Host(`apterra.be`)
       - traefik.http.routers.frontend-prod-apterra.tls=true
