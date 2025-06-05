@@ -8,7 +8,7 @@ import { Point } from 'ol/geom';
 import { Style, Icon } from 'ol/style';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { BingMaps } from 'ol/source';
+import { XYZ } from 'ol/source';
 import TileLayer from 'ol/layer/Tile';
 import View from 'ol/View';
 import { DeviceService } from '../../../services/device.service';
@@ -17,8 +17,6 @@ import { parseCDNUrl } from '../../../../util/utils';
 import { Device } from '../../../Interfaces/iDevice';
 
 useGeographic();
-// const layerNames = ['RoadOnDemand', 'Aerial', 'AerialWithLabelsOnDemand'];
-const layerNames = ['RoadOnDemand', 'Aerial', 'AerialWithLabelsOnDemand'];
 
 @Component({
   selector: 'app-dashboard-devices',
@@ -73,24 +71,34 @@ export class DashboardDevicesComponent implements OnInit {
       autoPan: true, // Auto-panning the map when the popup is opened
     });
 
+    const labelLayer = new TileLayer({
+      source: new XYZ({
+        url: 'https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}.png',
+        maxZoom: 20,
+      }),
+      opacity: 0.7,
+    });
+    const streetsLayer = new TileLayer({
+      source: new XYZ({
+        url: 'https://tiles.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}.png',
+        maxZoom: 20,
+      }),
+      opacity: 0.5,
+    });
+    const mapboxSatellite = new TileLayer({
+      source: new XYZ({
+        url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3Rpam4tMTQwMDI0IiwiYSI6ImNtYmplcnJzbzBlbXYyaXF4NWtoeWlubmUifQ.ylpdsDiHlHNsWs0P-kpFvA',
+        maxZoom: 22,
+      }),
+    });
+
     this.map = new Map({
-      layers: [
-        ...layerNames.map(
-          (layer) =>
-            new TileLayer({
-              source: new BingMaps({
-                key: 'AvW9qZ6QPCcCLQ1NhbQcxU50Gp-OSMMm34132MNGn4RxvOFur0vyTNXexQG53PK0',
-                imagerySet: layer,
-              }),
-            }),
-        ),
-        vectorLayer,
-      ],
+      layers: [mapboxSatellite, labelLayer, streetsLayer, vectorLayer], // Add OSM and features
       target: 'map',
       view: new View({
-        center: this._points.length > 0 ? this._points[0].coordinates : [0, 0],
-        zoom: 1,
-        maxZoom: 20,
+        center: [0, 0],
+        zoom: 2,
+        maxZoom: 22,
       }),
     });
 
