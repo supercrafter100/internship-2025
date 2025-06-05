@@ -224,6 +224,11 @@ export class DeviceService {
   private nameToDate(name: string): Date {
     const fileName = name.split('/').pop() || '';
     const fileNameParts = fileName.split('_');
+
+    if (fileNameParts.length == 2) {
+      return new Date(parseInt(fileNameParts[1]) * 1000);
+    }
+
     const datePart = fileNameParts[1] || '';
     const timePart = fileNameParts[2] || '';
 
