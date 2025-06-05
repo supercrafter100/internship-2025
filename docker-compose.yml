@@ -15,7 +15,7 @@ services:
       - traefik.http.routers.frontend-prod.tls.certresolver=letsencrypt
       - traefik.http.routers.frontend-prod.middlewares=mywwwredirect
 
-      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^http://bsaffer.iot-ap.be/(.*)
+      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://bsaffer.iot-ap.be/(.*)?
       - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://apterra.be/$${1}
 
       - traefik.http.routers.frontend-prod-apterra.rule=Host(`apterra.be`)
