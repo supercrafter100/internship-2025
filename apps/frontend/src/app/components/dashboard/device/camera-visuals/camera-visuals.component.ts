@@ -49,30 +49,18 @@ export class CameraVisualsComponent implements VisualComponent, OnInit {
   }
 
   public formatName(name: string) {
-    const fileName = name.split('/').pop() || '';
-    const fileNameParts = fileName.split('_');
-    const datePart = fileNameParts[1] || '';
-    const timePart = fileNameParts[2] || '';
-
-    const date =
-      datePart.slice(0, 4) +
-      '-' +
-      datePart.slice(4, 6) +
-      '-' +
-      datePart.slice(6, 8);
-    const time =
-      timePart.slice(0, 2) +
-      ':' +
-      timePart.slice(2, 4) +
-      ':' +
-      timePart.slice(4, 6);
-
-    return date + ' ' + time;
+    const date = this.nameToDate(name);
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   }
 
   public nameToDate(name: string): Date {
     const fileName = name.split('/').pop() || '';
     const fileNameParts = fileName.split('_');
+
+    if (fileNameParts.length == 2) {
+      return new Date(parseInt(fileNameParts[1]) * 1000);
+    }
+
     const datePart = fileNameParts[1] || '';
     const timePart = fileNameParts[2] || '';
 
