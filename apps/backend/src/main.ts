@@ -43,6 +43,7 @@ async function bootstrap() {
     .setTitle('AP_Terra')
     .setDescription('AP_Terra description ')
     .setVersion('0.1')
+    .setBasePath('/api')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
