@@ -28,9 +28,9 @@ async function bootstrap() {
     store: new pgSession({ pool: pgPool }),
   };
 
-  // if (app.get('env') === 'production') {
-  //   sessionProperties.cookie.secure = true; // serve secure cookies
-  // }
+  if (app.get('env') === 'production') {
+    sessionProperties.cookie.secure = true; // serve secure cookies
+  }
 
   //Proxy needs to be trusted for session
   app.set('trust proxy', true);
