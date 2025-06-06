@@ -29,13 +29,14 @@ export class DevicesController {
   ) {}
 
   @Post()
-  create(@Body() createDeviceDto: CreateDeviceDto) {
+  create(
+    @Body() createDeviceDto: CreateDeviceDto,
+    @Req() request: SessionRequest,
+  ) {
+    if (!canEditProject(request, createDeviceDto.projectId)) {
+      throw new UnauthorizedException();
+    }
     return this.devicesService.create(createDeviceDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.devicesService.findAll();
   }
 
   @Get('project/:id')
