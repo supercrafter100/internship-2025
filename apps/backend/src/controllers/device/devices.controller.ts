@@ -44,6 +44,10 @@ export class DevicesController {
     @Param('id') id: string,
     @Req() request: SessionRequest,
   ) {
+    if (!id || isNaN(+id)) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
     if (
       !canViewProject(request, +id) &&
       !(await this.isValidAPIKey(request, +id))
@@ -58,6 +62,10 @@ export class DevicesController {
     @Param('id') id: string,
     @Req() request: SessionRequest,
   ) {
+    if (!id || isNaN(+id)) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
     if (
       !canViewProject(request, +id) &&
       !(await this.isValidAPIKey(request, +id))
@@ -70,6 +78,10 @@ export class DevicesController {
 
   @Get(':id')
   async findOne(@Param('id') id: string, @Req() request: SessionRequest) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
@@ -91,15 +103,15 @@ export class DevicesController {
     @Body() updateDeviceDto: UpdateDeviceDto,
     @Req() request: SessionRequest,
   ) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
     }
 
-    if (
-      !canEditProject(request, device.projectId) &&
-      !(await this.isValidAPIKey(request, device.projectId))
-    ) {
+    if (!canEditProject(request, device.projectId)) {
       throw new UnauthorizedException();
     }
     return this.devicesService.update(+id, updateDeviceDto);
@@ -107,15 +119,16 @@ export class DevicesController {
 
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() request: SessionRequest) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
     }
 
-    if (
-      !canEditProject(request, device.projectId) &&
-      !(await this.isValidAPIKey(request, device.projectId))
-    ) {
+    if (!canEditProject(request, device.projectId)) {
       throw new UnauthorizedException();
     }
 
@@ -128,15 +141,16 @@ export class DevicesController {
     @Body() body: SetupTTNParametersDTO,
     @Req() request: SessionRequest,
   ) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
     }
 
-    if (
-      !canEditProject(request, device.projectId) &&
-      !(await this.isValidAPIKey(request, device.projectId))
-    ) {
+    if (!canEditProject(request, device.projectId)) {
       throw new UnauthorizedException();
     }
 
@@ -149,6 +163,10 @@ export class DevicesController {
     @Param('id') id: string,
     @Req() request: SessionRequest,
   ) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
@@ -173,6 +191,22 @@ export class DevicesController {
     @Param('end') end: string,
     @Req() request: SessionRequest,
   ) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
+    if (!start || !end) {
+      throw new NotFoundException('Start and end dates are required');
+    }
+
+    if (new Date(start) > new Date(end)) {
+      throw new NotFoundException('Start date cannot be after end date');
+    }
+
+    if (isNaN(new Date(start).getTime()) || isNaN(new Date(end).getTime())) {
+      throw new NotFoundException('Invalid date format');
+    }
+
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
@@ -202,6 +236,22 @@ export class DevicesController {
     @Res() res: Response,
     @Req() request: SessionRequest,
   ) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
+    if (!start || !end) {
+      throw new NotFoundException('Start and end dates are required');
+    }
+
+    if (new Date(start) > new Date(end)) {
+      throw new NotFoundException('Start date cannot be after end date');
+    }
+
+    if (isNaN(new Date(start).getTime()) || isNaN(new Date(end).getTime())) {
+      throw new NotFoundException('Invalid date format');
+    }
+
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
@@ -241,6 +291,10 @@ export class DevicesController {
     @Param('id') id: string,
     @Req() request: SessionRequest,
   ) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();
@@ -261,6 +315,10 @@ export class DevicesController {
     @Param('id') id: string,
     @Req() request: SessionRequest,
   ) {
+    if (!id) {
+      throw new NotFoundException('Project ID is not valid');
+    }
+
     const device = await this.devicesService.findOne(id);
     if (!device) {
       throw new NotFoundException();

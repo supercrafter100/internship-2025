@@ -36,6 +36,10 @@ export class UserController {
   @Get('projects/:projectId/users')
   async getProjectUsers(@Req() req: SessionRequest) {
     const projectId = req.params.projectId;
+    if (!projectId || isNaN(Number(projectId))) {
+      throw new BadRequestException('Invalid project ID');
+    }
+
     let users = await this.userService.getAllProjectUsers(Number(projectId));
     return users;
   }
@@ -47,6 +51,18 @@ export class UserController {
     const userId = req.params.userId;
     const admin = req.body.admin;
 
+    if (!projectId || isNaN(Number(projectId))) {
+      throw new BadRequestException('Invalid project ID');
+    }
+
+    if (!userId || isNaN(Number(userId))) {
+      throw new BadRequestException('Invalid user ID');
+    }
+
+    if (typeof admin !== 'boolean') {
+      throw new BadRequestException('Admin status must be a boolean');
+    }
+
     await this.userService.updateAdminStatus(Number(projectId), userId, admin);
   }
 
@@ -56,6 +72,14 @@ export class UserController {
     try {
       const projectId = req.params.projectId;
       const userEmail = req.body.email;
+
+      if (!projectId || isNaN(Number(projectId))) {
+        throw new BadRequestException('Invalid project ID');
+      }
+
+      if (!userEmail || typeof userEmail !== 'string') {
+        throw new BadRequestException('Invalid user email');
+      }
 
       await this.userService.addUserToProject(Number(projectId), userEmail);
       return { message: 'User added to project successfully' };
@@ -69,6 +93,14 @@ export class UserController {
   // This endpoint is used to remove a user from a project. It requires the project ID and the user's ID in the request body.
   @Delete('projects/:projectId/users')
   async removeUserFromProject(@Req() req: SessionRequest) {
+    if (!req.params.projectId || isNaN(Number(req.params.projectId))) {
+      throw new BadRequestException('Invalid project ID');
+    }
+
+    if (!req.body.userId || typeof req.body.userId !== 'string') {
+      throw new BadRequestException('Invalid user ID');
+    }
+
     const projectId = req.params.projectId;
     const userId = req.body.userId;
 

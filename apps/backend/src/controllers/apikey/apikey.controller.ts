@@ -23,6 +23,10 @@ export class ApikeyController {
     @Param('id') id: string,
     @Req() request: SessionRequest,
   ): Promise<ApiKey[]> {
+    if (!id || isNaN(+id)) {
+      throw new UnauthorizedException('Project ID is not valid');
+    }
+
     if (!canEditProject(request, +id)) {
       throw new UnauthorizedException();
     }
@@ -36,6 +40,10 @@ export class ApikeyController {
     @Body() body: CreateApiKeyDto,
     @Req() request: SessionRequest,
   ): Promise<ApiKey> {
+    if (!id || isNaN(+id)) {
+      throw new UnauthorizedException('Project ID is not valid');
+    }
+
     if (!canEditProject(request, +id)) {
       throw new UnauthorizedException();
     }
@@ -48,6 +56,10 @@ export class ApikeyController {
     @Param('key') key: string,
     @Req() request: SessionRequest,
   ): Promise<void> {
+    if (!key) {
+      throw new UnauthorizedException('API Key is not valid');
+    }
+
     // Get the project associated to this key
     const apiKey = await this.apiKeyService.getApiKey(+key);
     if (!apiKey) {

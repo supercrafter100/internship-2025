@@ -77,6 +77,10 @@ export class ProjectController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
+    if (!id || isNaN(+id)) {
+      throw new UnauthorizedException('Project ID is not valid');
+    }
+
     const project = await this.projectService.findOne(+id).catch((error) => {
       console.error(error);
     });
@@ -86,6 +90,10 @@ export class ProjectController {
 
   @Get(':id/onlineDevices')
   async findOnlineDevicesCount(@Param('id') id: string) {
+    if (!id || isNaN(+id)) {
+      throw new UnauthorizedException('Project ID is not valid');
+    }
+
     const dashboardInfo =
       await this.deviceService.findAllForProjectDashboard(+id);
     if (!dashboardInfo) {
@@ -100,6 +108,10 @@ export class ProjectController {
 
   @Get(':id/statistics')
   async findStatistics(@Param('id') id: string) {
+    if (!id || isNaN(+id)) {
+      throw new UnauthorizedException('Project ID is not valid');
+    }
+
     const dashboardInfo =
       await this.deviceService.findAllForProjectDashboard(+id);
     if (!dashboardInfo) {
@@ -120,6 +132,10 @@ export class ProjectController {
     @Body() updateProjectDto: UpdateProjectDto,
     @Req() request: SessionRequest,
   ) {
+    if (!id || isNaN(+id)) {
+      throw new UnauthorizedException('Project ID is not valid');
+    }
+
     if (!isAdmin(request)) {
       throw new UnauthorizedException();
     }
@@ -131,6 +147,10 @@ export class ProjectController {
 
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() request: SessionRequest) {
+    if (!id || isNaN(+id)) {
+      throw new UnauthorizedException('Project ID is not valid');
+    }
+
     if (!isAdmin(request)) {
       throw new UnauthorizedException();
     }
