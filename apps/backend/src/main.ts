@@ -39,11 +39,12 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.use(json({ limit: '1024mb' }), session(sessionProperties));
+
   const config = new DocumentBuilder()
     .setTitle('AP_Terra')
     .setDescription('AP_Terra description ')
     .setVersion('0.1')
-    .setBasePath('/api')
+    .addServer('/api')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
